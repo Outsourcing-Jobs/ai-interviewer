@@ -1,0 +1,56 @@
+services:
+  # --- Backend Service ---
+  - type: web
+    name: ai-interviewer-backend
+    env: docker
+    dockerContext: ./backend
+    dockerfilePath: ./backend/Dockerfile
+    plan: free # Change to starter/standard if needed
+    autoDeploy: false
+    envVars:
+      - key: MONGO_URI
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: BACKEND_URL
+        sync: false
+      - key: PORT
+        sync: false
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: AI_SERVICE_URL
+        sync: false
+      - key: JDOODLE_CLIENT_ID
+        sync: false
+      - key: JDOODLE_CLIENT_SECRET
+        sync: false
+      - key: REDIS_URL
+        sync: false
+
+  # --- AI Microservice ---
+  - type: web
+    name: ai-interviewer-ai-service
+    env: docker
+    dockerContext: ./ai-service
+    dockerfilePath: ./ai-service/Dockerfile
+    plan: free # Change to starter/standard if needed
+    autoDeploy: false
+    envVars:
+      - key: PORT
+        sync: false
+      - key: MODEL_NAME
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_API_KEY_TRANSCRIPTION
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: REQUEST_TIMEOUT
+        sync: false
