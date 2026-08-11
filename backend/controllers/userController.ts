@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import { User } from "../models/User.js";
-import { OAuth2Client } from "google-auth-library";
+import { verifyFirebaseToken } from "../config/firebase.js";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { RefreshToken } from "../models/RefreshToken.js";
@@ -114,50 +114,42 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
 });
 
 /**
- * @desc Google OAuth Login / Registration.
- * @route POST /api/user/google-login
+ * @desc Google Login / Registration via Firebase Auth.
+ * Receives a Firebase ID Token from the frontend (after the user signs in
+ * with Google through Firebase Auth), verifies it with Firebase Admin SDK,
+ * then finds or creates the user in MongoDB and issues our own JWT session.
+ * @route POST /api/user/google
  * @access Public
  */
 const googleLogin = asyncHandler(async (req: Request, res: Response) => {
     const { token } = req.body;
     if (!token) {
         res.status(400);
-        throw new Error("Please provide token");
+        throw new Error("Please provide Firebase ID token");
     }
 
-    const clientId = process.env.GOOGLE_CLIENT_ID;
-    const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-
-    if (!clientId) {
-        res.status(500);
-        throw new Error("Google Client ID not configured");
+    // Verify the Firebase ID token
+    let decodedToken;
+    try {
+        decodedToken = await verifyFirebaseToken(token);
+    } catch (err) {
+        res.status(401);
+        throw new Error("Invalid or expired Firebase token");
     }
 
-    const client = new OAuth2Client(clientId, clientSecret);
-
-    const ticket = await client.verifyIdToken({
-        idToken: token,
-        audience: clientId,
-    });
-
-    const payload = ticket.getPayload();
-    if (!payload) {
-        res.status(400);
-        throw new Error("Invalid Google token");
-    }
-
-    const { email_verified, name, email, sub: googleId } = payload;
+    const { uid: firebaseUid, email, name, email_verified } = decodedToken;
 
     if (!email_verified || !email) {
         res.status(400);
-        throw new Error("Email not verified by Google");
+        throw new Error("Email not verified");
     }
 
     let user: any = await User.findOne({ email });
 
     if (user) {
+        // Update firebaseUid if not set yet (e.g. user previously registered by email)
         if (!user.googleId) {
-            user.googleId = googleId;
+            user.googleId = firebaseUid;
             await user.save();
         }
         await generateTokenInCookie(res, (user._id as any).toString());
@@ -168,10 +160,11 @@ const googleLogin = asyncHandler(async (req: Request, res: Response) => {
             preferredRole: user.preferredRole,
         });
     } else {
+        // New user — create account from Firebase profile
         user = await User.create({
-            name,
+            name: name ?? email.split("@")[0],
             email,
-            googleId,
+            googleId: firebaseUid,
         });
 
         if (user) {
@@ -184,7 +177,7 @@ const googleLogin = asyncHandler(async (req: Request, res: Response) => {
             });
         } else {
             res.status(400);
-            throw new Error("Invalid user data");
+            throw new Error("Failed to create user");
         }
     }
 });

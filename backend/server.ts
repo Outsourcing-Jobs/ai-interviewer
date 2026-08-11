@@ -219,12 +219,21 @@ io.on("connection", (socket) => {
 const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, () => {
-  logger.info(`Server running on port ${PORT}`);
+  const envMode = process.env.NODE_ENV || "development";
+  console.log("\n" + "=".repeat(50));
+  console.log(`🚀 AI Interviewer Backend Server`);
+  console.log(`📡 Status     : Running & Ready`);
+  console.log(`🔊 Port       : ${PORT}`);
+  console.log(`🌍 Environment: ${envMode}`);
+  console.log(`🔗 Local URL  : http://localhost:${PORT}`);
+  console.log("=".repeat(50) + "\n");
+
+  logger.info(`Server initialized on port ${PORT} (${envMode})`);
 
   // Start BullMQ Worker and inject IO instance
   setWorkerIoInstance(io);
   startResumeWorker();
-  logger.info("Resume processing worker started");
+  logger.info("⚙️ Resume processing worker started");
 });
 
 export default app;
