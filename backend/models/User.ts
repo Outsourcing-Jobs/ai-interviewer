@@ -12,6 +12,7 @@ export interface IUser extends Document {
   password?: string;
   googleId?: string;
   preferredRole: string;
+  role: "user" | "admin";
   // --- Gamification fields (denormalized cache) ---
   // These fields mirror the Gamification model for quick access and efficient queries.
   // Updates to these fields MUST be handled atomically alongside Gamification records (see gamificationService.ts).
@@ -52,6 +53,11 @@ const userSchema = new Schema<IUser>(
     preferredRole: {
       type: String,
       default: "Full Stack Developer",
+    },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
     },
     xp: {
       type: Number,

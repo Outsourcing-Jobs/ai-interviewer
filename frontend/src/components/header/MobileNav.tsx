@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 interface MobileNavProps {
-  user: { name: string } | null;
+  user: { name: string; role?: string } | null;
   isOpen: boolean;
   onToggle: () => void;
   onClose: () => void;
@@ -88,6 +88,18 @@ export const MobileNav = ({
               >
                 Analytics
               </Link>
+              {user.role === "admin" && (
+                <Link
+                  to="/admin"
+                  onClick={onClose}
+                  className={`block py-3 text-sm font-black uppercase tracking-[0.2em] transition-colors ${isActive("/admin")
+                    ? "text-amber-300"
+                    : "text-amber-400 hover:text-amber-300"
+                    }`}
+                >
+                  Admin Portal 👑
+                </Link>
+              )}
             </>
           ) : (
             <>

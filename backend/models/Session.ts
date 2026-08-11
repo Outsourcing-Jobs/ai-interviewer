@@ -279,4 +279,5 @@ sessionSchema.pre("save", async function () {
 
 const Session = mongoose.model<ISession, ISessionModel>("Session", sessionSchema);
 
+export { Session };
 export default Session;

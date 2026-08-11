@@ -1,6 +1,17 @@
 import express, { Router } from "express";
-import { registerUser, loginUser, googleLogin, logoutUser, getUserProfile, updateUserProfile, refreshUserToken } from "../controllers/userController.js";
-import { protect } from "../middleware/auth.js";
+import {
+    registerUser,
+    loginUser,
+    googleLogin,
+    logoutUser,
+    getUserProfile,
+    updateUserProfile,
+    refreshUserToken,
+    getAllUsers,
+    updateUserRole,
+    getAdminStats,
+} from "../controllers/userController.js";
+import { protect, admin } from "../middleware/auth.js";
 import rateLimit from "express-rate-limit";
 import { registerValidation, loginValidation, profileUpdateValidation, validateResult } from "../middleware/validationMiddleware.js";
 
@@ -20,5 +31,10 @@ router.post("/refresh", refreshUserToken);
 router.route("/profile")
     .get(protect, getUserProfile)
     .put(protect, profileUpdateValidation, validateResult, updateUserProfile);
+
+// --- Admin Protected Routes ---
+router.get("/admin/stats", protect, admin, getAdminStats);
+router.get("/admin/users", protect, admin, getAllUsers);
+router.patch("/admin/users/:id/role", protect, admin, updateUserRole);
 
 export default router;
