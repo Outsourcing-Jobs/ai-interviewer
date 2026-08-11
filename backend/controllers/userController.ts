@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 import { User } from "../models/User.js";
+import Session from "../models/Session.js";
+import { Resume } from "../models/Resume.js";
 import { verifyFirebaseToken } from "../config/firebase.js";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
@@ -78,6 +80,8 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            preferredRole: user.preferredRole,
+            role: user.role,
         });
     } else {
         res.status(400);
@@ -106,6 +110,7 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
             name: user.name,
             email: user.email,
             preferredRole: user.preferredRole,
+            role: user.role,
         });
     } else {
         res.status(401);
@@ -158,6 +163,7 @@ const googleLogin = asyncHandler(async (req: Request, res: Response) => {
             name: user.name,
             email: user.email,
             preferredRole: user.preferredRole,
+            role: user.role,
         });
     } else {
         // New user — create account from Firebase profile
@@ -174,6 +180,7 @@ const googleLogin = asyncHandler(async (req: Request, res: Response) => {
                 name: user.name,
                 email: user.email,
                 preferredRole: user.preferredRole,
+                role: user.role,
             });
         } else {
             res.status(400);
@@ -195,6 +202,7 @@ const getUserProfile = asyncHandler(async (req: Request, res: Response) => {
             name: authReq.user.name,
             email: authReq.user.email,
             preferredRole: authReq.user.preferredRole,
+            role: authReq.user.role,
         });
     } else {
         res.status(401);
@@ -238,6 +246,7 @@ const updateUserProfile = asyncHandler(async (req: Request, res: Response) => {
             name: user.name,
             email: user.email,
             preferredRole: user.preferredRole,
+            role: user.role,
         });
     } else {
         res.status(401);
@@ -316,4 +325,84 @@ const logoutUser = asyncHandler(async (req: Request, res: Response) => {
     res.status(200).json({ message: "Logged out successfully" });
 });
 
-export { registerUser, loginUser, googleLogin, logoutUser, getUserProfile, updateUserProfile, refreshUserToken };
+/**
+ * @desc Get all users (Admin only).
+ * @route GET /api/user/admin/users
+ * @access Private/Admin
+ */
+const getAllUsers = asyncHandler(async (req: Request, res: Response) => {
+    const users = await User.find({}).select("-password").sort({ createdAt: -1 });
+    res.status(200).json(users);
+});
+
+/**
+ * @desc Update user role (Admin only).
+ * @route PATCH /api/user/admin/users/:id/role
+ * @access Private/Admin
+ */
+const updateUserRole = asyncHandler(async (req: Request, res: Response) => {
+    const { role } = req.body;
+    if (!role || !["user", "admin"].includes(role)) {
+        res.status(400);
+        throw new Error("Invalid role specified. Must be 'user' or 'admin'");
+    }
+
+    const user = await User.findById(req.params.id);
+    if (!user) {
+        res.status(404);
+        throw new Error("User not found");
+    }
+
+    user.role = role;
+    await user.save();
+
+    res.status(200).json({
+        message: `User role updated to ${role}`,
+        user: {
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+        },
+    });
+});
+
+/**
+ * @desc Get system statistics and recent interview sessions (Admin only).
+ * @route GET /api/user/admin/stats
+ * @access Private/Admin
+ */
+const getAdminStats = asyncHandler(async (req: Request, res: Response) => {
+    const totalUsers = await User.countDocuments({});
+    const totalSessions = await Session.countDocuments({});
+    const totalResumes = await Resume.countDocuments({});
+    const completedSessions = await Session.countDocuments({
+        status: { $in: ["completed", "reviewed"] }
+    });
+
+    const recentSessions = await Session.find({})
+        .sort({ createdAt: -1 })
+        .limit(10)
+        .populate("userId", "name email");
+
+    res.status(200).json({
+        totalUsers,
+        totalSessions,
+        totalResumes,
+        completedSessions,
+        recentSessions,
+    });
+});
+
+export {
+    registerUser,
+    loginUser,
+    googleLogin,
+    logoutUser,
+    getUserProfile,
+    updateUserProfile,
+    refreshUserToken,
+    getAllUsers,
+    updateUserRole,
+    getAdminStats,
+};

@@ -6,6 +6,7 @@ interface User {
     avatar: string;
     token: string;
     preferredRole?: string;
+    role?: "user" | "admin";
 }
 
 interface AuthState {

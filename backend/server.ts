@@ -40,6 +40,7 @@ import path from "path";
 import { startResumeWorker, setWorkerIoInstance } from "./services/queue/resumeWorker.js";
 import requestIdMiddleware from "./middleware/requestId.js";
 import logger from "./utils/logger.js";
+import { seedAdminUser } from "./utils/seedAdmin.js";
 
 import { AuthenticatedSocket } from "./types/express.js";
 
@@ -234,6 +235,9 @@ server.listen(PORT, () => {
   setWorkerIoInstance(io);
   startResumeWorker();
   logger.info("⚙️ Resume processing worker started");
+
+  // Auto seed default admin user
+  seedAdminUser();
 });
 
 export default app;

@@ -47,3 +47,15 @@ export const protect = asyncHandler(
     }
   }
 );
+
+/**
+ * Middleware to restrict access to Admin users only.
+ * Must be used AFTER the `protect` middleware.
+ */
+export const admin = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
+  if (req.user && req.user.role === "admin") {
+    next();
+  } else {
+    throw new AppError("FORBIDDEN", "Access denied. Admin privileges required.", {}, 403);
+  }
+};

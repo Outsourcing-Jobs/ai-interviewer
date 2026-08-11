@@ -14,12 +14,14 @@ import InterviewRunner from "./pages/InterviewRunner";
 import SessionReview from "./pages/SessionReview";
 import PrivateRoute from "./components/PrivateRoute";
 import PublicRoute from "./components/PublicRoute";
+import AdminRoute from "./components/AdminRoute";
 import NotFound from "./pages/NotFound";
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import ResumeAnalyzer from "./pages/ResumeAnalyzer";
 import AnalyticsDashboard from "./pages/AnalyticsDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
   useSocket();
@@ -77,6 +79,11 @@ function App() {
                   <Route path="/interview/:sessionId" element={<InterviewRunner />} />
                   <Route path="/review/:sessionId" element={<SessionReview />} />
                 </Route>
+
+                <Route element={<AdminRoute />}>
+                  <Route path="/admin" element={<AdminDashboard />} />
+                </Route>
+
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </motion.div>

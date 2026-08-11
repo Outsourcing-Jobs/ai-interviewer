@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { UserProfileMenu } from "./UserProfileMenu";
 
 interface DesktopNavProps {
-  user: { name: string } | null;
+  user: { name: string; role?: string } | null;
   isActive: (path: string) => boolean;
   onOpenModal: () => void;
 }
@@ -51,6 +51,20 @@ export const DesktopNav = ({ user, isActive, onOpenModal }: DesktopNavProps) => 
                 }`}
             ></span>
           </Link>
+
+          {user.role === "admin" && (
+            <Link
+              to="/admin"
+              className={`relative py-1 px-3 rounded-full text-[11px] font-black uppercase tracking-[0.15em] transition-all duration-300 flex items-center space-x-1.5 border ${
+                isActive("/admin")
+                  ? "bg-amber-500/20 text-amber-300 border-amber-500/40 shadow-lg shadow-amber-500/10"
+                  : "bg-amber-500/10 text-amber-400 border-amber-500/20 hover:bg-amber-500/20 hover:text-amber-300"
+              }`}
+            >
+              <span>Admin Portal</span>
+              <span className="text-xs">👑</span>
+            </Link>
+          )}
 
           <UserProfileMenu user={user} onOpenModal={onOpenModal} />
         </>
