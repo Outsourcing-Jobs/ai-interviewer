@@ -54,6 +54,13 @@ const SessionCard = ({ session, onClick, onDelete }: SessionCardProps) => {
         return <Terminal size={size} className={className} />
     }
 
+    const formatStatus = (status: string) => {
+        if (status === "completed") return "Hoàn thành";
+        if (status === "in-progress") return "Đang làm";
+        if (status === "cancelled") return "Đã hủy";
+        return status;
+    };
+
     const statusColor = session.status === 'completed' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : session.status === 'in-progress' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : session.status === 'cancelled' ? 'bg-red-500/10 text-red-500 border-red-500/20' : 'bg-primary-500/10 text-primary-400 border-primary-500/20';
 
     const iconBg = session.status === 'completed' ? 'bg-primary-500/10 text-primary-400' : session.status === 'cancelled' ? 'bg-red-500/10 text-red-500 border-red-500/20' : 'bg-surface-800 text-surface-400';
@@ -102,7 +109,7 @@ const SessionCard = ({ session, onClick, onDelete }: SessionCardProps) => {
 
             <div className="flex items-center justify-between mt-2 pt-5 border-t border-white/5 relative z-10">
                 <div className="space-y-1">
-                    <p className="text-[9px] font-black text-surface-500 uppercase tracking-widest mb-1">Overall Proficiency</p>
+                    <p className="text-[9px] font-black text-surface-500 uppercase tracking-widest mb-1">Đánh giá tổng quan</p>
                     <div className="flex items-center gap-3">
                         <div className="relative w-8 h-8 flex items-center justify-center shrink-0">
                             <svg className="w-8 h-8 -rotate-90 transform" viewBox="0 0 36 36">
@@ -122,9 +129,11 @@ const SessionCard = ({ session, onClick, onDelete }: SessionCardProps) => {
                 </div>
 
                 <div className="flex flex-col items-end gap-2">
-                    <span className={`px-2.5 py-0.5 rounded-lg text-[9px] font-black uppercase tracking-widest border ${statusColor}`}>{session.status}</span>
+                    <span className={`px-2.5 py-0.5 rounded-lg text-[9px] font-black uppercase tracking-widest border ${statusColor}`}>
+                        {formatStatus(session.status)}
+                    </span>
                     <div className="text-primary-400 font-bold text-[10px] flex items-center gap-1 group-hover:gap-2 transition-all uppercase tracking-widest">
-                        {session.status === 'completed' ? 'Analytics' : session.status === 'cancelled' ? 'Abandoned' : 'Play'}
+                        {session.status === 'completed' ? 'Xem kết quả' : session.status === 'cancelled' ? 'Đã hủy' : 'Tiếp tục'}
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"></path><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </div>
                 </div>

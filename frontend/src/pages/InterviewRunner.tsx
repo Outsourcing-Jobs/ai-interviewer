@@ -127,7 +127,7 @@ const InterviewRunner = () => {
                                 <svg className="w-5 h-5 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                 </svg>
-                                {currentDraft.diagram ? 'Edit Whiteboard Diagram' : 'Open System Design Whiteboard'}
+                                {currentDraft.diagram ? 'Chỉnh sửa sơ đồ hệ thống' : 'Mở bảng vẽ sơ đồ hệ thống'}
                             </button>
                         </div>
                     )}
@@ -159,7 +159,7 @@ const InterviewRunner = () => {
                     disabled={currentQuestionIndex === 0}
                     className="text-surface-500 font-black text-[10px] uppercase tracking-widest hover:text-white disabled:opacity-20 cursor-pointer transition-colors"
                 >
-                    ← Back
+                    ← Câu trước
                 </button>
 
                 <div className="flex flex-col items-center">
@@ -174,7 +174,7 @@ const InterviewRunner = () => {
                         disabled={isQuestionLocked}
                         className={`px-10 py-3 rounded-2xl font-black text-[11px] uppercase tracking-widest text-white shadow-xl transition-all active:scale-[0.98] ${isProcessing ? 'bg-surface-800 cursor-wait' : currentQuestion?.isEvaluated ? 'bg-emerald-600 shadow-emerald-900/20' : isQuestionLocked ? 'bg-surface-800' : 'bg-primary-600 hover:bg-primary-500 shadow-primary-900/20 cursor-pointer'}`}
                     >
-                        {isProcessing ? 'Analyzing...' : currentQuestion?.isEvaluated ? 'Submitted' : isQuestionLocked ? 'Locked' : 'Commit Answer'}
+                        {isProcessing ? 'Đang phân tích...' : currentQuestion?.isEvaluated ? 'Đã nộp' : isQuestionLocked ? 'Đã khóa' : 'Nộp câu trả lời'}
                     </button>
                 </div>
 
@@ -183,16 +183,16 @@ const InterviewRunner = () => {
                     disabled={currentQuestionIndex === (activeSession?.questions?.length || 0) - 1}
                     className="text-surface-500 font-black text-[10px] uppercase tracking-widest hover:text-white disabled:opacity-20 cursor-pointer transition-colors"
                 >
-                    Next →
+                    Câu tiếp →
                 </button>
             </div>
 
             <ConfirmModal
                 isOpen={isFinishModalOpen}
-                title="Finish Interview?"
-                message="Are you sure you want to end this interview session? You won't be able to change your answers after this."
-                confirmText="Finish"
-                cancelText="Keep Going"
+                title="Hoàn thành bài phỏng vấn?"
+                message="Bạn có chắc chắn muốn kết thúc bài phỏng vấn này không? Bạn sẽ không thể chỉnh sửa lại câu trả lời sau khi hoàn thành."
+                confirmText="Hoàn thành"
+                cancelText="Tiếp tục làm"
                 onConfirm={handleConfirmFinish}
                 onCancel={() => setIsFinishModalOpen(false)}
                 isDanger={false}

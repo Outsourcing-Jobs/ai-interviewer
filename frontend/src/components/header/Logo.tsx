@@ -20,8 +20,8 @@ export const Logo = () => {
           <path d="M2 12l10 5 10-5" />
         </svg>
       </div>
-      <span className="text-2xl font-black tracking-tighter uppercase font-display text-white group-hover:text-primary-400 transition-colors">
-        Prepify
+      <span className="text-2xl font-black tracking-tighter font-display text-white group-hover:text-primary-400 transition-colors">
+        AI Interviewer
       </span>
     </Link>
   );

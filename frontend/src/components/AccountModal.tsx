@@ -42,16 +42,16 @@ const AccountModal = ({ onClose }: { onClose: () => void }) => {
         if (!user) return;
         
         if (formData.name === user.name && formData.preferredRole === user.preferredRole) {
-            toast.info("No changes detected");
+            toast.info("Không phát hiện thay đổi nào");
             return;
         }
 
         try {
             await dispatch(updateProfile({ ...user, ...formData })).unwrap();
-            toast.success("Identity synchronized");
+            toast.success("Cập nhật thông tin thành công");
             dispatch(reset());
         } catch (error: unknown) {
-            const errorMessage = (error as { message?: string })?.message || "Protocol error";
+            const errorMessage = (error as { message?: string })?.message || "Lỗi hệ thống";
             toast.error(errorMessage);
             dispatch(reset());
         }
@@ -76,8 +76,8 @@ const AccountModal = ({ onClose }: { onClose: () => void }) => {
                 {/* Header */}
                 <div className="bg-white/3 px-8 py-6 border-b border-white/5 flex items-center justify-between rounded-t-[2.5rem] overflow-hidden">
                     <div>
-                        <h1 className="text-xl font-black text-surface-100 uppercase tracking-tighter">Settings</h1>
-                        <p className="text-surface-500 text-[9px] font-black uppercase tracking-widest mt-1">Configure your profile</p>
+                        <h1 className="text-xl font-black text-surface-100 uppercase tracking-tighter">Cài đặt tài khoản</h1>
+                        <p className="text-surface-500 text-[9px] font-black uppercase tracking-widest mt-1">Cập nhật thông tin cá nhân của bạn</p>
                     </div>
                     <button 
                         onClick={onClose}
@@ -92,7 +92,7 @@ const AccountModal = ({ onClose }: { onClose: () => void }) => {
                     <div className="space-y-6">
                         {/* Name Input */}
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-surface-500 uppercase tracking-widest ml-1">Identity Name</label>
+                            <label className="text-[10px] font-black text-surface-500 uppercase tracking-widest ml-1">Họ và tên</label>
                             <div className="relative group">
                                 <div className="absolute left-4 top-1/2 -translate-y-1/2 text-surface-600 group-focus-within:text-primary-400 transition-colors">
                                     <User size={16} />
@@ -102,14 +102,14 @@ const AccountModal = ({ onClose }: { onClose: () => void }) => {
                                     value={formData.name}
                                     onChange={(e) => setFormData(p => ({ ...p, name: e.target.value }))}
                                     className="glass-input h-12 pl-12 text-sm font-bold w-full"
-                                    placeholder="Enter your name"
+                                    placeholder="Nhập họ và tên của bạn"
                                 />
                             </div>
                         </div>
 
                         {/* Email (Locked) */}
                         <div className="space-y-2 opacity-60">
-                            <label className="text-[10px] font-black text-surface-500 uppercase tracking-widest ml-1">Locked Access Email</label>
+                            <label className="text-[10px] font-black text-surface-500 uppercase tracking-widest ml-1">Email tài khoản (Cố định)</label>
                             <div className="relative">
                                 <div className="absolute left-4 top-1/2 -translate-y-1/2 text-surface-500">
                                     <Mail size={16} />
@@ -123,7 +123,7 @@ const AccountModal = ({ onClose }: { onClose: () => void }) => {
                         {/* Role Selection */}
                         <div className="z-50">
                             <CustomSelect 
-                                label="Preferred Role"
+                                label="Vị trí ứng tuyển mong muốn"
                                 name="preferredRole"
                                 value={formData.preferredRole}
                                 options={ROLES}
@@ -140,13 +140,13 @@ const AccountModal = ({ onClose }: { onClose: () => void }) => {
                             className={`flex-1 h-12 rounded-2xl flex items-center justify-center gap-2 font-black text-[10px] uppercase tracking-widest transition-all active:scale-[0.98] ${isProfileLoading ? 'bg-surface-800 text-surface-500' : 'btn-primary py-0! px-0!'}`}
                         >
                             <Save size={14} />
-                            {isProfileLoading ? 'Syncing...' : 'Save Changes'}
+                            {isProfileLoading ? 'Đang lưu...' : 'Lưu thay đổi'}
                         </button>
                         
                         <button 
                             onClick={onLogout}
                             className="w-12 h-12 rounded-2xl bg-rose-600 hover:bg-rose-500 text-white flex items-center justify-center transition-all shadow-lg shadow-rose-900/20 active:scale-[0.98] group cursor-pointer"
-                            title="Logout"
+                            title="Đăng xuất"
                         >
                             <LogOut size={16} className="group-hover:translate-x-0.5 transition-transform" />
                         </button>

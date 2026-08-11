@@ -59,7 +59,7 @@ const Register = () => {
         e.preventDefault();
 
         if (password !== confirmPassword) {
-            toast.error("Passwords do not match");
+            toast.error("Mật khẩu xác nhận không khớp");
         } else {
             const userData = {
                 name,
@@ -74,7 +74,7 @@ const Register = () => {
         if (credentialResponse.credential) {
             dispatch(googleLogin(credentialResponse.credential));
         } else {
-            toast.error("Google Login Failed");
+            toast.error("Đăng nhập Google thất bại");
         }
     };
 
@@ -91,44 +91,44 @@ const Register = () => {
                 <div className="glass-card rounded-[2.5rem] p-10 relative overflow-hidden">
                     {/* Decorative element */}
                     <div className="absolute top-0 left-0 w-32 h-32 bg-indigo-500/10 blur-3xl -ml-16 -mt-16"></div>
-                    
+
                     <div className="text-center mb-10 relative z-10">
                         <h2 className="text-4xl font-extrabold tracking-tight mb-3">
-                            Get <span className="text-gradient">Started</span>
+                            Tạo tài khoản <span className="text-gradient">mới</span>
                         </h2>
-                        <p className="text-surface-400 text-sm font-medium">Join the next generation of top talent</p>
+                        <p className="text-surface-400 text-sm font-medium">Bắt đầu trải nghiệm luyện phỏng vấn với AI</p>
                     </div>
 
                     <form className="grid grid-cols-1 gap-5 relative z-10" onSubmit={onSubmit}>
                         <div className="space-y-2">
-                            <label htmlFor="name" className="text-[11px] font-black uppercase tracking-widest text-surface-500 ml-1">Full Name</label>
-                            <input 
-                                type="text" 
-                                id="name" 
-                                name="name" 
-                                value={name} 
-                                onChange={handleChange} 
-                                className="glass-input" 
-                                placeholder="John Doe" 
-                                required 
+                            <label htmlFor="name" className="text-[11px] font-black uppercase tracking-widest text-surface-500 ml-1">Họ và tên</label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value={name}
+                                onChange={handleChange}
+                                className="glass-input"
+                                placeholder="Nguyễn Văn A"
+                                required
                             />
                         </div>
                         <div className="space-y-2">
-                            <label htmlFor="email" className="text-[11px] font-black uppercase tracking-widest text-surface-500 ml-1">Email Address</label>
-                            <input 
-                                type="email" 
-                                id="email" 
-                                name="email" 
-                                value={email} 
-                                onChange={handleChange} 
-                                className="glass-input" 
-                                placeholder="name@company.com" 
-                                required 
+                            <label htmlFor="email" className="text-[11px] font-black uppercase tracking-widest text-surface-500 ml-1">Địa chỉ Email</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={email}
+                                onChange={handleChange}
+                                className="glass-input"
+                                placeholder="name@company.com"
+                                required
                             />
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <label htmlFor="password" className="text-[11px] font-black uppercase tracking-widest text-surface-500 ml-1">Password</label>
+                                <label htmlFor="password" className="text-[11px] font-black uppercase tracking-widest text-surface-500 ml-1">Mật khẩu</label>
                                 <PasswordInput
                                     id="password"
                                     name="password"
@@ -139,7 +139,7 @@ const Register = () => {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label htmlFor="confirmPassword" className="text-[11px] font-black uppercase tracking-widest text-surface-500 ml-1">Confirm</label>
+                                <label htmlFor="confirmPassword" className="text-[11px] font-black uppercase tracking-widest text-surface-500 ml-1">Xác nhận MK</label>
                                 <PasswordInput
                                     id="confirmPassword"
                                     name="confirmPassword"
@@ -150,25 +150,25 @@ const Register = () => {
                                 />
                             </div>
                         </div>
-                        <button 
-                            type="submit" 
+                        <button
+                            type="submit"
                             className="btn-primary w-full text-sm uppercase tracking-widest font-black mt-2"
                         >
-                            Create Account
+                            Đăng ký
                         </button>
                     </form>
 
                     <div className="my-10 flex items-center relative z-10">
                         <div className="grow border-t border-white/5"></div>
-                        <div className="mx-4 text-surface-500 text-[10px] font-black tracking-[0.2em] uppercase">Identity Sync</div>
+                        <div className="mx-4 text-surface-500 text-[10px] font-black tracking-[0.2em] uppercase">Hoặc</div>
                         <div className="grow border-t border-white/5"></div>
                     </div>
-                    
+
                     <div className="w-full flex items-center justify-center relative z-10">
                         <GoogleLogin
                             onSuccess={handleGoogleSuccess}
                             onError={() => {
-                                toast.error("Google Login Failed");
+                                toast.error("Đăng nhập Google thất bại");
                             }}
                             theme="filled_black"
                             shape="pill"
@@ -180,8 +180,8 @@ const Register = () => {
 
                     <div className="mt-10 text-center relative z-10">
                         <p className="text-surface-400 text-sm font-medium">
-                            Already a member?{" "}
-                            <Link to="/login" className="text-primary-400 hover:text-primary-300 font-bold underline underline-offset-4 transition-colors">Log In</Link>
+                            Đã có tài khoản?{" "}
+                            <Link to="/login" className="text-primary-400 hover:text-primary-300 font-bold underline underline-offset-4 transition-colors">Đăng nhập ngay</Link>
                         </p>
                     </div>
                 </div>

@@ -40,8 +40,8 @@ const NewInterviewForm: React.FC<NewInterviewFormProps> = ({
     }, []);
 
     const resumeOptions = [
-        { label: "None (Standard Interview)", value: "" },
-        ...resumes.map(r => ({ label: r.originalFilename || "Unnamed Resume", value: r._id }))
+        { label: "Không đính kèm (Phỏng vấn tiêu chuẩn)", value: "" },
+        ...resumes.map(r => ({ label: r.originalFilename || "CV chưa đặt tên", value: r._id }))
     ];
 
     const companyOptions = Object.values(COMPANIES).map(c => ({
@@ -53,14 +53,14 @@ const NewInterviewForm: React.FC<NewInterviewFormProps> = ({
     const trackOptions = selectedCompany?.tracks.map(t => ({
         label: t.name,
         value: t.id
-    })) || [{ label: "General", value: "general" }];
+    })) || [{ label: "Chung", value: "general" }];
 
     return (
         <div className="bg-surface-800/40 border border-surface-600/30 rounded-3xl shadow-2xl shadow-black/40 backdrop-blur-md relative group/form z-10 transform-gpu">
             <div className="bg-surface-900/40 px-10 py-6 border-b border-surface-600/30 flex items-center justify-between rounded-t-3xl">
                 <h2 className="text-xl font-black text-white flex items-center gap-4 font-display">
                     <span className="bg-primary-500 w-1.5 h-6 rounded-full shadow-[0_0_15px_rgba(45,212,191,0.5)]"></span>
-                    Initiate <span className="text-surface-500">Session</span>
+                    Tạo buổi <span className="text-surface-500">Phỏng vấn mới</span>
                 </h2>
                 <div className="flex gap-1.5">
                     <div className="w-2 h-2 rounded-full bg-rose-500/20"></div>
@@ -70,7 +70,7 @@ const NewInterviewForm: React.FC<NewInterviewFormProps> = ({
             </div>
             <form onSubmit={onSubmit} className="p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <CustomSelect
-                    label="Professional Role"
+                    label="Vị trí ứng tuyển"
                     name="role"
                     options={ROLES}
                     value={formData.role}
@@ -78,7 +78,7 @@ const NewInterviewForm: React.FC<NewInterviewFormProps> = ({
                 />
 
                 <CustomSelect
-                    label="Experience Level"
+                    label="Trình độ kinh nghiệm"
                     name="level"
                     options={LEVELS}
                     value={formData.level}
@@ -86,15 +86,15 @@ const NewInterviewForm: React.FC<NewInterviewFormProps> = ({
                 />
 
                 <CustomSelect
-                    label="Question Count"
+                    label="Số lượng câu hỏi"
                     name="count"
-                    options={COUNTS.map(c => ({ label: `${c} Questions`, value: c }))}
+                    options={COUNTS.map(c => ({ label: `${c} Câu hỏi`, value: c }))}
                     value={formData.count}
                     onChange={handleCustomChange}
                 />
 
                 <CustomSelect
-                    label="Modal Type"
+                    label="Hình thức phỏng vấn"
                     name="interviewType"
                     options={TYPES}
                     value={formData.interviewType}
@@ -102,7 +102,7 @@ const NewInterviewForm: React.FC<NewInterviewFormProps> = ({
                 />
 
                 <CustomSelect
-                    label="Target Company"
+                    label="Công ty mục tiêu"
                     name="company"
                     options={companyOptions}
                     value={formData.company || "general"}
@@ -119,7 +119,7 @@ const NewInterviewForm: React.FC<NewInterviewFormProps> = ({
                 />
 
                 <CustomSelect
-                    label="Company Track"
+                    label="Chuyên môn công ty"
                     name="companyTrack"
                     options={trackOptions}
                     value={formData.companyTrack || "general"}
@@ -127,7 +127,7 @@ const NewInterviewForm: React.FC<NewInterviewFormProps> = ({
                 />
 
                 <CustomSelect
-                    label="Resume (Optional)"
+                    label="Đính kèm CV (Không bắt buộc)"
                     name="resumeId"
                     options={resumeOptions}
                     value={formData.resumeId || ""}
@@ -143,11 +143,11 @@ const NewInterviewForm: React.FC<NewInterviewFormProps> = ({
                         {isProcessing ? (
                             <>
                                 <span className="animate-spin h-4 w-4 border-2 border-surface-500 border-t-transparent rounded-full"></span>
-                                Allocating...
+                                Đang tạo câu hỏi AI...
                             </>
                         ) : (
                             <>
-                                Launch Prep
+                                Bắt đầu phỏng vấn
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
                             </>
                         )}
