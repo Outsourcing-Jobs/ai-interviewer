@@ -167,9 +167,9 @@ const AnalyticsDashboard: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-8">
         <div>
-          <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight mb-3 font-display">Performance Insights</h1>
+          <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight mb-3 font-display"> Bảng điều khiển phân tích</h1>
           <p className="text-surface-300 font-medium max-w-2xl text-[15px]">
-            Executive-level analysis of your interview performance, skill evolution, and readiness metrics.
+            Phân tích chuyên sâu về hiệu suất phỏng vấn, sự phát triển kỹ năng và các chỉ số sẵn sàng.
           </p>
         </div>
       </div>
@@ -180,7 +180,7 @@ const AnalyticsDashboard: React.FC = () => {
         <div className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-8 flex flex-col justify-between shadow-2xl shadow-black/40 backdrop-blur-md relative overflow-hidden group">
           <div className="absolute inset-0 bg-linear-to-br from-primary-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
           <div className="flex justify-between items-start mb-8 relative z-10">
-            <h3 className="text-[10px] font-black tracking-widest text-surface-400 uppercase">Professional Development</h3>
+            <h3 className="text-[10px] font-black tracking-widest text-surface-400 uppercase">Thăng tiến</h3>
             <div className="w-8 h-8 rounded-full bg-primary-500/10 flex items-center justify-center border border-primary-500/20">
               <svg className="w-4 h-4 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
@@ -210,7 +210,7 @@ const AnalyticsDashboard: React.FC = () => {
         <div className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-8 flex flex-col justify-between shadow-2xl shadow-black/40 backdrop-blur-md relative overflow-hidden group">
           <div className="absolute inset-0 bg-linear-to-br from-indigo-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
           <div className="flex justify-between items-start mb-8 relative z-10">
-            <h3 className="text-[10px] font-black tracking-widest text-surface-400 uppercase">Total Sessions</h3>
+            <h3 className="text-[10px] font-black tracking-widest text-surface-400 uppercase">Tổng bài phỏng vấn</h3>
             <div className="w-8 h-8 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20">
               <svg className="w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -220,7 +220,7 @@ const AnalyticsDashboard: React.FC = () => {
           <div className="mb-6 relative z-10">
             <div className="flex items-baseline gap-2">
               <span className="text-5xl font-black text-white font-display">{stats?.totalSessions || 0}</span>
-              <span className="text-surface-400 font-bold text-sm">Completed</span>
+              <span className="text-surface-400 font-bold text-sm">Bài hoàn thành</span>
             </div>
           </div>
           <div className="flex items-end justify-between gap-1.5 h-16 mt-auto relative z-10">
@@ -247,22 +247,22 @@ const AnalyticsDashboard: React.FC = () => {
         <div className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-8 flex flex-col justify-between shadow-2xl shadow-black/40 backdrop-blur-md relative overflow-hidden group md:col-span-2 lg:col-span-1">
           <div className="absolute inset-0 bg-linear-to-br from-emerald-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
           <div className="flex justify-between items-start mb-8 relative z-10">
-            <h3 className="text-[10px] font-black tracking-widest text-surface-400 uppercase">Current Streak</h3>
+            <h3 className="text-[10px] font-black tracking-widest text-surface-400 uppercase">Chuỗi Streak</h3>
             <div className="flex items-center gap-1.5 text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-[0_0_10px_rgba(16,185,129,0.1)]">
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
               </svg>
-              Active
+              Hoạt động
             </div>
           </div>
           <div className="mt-auto relative z-10">
             <div className="flex items-baseline gap-2 mb-6">
               <span className="text-5xl font-black text-white font-display">{gamification?.streakDays || 0}</span>
-              <span className="text-surface-400 font-bold text-sm">Days</span>
+              <span className="text-surface-400 font-bold text-sm">Ngày liên tiếp</span>
             </div>
             <div className="flex justify-between text-[10px] font-black text-surface-400 uppercase tracking-widest bg-surface-900/40 p-4 rounded-2xl border border-surface-600/20">
-              <span>Overall Average</span>
+              <span>Điểm trung bình</span>
               <span className="text-emerald-400">{Math.round(stats?.averageOverallScore || 0)}/100</span>
             </div>
           </div>
@@ -274,21 +274,21 @@ const AnalyticsDashboard: React.FC = () => {
         {/* Skill Acquisition Velocity */}
         <div className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-8 flex flex-col shadow-2xl shadow-black/40 backdrop-blur-md relative overflow-hidden">
           <div className="flex justify-between items-center mb-8 relative z-10">
-            <h3 className="text-[10px] font-black tracking-widest text-surface-400 uppercase">Progress Over Time</h3>
+            <h3 className="text-[10px] font-black tracking-widest text-surface-400 uppercase">Tiến độ qua thời gian</h3>
             <div className="flex gap-4 text-[10px] font-black uppercase tracking-widest">
               <div
                 className={`flex items-center gap-2 cursor-pointer transition-opacity select-none ${hiddenDatasets[0] ? 'opacity-50 text-surface-500' : 'text-surface-400 hover:opacity-80'}`}
                 onClick={() => toggleDataset(0)}
               >
                 <div className={`w-2.5 h-2.5 rounded-full ${hiddenDatasets[0] ? 'bg-surface-600' : 'bg-primary-500 shadow-[0_0_8px_rgba(45,212,191,0.6)]'}`}></div>
-                Tech Score
+                Điểm kỹ thuật
               </div>
               <div
                 className={`flex items-center gap-2 cursor-pointer transition-opacity select-none ${hiddenDatasets[1] ? 'opacity-50 text-surface-500' : 'text-surface-400 hover:opacity-80'}`}
                 onClick={() => toggleDataset(1)}
               >
                 <div className={`w-2.5 h-2.5 rounded-full ${hiddenDatasets[1] ? 'bg-surface-600' : 'bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.6)]'}`}></div>
-                Confidence
+                Độ tự tin
               </div>
             </div>
           </div>
@@ -296,7 +296,7 @@ const AnalyticsDashboard: React.FC = () => {
             {progress && progress.length > 0 ? (
               <Line data={lineChartData} options={lineChartOptions} />
             ) : (
-              <div className="h-full flex items-center justify-center text-surface-400 font-medium text-sm bg-surface-900/20 rounded-2xl border border-surface-600/20">Not enough data to display progress</div>
+              <div className="h-full flex items-center justify-center text-surface-400 font-medium text-sm bg-surface-900/20 rounded-2xl border border-surface-600/20">Chưa đủ dữ liệu để hiển thị biểu đồ</div>
             )}
           </div>
         </div>
@@ -304,7 +304,7 @@ const AnalyticsDashboard: React.FC = () => {
         {/* Target Competency Analysis */}
         <div className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-8 flex flex-col shadow-2xl shadow-black/40 backdrop-blur-md relative overflow-hidden">
           <div className="flex justify-between items-center mb-8 relative z-10">
-            <h3 className="text-[10px] font-black tracking-widest text-surface-400 uppercase">Performance By Role</h3>
+            <h3 className="text-[10px] font-black tracking-widest text-surface-400 uppercase">Năng lực theo vị trí</h3>
             <div className="w-8 h-8 rounded-full bg-surface-700/30 flex items-center justify-center border border-surface-600/30">
               <svg className="w-4 h-4 text-surface-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
@@ -328,7 +328,7 @@ const AnalyticsDashboard: React.FC = () => {
                 </div>
               </div>
             )) : (
-              <div className="h-full flex items-center justify-center text-surface-400 font-medium text-sm bg-surface-900/20 rounded-2xl border border-surface-600/20">No role data available</div>
+              <div className="h-full flex items-center justify-center text-surface-400 font-medium text-sm bg-surface-900/20 rounded-2xl border border-surface-600/20">Chưa có dữ liệu vị trí</div>
             )}
           </div>
         </div>
@@ -344,8 +344,8 @@ const AnalyticsDashboard: React.FC = () => {
               </svg>
             </div>
             <div>
-              <h3 className="text-white font-black text-xl font-display tracking-tight">Average Speech Patterns</h3>
-              <p className="text-[13px] text-surface-400 font-medium mt-1">Real-time linguistic patterns from your sessions</p>
+              <h3 className="text-white font-black text-xl font-display tracking-tight">Phân tích giọng nói trung bình</h3>
+              <p className="text-[13px] text-surface-400 font-medium mt-1">Chỉ số phát âm và tốc độ nói trong các bài phỏng vấn</p>
             </div>
           </div>
 
@@ -364,12 +364,12 @@ const AnalyticsDashboard: React.FC = () => {
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                   <span className="text-4xl font-black text-white font-display">{Math.round(speech.avgPace)}</span>
-                  <span className="text-[10px] font-black text-surface-400 uppercase tracking-widest mt-1">WPM</span>
+                  <span className="text-[10px] font-black text-surface-400 uppercase tracking-widest mt-1">TỪ/PHÚT</span>
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-white font-bold text-[15px] mb-1.5">Average Pace</div>
-                <div className="text-primary-400 text-xs font-bold uppercase tracking-widest">Words per minute</div>
+                <div className="text-white font-bold text-[15px] mb-1.5">Tốc độ nói trung bình</div>
+                <div className="text-primary-400 text-xs font-bold uppercase tracking-widest">Số từ trên phút</div>
               </div>
             </div>
 
@@ -387,12 +387,12 @@ const AnalyticsDashboard: React.FC = () => {
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                   <span className="text-4xl font-black text-white font-display">{Math.round(speech.avgFillerWords)}</span>
-                  <span className="text-[10px] font-black text-surface-400 uppercase tracking-widest mt-1">COUNT</span>
+                  <span className="text-[10px] font-black text-surface-400 uppercase tracking-widest mt-1">TỪ ẬM Ừ</span>
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-white font-bold text-[15px] mb-1.5">Average Filler Words</div>
-                <div className="text-amber-400 text-xs font-bold uppercase tracking-widest">Per question</div>
+                <div className="text-white font-bold text-[15px] mb-1.5">Từ ậm ừ trung bình</div>
+                <div className="text-amber-400 text-xs font-bold uppercase tracking-widest">Mỗi câu hỏi</div>
               </div>
             </div>
 
@@ -410,12 +410,12 @@ const AnalyticsDashboard: React.FC = () => {
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                   <span className="text-4xl font-black text-white font-display">{Math.round(speech.avgClarity)}</span>
-                  <span className="text-[10px] font-black text-surface-400 uppercase tracking-widest mt-1">SCORE</span>
+                  <span className="text-[10px] font-black text-surface-400 uppercase tracking-widest mt-1">ĐIỂM</span>
                 </div>
               </div>
               <div className="text-center">
-                <div className="text-white font-bold text-[15px] mb-1.5">Clarity Score</div>
-                <div className="text-indigo-400 text-xs font-bold uppercase tracking-widest">Overall clarity</div>
+                <div className="text-white font-bold text-[15px] mb-1.5">Điểm độ rõ ràng</div>
+                <div className="text-indigo-400 text-xs font-bold uppercase tracking-widest">Chất lượng diễn đạt</div>
               </div>
             </div>
           </div>
@@ -431,8 +431,8 @@ const AnalyticsDashboard: React.FC = () => {
             </svg>
           </div>
           <div>
-            <h3 className="text-white font-black text-xl font-display tracking-tight">Achievements & Badges</h3>
-            <p className="text-[13px] text-surface-400 font-medium mt-1">Unlock badges by pushing your limits and practicing consistently</p>
+            <h3 className="text-white font-black text-xl font-display tracking-tight">Thành tựu & Huy hiệu</h3>
+            <p className="text-[13px] text-surface-400 font-medium mt-1">Mở khóa huy hiệu bằng cách rèn luyện đều đặn mỗi ngày</p>
           </div>
         </div>
 
@@ -440,23 +440,23 @@ const AnalyticsDashboard: React.FC = () => {
           {ACHIEVEMENTS.map((badge) => {
             const isUnlocked = gamification?.badges?.some((b) => b.badgeId === badge.id);
             const badgeRecord = gamification?.badges?.find((b) => b.badgeId === badge.id);
-            
+
             return (
-              <div 
-                key={badge.id} 
+              <div
+                key={badge.id}
                 className={`p-5 rounded-2xl border transition-all duration-500 flex flex-col items-center text-center gap-3 relative overflow-hidden group
-                  ${isUnlocked 
-                    ? 'bg-surface-900/40 border-amber-500/30 shadow-[inset_0_0_20px_rgba(245,158,11,0.05)] hover:border-amber-500/50 hover:shadow-[0_0_15px_rgba(245,158,11,0.15)]' 
+                  ${isUnlocked
+                    ? 'bg-surface-900/40 border-amber-500/30 shadow-[inset_0_0_20px_rgba(245,158,11,0.05)] hover:border-amber-500/50 hover:shadow-[0_0_15px_rgba(245,158,11,0.15)]'
                     : 'bg-surface-900/20 border-white/5 opacity-60 grayscale hover:grayscale-0 hover:opacity-100'}`}
               >
                 {isUnlocked && (
                   <div className="absolute -top-10 -right-10 w-20 h-20 bg-amber-500/20 blur-2xl rounded-full"></div>
                 )}
-                
+
                 <div className={`text-4xl ${!isUnlocked && 'opacity-50'}`}>
                   {badge.icon}
                 </div>
-                
+
                 <div className="space-y-1">
                   <h4 className={`text-sm font-black ${isUnlocked ? 'text-amber-400' : 'text-surface-400'}`}>
                     {badge.name}

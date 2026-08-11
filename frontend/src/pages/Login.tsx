@@ -81,14 +81,14 @@ const Login = () => {
                     
                     <div className="text-center mb-10 relative z-10">
                         <h2 className="text-4xl font-extrabold tracking-tight mb-3">
-                            Welcome <span className="text-gradient">Back</span>
+                            Chào mừng <span className="text-gradient">trở lại</span>
                         </h2>
-                        <p className="text-surface-400 text-sm font-medium">Sign in to your Prepify account</p>
+                        <p className="text-surface-400 text-sm font-medium">Đăng nhập vào tài khoản AI Interviewer</p>
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
                         <div className="space-y-2">
-                            <label htmlFor="email" className="text-[11px] font-black uppercase tracking-widest text-surface-500 ml-1">Email Address</label>
+                            <label htmlFor="email" className="text-[11px] font-black uppercase tracking-widest text-surface-500 ml-1">Địa chỉ Email</label>
                             <input 
                                 type="email" 
                                 id="email" 
@@ -101,7 +101,7 @@ const Login = () => {
                             />
                         </div>
                         <div className="space-y-2">
-                            <label htmlFor="password" className="text-[11px] font-black uppercase tracking-widest text-surface-500 ml-1">Password</label>
+                            <label htmlFor="password" className="text-[11px] font-black uppercase tracking-widest text-surface-500 ml-1">Mật khẩu</label>
                             <PasswordInput
                                 id="password"
                                 name="password"
@@ -114,13 +114,13 @@ const Login = () => {
                             type="submit" 
                             className="btn-primary w-full text-sm uppercase tracking-widest font-black"
                         >
-                            Log In
+                            Đăng nhập
                         </button>
                     </form>
 
                     <div className="my-10 flex items-center relative z-10">
                         <div className="grow border-t border-white/5"></div>
-                        <div className="mx-4 text-surface-500 text-[10px] font-black tracking-[0.2em] uppercase">Security Check</div>
+                        <div className="mx-4 text-surface-500 text-[10px] font-black tracking-[0.2em] uppercase">Hoặc</div>
                         <div className="grow border-t border-white/5"></div>
                     </div>
                     
@@ -137,14 +137,14 @@ const Login = () => {
                                 <path d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.548 0 9s.348 2.826.957 4.039l3.007-2.332z" fill="#FBBC05"/>
                                 <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.293C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
                             </svg>
-                            Continue with Google
+                            Đăng nhập bằng Google
                         </button>
                     </div>
 
                     <div className="mt-10 text-center relative z-10">
                         <p className="text-surface-400 text-sm font-medium">
-                            New here?{" "}
-                            <Link to="/register" className="text-primary-400 hover:text-primary-300 font-bold underline underline-offset-4 transition-colors">Create account</Link>
+                            Chưa có tài khoản?{" "}
+                            <Link to="/register" className="text-primary-400 hover:text-primary-300 font-bold underline underline-offset-4 transition-colors">Đăng ký ngay</Link>
                         </p>
                     </div>
                 </div>

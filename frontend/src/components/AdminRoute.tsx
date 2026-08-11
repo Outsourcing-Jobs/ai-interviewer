@@ -9,7 +9,7 @@ const AdminRoute = () => {
 
   useEffect(() => {
     if (user && user.role !== "admin") {
-      toast.error("Access denied. Admin privileges required.");
+      toast.error("Truy cập bị từ chối. Yêu cầu quyền Quản trị viên.");
     }
   }, [user]);
 

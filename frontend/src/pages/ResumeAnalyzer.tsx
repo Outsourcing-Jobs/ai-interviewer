@@ -21,24 +21,24 @@ import type { ParsedProfile, ResultTab } from "../features/resume/types";
 
 const SCORING_TIPS = [
   {
-    title: "Use clear section headers",
-    desc: "Skills, Experience, Education, Summary help ATS parsing",
+    title: "Sử dụng tiêu đề mục rõ ràng",
+    desc: "Kỹ năng, Kinh nghiệm, Học vấn, Tóm tắt giúp máy quét ATS dễ đọc",
   },
   {
-    title: "Match job keywords exactly",
-    desc: "Copy key phrases from the job description for higher ATS match",
+    title: "Khớp từ khóa yêu cầu công việc",
+    desc: "Sử dụng các cụm từ khóa chính từ mô tả công việc (JD) để tăng điểm ATS",
   },
   {
-    title: "Quantify your achievements",
-    desc: 'Numbers stand out: "40% faster", "led team of 5", "25% cost reduction"',
+    title: "Định lượng thành tựu bằng con số",
+    desc: 'Các con số luôn tạo ấn tượng: "Tăng 40% hiệu suất", "Quản lý nhóm 5 người"',
   },
   {
-    title: "Maintain tight formatting",
-    desc: "300-800 words, single page (under 5 yrs experience) keeps it scannable",
+    title: "Trình bày gọn gàng, súc tích",
+    desc: "300-800 từ, tối ưu trong 1 trang (với dưới 5 năm kinh nghiệm)",
   },
   {
-    title: "Provide complete contact info",
-    desc: "Name, email, phone, LinkedIn URL at the top of your resume",
+    title: "Đầy đủ thông tin liên hệ",
+    desc: "Họ tên, email, số điện thoại, đường dẫn LinkedIn đặt ở đầu CV",
   },
 ];
 
@@ -51,10 +51,10 @@ const TIP_NUMBER_COLORS = [
 ];
 
 const TABS: { key: ResultTab; label: string }[] = [
-  { key: "ats", label: "ATS Score" },
-  { key: "extraction", label: "Entity Extraction" },
-  { key: "jobmatch", label: "Job Match" },
-  { key: "feedback", label: "Feedback & Tips" },
+  { key: "ats", label: "Điểm ATS" },
+  { key: "extraction", label: "Kỹ năng & Thông tin" },
+  { key: "jobmatch", label: "Độ tương thích JD" },
+  { key: "feedback", label: "Gợi ý & Nhận xét" },
 ];
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -212,7 +212,7 @@ const ResumeAnalyzer = () => {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
               </span>
-              AI-Powered · Free · Instant Results
+              Trí tuệ nhân tạo AI · Phân tích tức thì
             </motion.div>
 
             <motion.h1
@@ -221,9 +221,9 @@ const ResumeAnalyzer = () => {
               transition={{ delay: 0.2, type: "spring", stiffness: 260, damping: 20 }}
               className="text-5xl md:text-6xl font-black text-white leading-[1.1] tracking-tighter"
             >
-              Know exactly how your
+              Đánh giá chính xác
               <br />
-              <span className="text-gradient">resume performs</span>
+              <span className="text-gradient">chất lượng CV của bạn</span>
             </motion.h1>
 
             <motion.p
@@ -232,8 +232,7 @@ const ResumeAnalyzer = () => {
               transition={{ delay: 0.3, type: "spring", stiffness: 260, damping: 20 }}
               className="text-surface-400 max-w-2xl mx-auto leading-relaxed text-[15px] font-medium"
             >
-              Upload your resume for an instant ATS score, skill extraction, work
-              experience detection, and optional job description matching.
+              Tải lên CV của bạn để nhận điểm chuẩn ATS tức thì, trích xuất kỹ năng, kinh nghiệm và kiểm tra độ tương thích với mô tả công việc.
             </motion.p>
 
             {/* Stats */}
@@ -244,9 +243,9 @@ const ResumeAnalyzer = () => {
               className="flex items-center justify-center gap-8 pt-6"
             >
               {[
-                { value: "100", label: "ATS Score Points" },
-                { value: "6", label: "Scoring Sections" },
-                { value: "AI", label: "Gemini Powered" },
+                { value: "100", label: "Thang điểm ATS" },
+                { value: "6", label: "Mục đánh giá" },
+                { value: "AI", label: "Công nghệ Gemini" },
               ].map((s, i) => (
                 <div key={i} className="flex items-center gap-8">
                   {i > 0 && <div className="w-px h-12 bg-linear-to-b from-transparent via-surface-700 to-transparent -ml-4" />}
@@ -261,8 +260,8 @@ const ResumeAnalyzer = () => {
             {/* Upload Card */}
             <div className="lg:col-span-3 bg-surface-800/40 border border-surface-600/30 rounded-3xl p-8 space-y-6 shadow-2xl shadow-black/40 backdrop-blur-md relative overflow-hidden">
               <div className="flex items-center justify-between relative z-10">
-                <h2 className="text-lg font-black text-white tracking-tight">Upload Resume</h2>
-                <span className="px-3 py-1 bg-surface-900/50 rounded-full text-xs font-medium text-surface-400 border border-surface-700/50">PDF · DOCX · TXT · 5MB</span>
+                <h2 className="text-lg font-black text-white tracking-tight">Tải CV lên</h2>
+                <span className="px-3 py-1 bg-surface-900/50 rounded-full text-xs font-medium text-surface-400 border border-surface-700/50">PDF · DOCX · TXT · Tối đa 5MB</span>
               </div>
 
               {/* Drop Zone */}
@@ -294,14 +293,14 @@ const ResumeAnalyzer = () => {
                         <FileCheck className="w-6 h-6 text-primary-400" strokeWidth={2.5} />
                       </div>
                       <span className="text-sm font-black text-white">{file.name}</span>
-                      <span className="text-[11px] text-surface-400 font-medium tracking-wide mt-1">Click or drop to replace</span>
+                      <span className="text-[11px] text-surface-400 font-medium tracking-wide mt-1">Bấm hoặc kéo thả file khác để thay thế</span>
                     </>
                   ) : (
                     <>
                       <CloudUpload className="w-10 h-10 text-surface-500 group-hover:text-primary-400/80 transition-colors duration-300 mb-3 drop-shadow-md" strokeWidth={1.5} />
                       <span className="text-[13px] font-bold text-surface-300 tracking-wide">
-                        Drop your resume here or{" "}
-                        <span className="text-primary-400 underline underline-offset-4 decoration-primary-400/30 group-hover:decoration-primary-400 transition-colors">browse</span>
+                        Kéo thả CV vào đây hoặc{" "}
+                        <span className="text-primary-400 underline underline-offset-4 decoration-primary-400/30 group-hover:decoration-primary-400 transition-colors">chọn file</span>
                       </span>
                     </>
                   )}
@@ -311,12 +310,12 @@ const ResumeAnalyzer = () => {
               {/* JD Section */}
               <div className="space-y-2 relative z-10">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-bold text-surface-300">Job Description</h3>
-                  <span className="text-xs font-medium text-primary-400/80">Optional</span>
+                  <h3 className="text-sm font-bold text-surface-300">Mô tả công việc (JD)</h3>
+                  <span className="text-xs font-medium text-primary-400/80">Không bắt buộc</span>
                 </div>
                 <textarea
                   className="w-full h-24 bg-surface-900/40 border border-surface-700/60 rounded-xl p-4 text-[13px] text-surface-200 focus:outline-none focus:border-primary-400/50 focus:bg-surface-900/60 transition-all placeholder:text-surface-600 resize-none shadow-inner shadow-black/20"
-                  placeholder="Paste target job description to enable match scoring..."
+                  placeholder="Dán nội dung mô tả công việc (JD) để đánh giá độ tương thích..."
                   value={jdText}
                   onChange={(e) => setJdText(e.target.value)}
                 />
@@ -332,13 +331,13 @@ const ResumeAnalyzer = () => {
                   }`}
               >
                 {file && <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />}
-                <span className="relative z-10">Analyse Resume</span>
+                <span className="relative z-10">Bắt đầu phân tích CV</span>
               </button>
             </div>
 
             {/* Tips Card (Bento Box) */}
             <div className="lg:col-span-2 flex flex-col h-full space-y-4">
-              <h3 className="text-sm font-bold text-surface-400 pt-2">How to score higher</h3>
+              <h3 className="text-sm font-bold text-surface-400 pt-2">Mẹo tối ưu điểm CV</h3>
               <div className="grid grid-cols-1 gap-3 flex-1">
                 {SCORING_TIPS.map((tip, i) => (
                   <div key={i} className="group relative bg-surface-800/30 border border-surface-700/40 rounded-2xl p-4 overflow-hidden hover:-translate-y-1 hover:bg-surface-800/60 hover:border-surface-600/50 transition-all duration-300 cursor-default shadow-lg shadow-black/20">

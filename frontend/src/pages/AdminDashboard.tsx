@@ -37,26 +37,33 @@ export const AdminDashboard: React.FC = () => {
 
   const handleToggleRole = async (user: AdminUserItem) => {
     const newRole = user.role === "admin" ? "user" : "admin";
-    const actionName = newRole === "admin" ? "Promote to Admin" : "Revoke Admin";
+    const actionText = newRole === "admin" ? "cấp quyền Quản trị viên" : "gỡ quyền Quản trị viên";
     
-    if (!window.confirm(`Are you sure you want to ${actionName} for "${user.name}"?`)) {
+    if (!window.confirm(`Bạn có chắc chắn muốn ${actionText} cho người dùng "${user.name}" không?`)) {
       return;
     }
 
     setUpdatingUserId(user._id);
     try {
       const res = await adminApi.updateUserRole(user._id, newRole);
-      toast.success(res.message || `Updated role to ${newRole}`);
+      toast.success(res.message || `Đã cập nhật vai trò thành ${newRole === "admin" ? "Quản trị viên" : "Người dùng"}`);
       // Update local state
       setUsers((prev) =>
         prev.map((u) => (u._id === user._id ? { ...u, role: newRole } : u))
       );
     } catch (error: any) {
       console.error("Failed to update role:", error);
-      toast.error(error?.response?.data?.message || "Failed to update user role");
+      toast.error(error?.response?.data?.message || "Không thể cập nhật vai trò người dùng");
     } finally {
       setUpdatingUserId(null);
     }
+  };
+
+  const formatStatus = (status: string) => {
+    if (status === "completed") return "Hoàn thành";
+    if (status === "in-progress") return "Đang làm";
+    if (status === "cancelled") return "Đã hủy";
+    return status;
   };
 
   // Filtered user list
@@ -72,7 +79,7 @@ export const AdminDashboard: React.FC = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[70vh] space-y-4">
         <div className="w-12 h-12 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-surface-400 text-sm font-medium">Loading System Dashboard...</p>
+        <p className="text-surface-400 text-sm font-medium">Đang tải Bảng quản trị hệ thống...</p>
       </div>
     );
   }
@@ -88,22 +95,22 @@ export const AdminDashboard: React.FC = () => {
               👑
             </span>
             <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-              System Administration Portal
+              Bảng Quản trị Hệ thống
             </h1>
           </div>
           <p className="text-surface-400 text-sm max-w-xl">
-            Real-time control center for user management, system statistics, and interview activity.
+            Trung tâm quản lý người dùng, thống kê hệ thống và theo dõi hoạt động phỏng vấn theo thời gian thực.
           </p>
         </div>
 
         <button
           onClick={fetchData}
-          className="self-start md:self-auto inline-flex items-center space-x-2 px-4 py-2.5 rounded-2xl bg-surface-700/80 hover:bg-surface-700 text-surface-200 text-xs font-bold transition-all duration-300 border border-white/10 hover:border-white/20 active:scale-95"
+          className="self-start md:self-auto inline-flex items-center space-x-2 px-4 py-2.5 rounded-2xl bg-surface-700/80 hover:bg-surface-700 text-surface-200 text-xs font-bold transition-all duration-300 border border-white/10 hover:border-white/20 active:scale-95 cursor-pointer"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
           </svg>
-          <span>Refresh Data</span>
+          <span>Làm mới dữ liệu</span>
         </button>
       </div>
 
@@ -113,7 +120,7 @@ export const AdminDashboard: React.FC = () => {
         <div className="bg-surface-800/40 backdrop-blur-md p-6 rounded-3xl border border-white/5 hover:border-primary-500/30 transition-all duration-300 shadow-xl space-y-3 relative group">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-surface-400 uppercase tracking-widest">
-              Total Candidates
+              Tổng ứng viên
             </span>
             <div className="p-2.5 rounded-2xl bg-primary-500/10 text-primary-400 border border-primary-500/20 group-hover:scale-110 transition-transform">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -122,14 +129,14 @@ export const AdminDashboard: React.FC = () => {
             </div>
           </div>
           <div className="text-3xl font-black text-white">{stats?.totalUsers ?? 0}</div>
-          <p className="text-[11px] text-surface-400">Registered platform accounts</p>
+          <p className="text-[11px] text-surface-400">Tài khoản đã đăng ký hệ thống</p>
         </div>
 
         {/* Card 2: Total Sessions */}
         <div className="bg-surface-800/40 backdrop-blur-md p-6 rounded-3xl border border-white/5 hover:border-indigo-500/30 transition-all duration-300 shadow-xl space-y-3 relative group">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-surface-400 uppercase tracking-widest">
-              Interview Sessions
+              Tổng bài phỏng vấn
             </span>
             <div className="p-2.5 rounded-2xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 group-hover:scale-110 transition-transform">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -138,14 +145,14 @@ export const AdminDashboard: React.FC = () => {
             </div>
           </div>
           <div className="text-3xl font-black text-white">{stats?.totalSessions ?? 0}</div>
-          <p className="text-[11px] text-surface-400">Total mock interviews generated</p>
+          <p className="text-[11px] text-surface-400">Tổng số bài phỏng vấn đã được tạo</p>
         </div>
 
         {/* Card 3: Total Resumes */}
         <div className="bg-surface-800/40 backdrop-blur-md p-6 rounded-3xl border border-white/5 hover:border-emerald-500/30 transition-all duration-300 shadow-xl space-y-3 relative group">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-surface-400 uppercase tracking-widest">
-              Resumes Analyzed
+              CV đã phân tích
             </span>
             <div className="p-2.5 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 group-hover:scale-110 transition-transform">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -154,14 +161,14 @@ export const AdminDashboard: React.FC = () => {
             </div>
           </div>
           <div className="text-3xl font-black text-white">{stats?.totalResumes ?? 0}</div>
-          <p className="text-[11px] text-surface-400">AI CV parsing & reports</p>
+          <p className="text-[11px] text-surface-400">Báo cáo phân tích CV bởi AI</p>
         </div>
 
         {/* Card 4: Completed Interviews */}
         <div className="bg-surface-800/40 backdrop-blur-md p-6 rounded-3xl border border-white/5 hover:border-amber-500/30 transition-all duration-300 shadow-xl space-y-3 relative group">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-surface-400 uppercase tracking-widest">
-              Completed Tests
+              Bài đã hoàn thành
             </span>
             <div className="p-2.5 rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/20 group-hover:scale-110 transition-transform">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -170,7 +177,7 @@ export const AdminDashboard: React.FC = () => {
             </div>
           </div>
           <div className="text-3xl font-black text-white">{stats?.completedSessions ?? 0}</div>
-          <p className="text-[11px] text-surface-400">Evaluated & scored sessions</p>
+          <p className="text-[11px] text-surface-400">Số bài phỏng vấn đã được chấm điểm</p>
         </div>
       </div>
 
@@ -178,11 +185,11 @@ export const AdminDashboard: React.FC = () => {
       <div className="flex border-b border-white/10 space-x-8">
         <button
           onClick={() => setActiveTab("users")}
-          className={`pb-4 text-xs font-black uppercase tracking-widest transition-all relative ${
+          className={`pb-4 text-xs font-black uppercase tracking-widest transition-all relative cursor-pointer ${
             activeTab === "users" ? "text-primary-400" : "text-surface-400 hover:text-white"
           }`}
         >
-          <span>User Management ({users.length})</span>
+          <span>Quản lý Người dùng ({users.length})</span>
           {activeTab === "users" && (
             <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-400 rounded-full" />
           )}
@@ -190,11 +197,11 @@ export const AdminDashboard: React.FC = () => {
 
         <button
           onClick={() => setActiveTab("sessions")}
-          className={`pb-4 text-xs font-black uppercase tracking-widest transition-all relative ${
+          className={`pb-4 text-xs font-black uppercase tracking-widest transition-all relative cursor-pointer ${
             activeTab === "sessions" ? "text-primary-400" : "text-surface-400 hover:text-white"
           }`}
         >
-          <span>Recent Interview Logs ({stats?.recentSessions.length ?? 0})</span>
+          <span>Nhật ký Phỏng vấn gần đây ({stats?.recentSessions.length ?? 0})</span>
           {activeTab === "sessions" && (
             <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-400 rounded-full" />
           )}
@@ -216,7 +223,7 @@ export const AdminDashboard: React.FC = () => {
               <div className="relative w-full sm:w-80">
                 <input
                   type="text"
-                  placeholder="Search user by name or email..."
+                  placeholder="Tìm kiếm theo tên hoặc email..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 bg-surface-800/80 border border-white/10 rounded-2xl text-xs text-white placeholder-surface-400 focus:outline-none focus:border-primary-500 transition-colors"
@@ -227,15 +234,15 @@ export const AdminDashboard: React.FC = () => {
               </div>
 
               <div className="flex items-center space-x-3 w-full sm:w-auto justify-end">
-                <span className="text-xs text-surface-400 font-medium">Filter Role:</span>
+                <span className="text-xs text-surface-400 font-medium">Lọc theo vai trò:</span>
                 <select
                   value={roleFilter}
                   onChange={(e) => setRoleFilter(e.target.value as any)}
                   className="bg-surface-800/80 border border-white/10 text-xs text-white rounded-2xl px-3 py-2 focus:outline-none focus:border-primary-500"
                 >
-                  <option value="all">All Roles</option>
-                  <option value="user">Users Only</option>
-                  <option value="admin">Admins Only</option>
+                  <option value="all">Tất cả vai trò</option>
+                  <option value="user">Chỉ Người dùng</option>
+                  <option value="admin">Chỉ Admin</option>
                 </select>
               </div>
             </div>
@@ -246,19 +253,19 @@ export const AdminDashboard: React.FC = () => {
                 <table className="w-full text-left text-xs border-collapse">
                   <thead>
                     <tr className="border-b border-white/10 bg-surface-800/80 text-surface-400 uppercase tracking-widest font-extrabold text-[10px]">
-                      <th className="py-4 px-6">User</th>
-                      <th className="py-4 px-6">Preferred Role</th>
-                      <th className="py-4 px-6">Level & XP</th>
-                      <th className="py-4 px-6">Role</th>
-                      <th className="py-4 px-6">Joined Date</th>
-                      <th className="py-4 px-6 text-right">Actions</th>
+                      <th className="py-4 px-6">Người dùng</th>
+                      <th className="py-4 px-6">Vị trí mong muốn</th>
+                      <th className="py-4 px-6">Cấp độ & XP</th>
+                      <th className="py-4 px-6">Vai trò</th>
+                      <th className="py-4 px-6">Ngày tham gia</th>
+                      <th className="py-4 px-6 text-right">Thao tác</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/5">
                     {filteredUsers.length === 0 ? (
                       <tr>
                         <td colSpan={6} className="py-8 text-center text-surface-400 text-xs">
-                          No users found matching filter.
+                          Không tìm thấy người dùng nào phù hợp.
                         </td>
                       </tr>
                     ) : (
@@ -276,7 +283,7 @@ export const AdminDashboard: React.FC = () => {
                             </div>
                           </td>
                           <td className="py-4 px-6 text-surface-300 font-medium">
-                            {u.preferredRole || "N/A"}
+                            {u.preferredRole || "Chưa cập nhật"}
                           </td>
                           <td className="py-4 px-6">
                             <div className="flex items-center space-x-2">
@@ -295,28 +302,28 @@ export const AdminDashboard: React.FC = () => {
                               </span>
                             ) : (
                               <span className="inline-flex items-center px-2.5 py-1 rounded-xl text-[10px] font-black uppercase tracking-wider bg-surface-700 text-surface-300 border border-white/5">
-                                Candidate
+                                Ứng viên
                               </span>
                             )}
                           </td>
                           <td className="py-4 px-6 text-surface-400 text-[11px]">
-                            {u.createdAt ? new Date(u.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "N/A"}
+                            {u.createdAt ? new Date(u.createdAt).toLocaleDateString("vi-VN") : "N/A"}
                           </td>
                           <td className="py-4 px-6 text-right">
                             <button
                               disabled={updatingUserId === u._id}
                               onClick={() => handleToggleRole(u)}
-                              className={`px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all border ${
+                              className={`px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all border cursor-pointer ${
                                 u.role === "admin"
                                   ? "bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border-rose-500/30"
                                   : "bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border-amber-500/30"
                               } disabled:opacity-50`}
                             >
                               {updatingUserId === u._id
-                                ? "Updating..."
+                                ? "Đang lưu..."
                                 : u.role === "admin"
-                                ? "Demote User"
-                                : "Promote Admin"}
+                                ? "Hạ quyền Admin"
+                                : "Thăng quyền Admin"}
                             </button>
                           </td>
                         </tr>
@@ -340,19 +347,19 @@ export const AdminDashboard: React.FC = () => {
                 <table className="w-full text-left text-xs border-collapse">
                   <thead>
                     <tr className="border-b border-white/10 bg-surface-800/80 text-surface-400 uppercase tracking-widest font-extrabold text-[10px]">
-                      <th className="py-4 px-6">Candidate</th>
-                      <th className="py-4 px-6">Interview Role</th>
-                      <th className="py-4 px-6">Level & Type</th>
-                      <th className="py-4 px-6">Score</th>
-                      <th className="py-4 px-6">Status</th>
-                      <th className="py-4 px-6 text-right">Date</th>
+                      <th className="py-4 px-6">Ứng viên</th>
+                      <th className="py-4 px-6">Vị trí phỏng vấn</th>
+                      <th className="py-4 px-6">Trình độ & Hình thức</th>
+                      <th className="py-4 px-6">Điểm số</th>
+                      <th className="py-4 px-6">Trạng thái</th>
+                      <th className="py-4 px-6 text-right">Ngày tạo</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-white/5">
                     {!stats?.recentSessions || stats.recentSessions.length === 0 ? (
                       <tr>
                         <td colSpan={6} className="py-8 text-center text-surface-400 text-xs">
-                          No interview sessions logged yet.
+                          Chưa có bài phỏng vấn nào được ghi nhận.
                         </td>
                       </tr>
                     ) : (
@@ -360,7 +367,7 @@ export const AdminDashboard: React.FC = () => {
                         <tr key={s._id} className="hover:bg-surface-700/30 transition-colors">
                           <td className="py-4 px-6">
                             <div className="font-bold text-white text-sm">
-                              {s.userId?.name || "Anonymous User"}
+                              {s.userId?.name || "Người dùng ẩn danh"}
                             </div>
                             <div className="text-surface-400 text-[11px]">
                               {s.userId?.email || "N/A"}
@@ -398,11 +405,11 @@ export const AdminDashboard: React.FC = () => {
                           </td>
                           <td className="py-4 px-6">
                             <span className="capitalize text-[11px] font-bold text-surface-300">
-                              {s.status}
+                              {formatStatus(s.status)}
                             </span>
                           </td>
                           <td className="py-4 px-6 text-right text-surface-400 text-[11px]">
-                            {new Date(s.createdAt).toLocaleDateString("en-US", {
+                            {new Date(s.createdAt).toLocaleDateString("vi-VN", {
                               month: "short",
                               day: "numeric",
                               hour: "2-digit",

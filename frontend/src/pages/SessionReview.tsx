@@ -23,7 +23,7 @@ const SessionReview = () => {
         }
     }, [sessionId, dispatch]);
 
-    if (isLoading) return <div className="text-center py-32 font-black text-surface-500 animate-pulse uppercase tracking-[0.3em] text-[10px]">Processing Intelligence...</div>
+    if (isLoading) return <div className="text-center py-32 font-black text-surface-500 animate-pulse uppercase tracking-[0.3em] text-[10px]">Đang tổng hợp báo cáo...</div>
 
     if (!activeSession || activeSession.status !== 'completed') {
         return (
@@ -31,12 +31,12 @@ const SessionReview = () => {
                 <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-8 border border-white/5">
                     <span className="text-3xl">⌛</span>
                 </div>
-                <h2 className="text-2xl font-black text-white mb-4 tracking-tighter uppercase">Assessment In Progress</h2>
+                <h2 className="text-2xl font-black text-white mb-4 tracking-tighter uppercase">Đang xử lý kết quả</h2>
                 <p className="text-surface-500 mb-10 font-bold text-xs uppercase tracking-widest leading-relaxed">
-                    Our AI is currently synthesizing your performance data.<br />Please check back in a few moments.
+                    Hệ thống AI đang tổng hợp và phân tích dữ liệu bài làm của bạn.<br />Vui lòng kiểm tra lại sau ít phút.
                 </p>
                 <Link to="/" className="btn-primary inline-flex items-center gap-3">
-                    Return to Home
+                    Trở về Trang chủ
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
                 </Link>
             </div>
@@ -47,9 +47,9 @@ const SessionReview = () => {
     const finalMetrics = metrics || {};
 
     const barData = {
-        labels: (questions || []).map((_: unknown, i: number) => `Q${i + 1}`),
+        labels: (questions || []).map((_: unknown, i: number) => `Câu ${i + 1}`),
         datasets: [{
-            label: 'Technical Mastery',
+            label: 'Điểm chuyên môn',
             data: (questions || []).map((q: Question) => q.technicalScore || 0),
             backgroundColor: (questions || []).map((q: Question) => (q.technicalScore || 0) > 70 ? '#14b8a6' : '#6366f1'),
             borderRadius: 4,
@@ -61,7 +61,7 @@ const SessionReview = () => {
         <div className="max-w-7xl mx-auto px-4 py-12 space-y-16 animate-in fade-in slide-in-from-bottom-4 duration-1000">
             <div className="flex flex-col gap-8">
                 <div className="w-full">
-                    <span className="text-primary-400 font-black uppercase tracking-[0.4rem] text-[10px] bg-primary-500/10 px-4 py-1.5 rounded-full border border-primary-500/20 shadow-[0_0_15px_rgba(20,184,166,0.1)]">Report Terminal</span>
+                    <span className="text-primary-400 font-black uppercase tracking-[0.4rem] text-[10px] bg-primary-500/10 px-4 py-1.5 rounded-full border border-primary-500/20 shadow-[0_0_15px_rgba(20,184,166,0.1)]">Báo cáo đánh giá</span>
                     <h1 className="text-4xl sm:text-6xl font-black text-white tracking-tighter mt-6 uppercase leading-[1.1] sm:leading-tight flex items-center gap-4 flex-wrap font-display">
                         {role} <span className="text-surface-600 font-bold block sm:inline whitespace-nowrap">/ {level}</span>
                         {company && company !== 'general' && (
@@ -72,11 +72,11 @@ const SessionReview = () => {
                     </h1>
                 </div>
                 <div className="flex gap-4 shrink-0 flex-col sm:flex-row sm:justify-end">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-surface-500 border border-white/5 px-4 py-2 rounded-xl flex items-center justify-center whitespace-nowrap">Session ID: {sessionId?.slice(-8)}</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-surface-500 border border-white/5 px-4 py-2 rounded-xl flex items-center justify-center whitespace-nowrap">Mã buổi: {sessionId?.slice(-8)}</span>
 
                     <button onClick={() => window.print()} className="btn-secondary flex items-center justify-center gap-2 px-6! py-2! text-[10px] tracking-widest uppercase font-black print:hidden cursor-pointer hover:bg-white/10 transition-colors rounded-xl border border-white/5 whitespace-nowrap">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" x2="12" y1="15" y2="3" /></svg>
-                        Export Report
+                        Xuất báo cáo PDF
                     </button>
                 </div>
             </div>
@@ -94,7 +94,7 @@ const SessionReview = () => {
                 </div>
                 <h3 className="text-[10px] font-black text-surface-500 mb-6 sm:mb-10 uppercase tracking-[0.3rem] flex items-center gap-3">
                     <span className="w-1.5 h-4 bg-indigo-500 rounded-full"></span>
-                    Mastery Calibration
+                    Biểu đồ điểm số kỹ thuật
                 </h3>
                 <div className="relative w-full">
                     {/* Sticky Y-Axis Overlay */}
@@ -165,7 +165,7 @@ const SessionReview = () => {
 
             <div className="space-y-12">
                 <div className="flex items-center gap-6 break-inside-avoid">
-                    <h2 className="text-xl font-black uppercase tracking-widest text-white font-display">Question Narrative</h2>
+                    <h2 className="text-xl font-black uppercase tracking-widest text-white font-display">Chi tiết từng câu hỏi</h2>
                     <div className="h-px grow bg-white/5"></div>
                 </div>
                 <div className="grid gap-10">

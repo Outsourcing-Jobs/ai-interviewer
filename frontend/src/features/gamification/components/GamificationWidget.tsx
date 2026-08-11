@@ -54,7 +54,7 @@ export const GamificationWidget = () => {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
       {/* 1. Professional Development */}
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, type: "spring", stiffness: 260, damping: 20 }} className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-6 shadow-2xl shadow-black/40 backdrop-blur-md flex flex-col justify-between">
-        <h3 className="text-white font-bold text-lg mb-4 leading-tight">Professional<br />Development</h3>
+        <h3 className="text-white font-bold text-lg mb-4 leading-tight">Thăng tiến<br /></h3>
         <div className="bg-surface-900/40 p-5 rounded-2xl border border-white/5">
           <div className="flex justify-between items-end mb-4">
             <div>
@@ -65,7 +65,7 @@ export const GamificationWidget = () => {
               <div className="text-white font-bold text-xl">Level {profile.level}</div>
             </div>
           </div>
-          
+
           <div className="w-full bg-[#1E2530] rounded-full h-3 overflow-hidden border border-white/5 mb-3 shadow-inner">
             <div
               className="bg-linear-to-r from-[#20b2aa] to-[#2ECA8B] h-full rounded-full transition-all duration-1000 ease-out relative"
@@ -74,7 +74,7 @@ export const GamificationWidget = () => {
               <div className="absolute inset-0 bg-white/20 w-full h-full" style={{ animation: 'shimmer 2s infinite' }}></div>
             </div>
           </div>
-          
+
           <div className="flex justify-between items-center text-sm">
             <span className="text-surface-500 text-[10px] font-medium">Progress to next level</span>
             <span className="text-[#a1a1aa] text-[11px] font-bold tracking-wide">{profile.xp} / {nextLevelXp || "MAX"} XP</span>
@@ -84,7 +84,7 @@ export const GamificationWidget = () => {
 
       {/* 2. Consistency */}
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, type: "spring", stiffness: 260, damping: 20 }} className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-6 shadow-2xl shadow-black/40 backdrop-blur-md flex flex-col">
-        <h3 className="text-white font-bold text-lg mb-4">Consistency</h3>
+        <h3 className="text-white font-bold text-lg mb-4">Độ bền bỉ</h3>
 
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 flex-1">
           <div className="flex-1">
@@ -122,14 +122,14 @@ export const GamificationWidget = () => {
       {/* 3. Skills Verified */}
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, type: "spring", stiffness: 260, damping: 20 }} className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-6 shadow-2xl shadow-black/40 backdrop-blur-md flex flex-col">
         <div className="flex justify-between items-start mb-6">
-          <h3 className="text-white font-bold text-lg">Skills Verified</h3>
-          <span className="text-[#2ECA8B] text-xs font-bold">{profile?.badges?.length || 0} Verified</span>
+          <h3 className="text-white font-bold text-lg">Thành tích</h3>
+          <span className="text-[#2ECA8B] text-xs font-bold">{profile?.badges?.length || 0} thành tích</span>
         </div>
         <div className="flex flex-wrap gap-x-3 gap-y-4 justify-center items-start px-1 pb-2">
           {profile?.badges && profile.badges.length > 0 ? profile.badges.slice(0, 8).map((badge, idx) => (
             <div key={idx} className="flex flex-col items-center min-w-[55px] max-w-[65px]">
               <BadgeIcon badgeId={badge.badgeId} className="w-12 h-12 mb-2 shrink-0" />
-              <span 
+              <span
                 className="text-[9px] text-surface-400 whitespace-nowrap overflow-hidden text-ellipsis w-full text-center"
                 title={badge.badgeId.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
               >
@@ -137,7 +137,7 @@ export const GamificationWidget = () => {
               </span>
             </div>
           )) : (
-            <div className="w-full text-center text-surface-500 text-xs py-4">No skills verified yet</div>
+            <div className="w-full text-center text-surface-500 text-xs py-4">Chưa có thành tích</div>
           )}
         </div>
       </motion.div>
@@ -151,8 +151,8 @@ export const GamificationWidget = () => {
             </svg>
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="text-white font-bold text-lg whitespace-nowrap">Global Rank</h3>
-            <p className="text-surface-400 text-xs truncate">Your Rank: {profile?.leaderboardOptIn ? leaderboard?.find(l => l.userId ? (l.userId === user?._id || l.userId === user?.id) : (l.name === user?.name))?.rank || '-' : 'Opted Out'}</p>
+            <h3 className="text-white font-bold text-lg whitespace-nowrap">Bảng xếp hạng</h3>
+            <p className="text-surface-400 text-xs truncate">Vị trí của bạn: {profile?.leaderboardOptIn ? leaderboard?.find(l => l.userId ? (l.userId === user?._id || l.userId === user?.id) : (l.name === user?.name))?.rank || '-' : 'Opted Out'}</p>
           </div>
         </div>
 

@@ -17,7 +17,7 @@ export const DesktopNav = ({ user, isActive, onOpenModal }: DesktopNavProps) => 
             className={`relative py-1 text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-300 group ${isActive("/") ? "text-primary-400" : "text-surface-400 hover:text-white"
               }`}
           >
-            Dashboard
+            Trang chủ
             <span
               className={`absolute -bottom-1 left-0 h-0.5 bg-primary-400 transition-all duration-500 ${isActive("/") ? "w-full" : "w-0 group-hover:w-full"
                 }`}
@@ -31,7 +31,7 @@ export const DesktopNav = ({ user, isActive, onOpenModal }: DesktopNavProps) => 
               : "text-surface-400 hover:text-white"
               }`}
           >
-            Resume Analyzer
+            Phân tích CV
             <span
               className={`absolute -bottom-1 left-0 h-0.5 bg-primary-400 transition-all duration-500 ${isActive("/resume-analyzer") ? "w-full" : "w-0 group-hover:w-full"
                 }`}
@@ -45,7 +45,7 @@ export const DesktopNav = ({ user, isActive, onOpenModal }: DesktopNavProps) => 
               : "text-surface-400 hover:text-white"
               }`}
           >
-            Analytics
+            Thống kê & Tiến độ
             <span
               className={`absolute -bottom-1 left-0 h-0.5 bg-primary-400 transition-all duration-500 ${isActive("/analytics") ? "w-full" : "w-0 group-hover:w-full"
                 }`}
@@ -61,7 +61,7 @@ export const DesktopNav = ({ user, isActive, onOpenModal }: DesktopNavProps) => 
                   : "bg-amber-500/10 text-amber-400 border-amber-500/20 hover:bg-amber-500/20 hover:text-amber-300"
               }`}
             >
-              <span>Admin Portal</span>
+              <span>Trang Quản trị</span>
               <span className="text-xs">👑</span>
             </Link>
           )}
@@ -75,7 +75,7 @@ export const DesktopNav = ({ user, isActive, onOpenModal }: DesktopNavProps) => 
             className={`relative py-1 text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-300 group ${isActive("/login") ? "text-primary-400" : "text-surface-400 hover:text-white"
               }`}
           >
-            Login
+            Đăng nhập
             <span
               className={`absolute -bottom-1 left-0 h-0.5 bg-primary-400 transition-all duration-500 ${isActive("/login") ? "w-full" : "w-0 group-hover:w-full"
                 }`}
@@ -86,7 +86,7 @@ export const DesktopNav = ({ user, isActive, onOpenModal }: DesktopNavProps) => 
             className={`relative py-1 text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-300 group ${isActive("/register") ? "text-primary-400" : "text-surface-400 hover:text-white"
               }`}
           >
-            Register
+            Đăng ký
             <span
               className={`absolute -bottom-1 left-0 h-0.5 bg-primary-400 transition-all duration-500 ${isActive("/register") ? "w-full" : "w-0 group-hover:w-full"
                 }`}

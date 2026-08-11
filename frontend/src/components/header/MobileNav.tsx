@@ -66,7 +66,7 @@ export const MobileNav = ({
                 className={`block py-3 text-sm font-black uppercase tracking-[0.2em] transition-colors ${isActive("/") ? "text-primary-400" : "text-surface-400 hover:text-white"
                   }`}
               >
-                Dashboard
+                Trang chủ
               </Link>
               <Link
                 to="/resume-analyzer"
@@ -76,7 +76,7 @@ export const MobileNav = ({
                   : "text-surface-400 hover:text-white"
                   }`}
               >
-                Resume Analyzer
+                Phân tích CV
               </Link>
               <Link
                 to="/analytics"
@@ -86,7 +86,7 @@ export const MobileNav = ({
                   : "text-surface-400 hover:text-white"
                   }`}
               >
-                Analytics
+                Thống kê & Tiến độ
               </Link>
               {user.role === "admin" && (
                 <Link
@@ -97,7 +97,7 @@ export const MobileNav = ({
                     : "text-amber-400 hover:text-amber-300"
                     }`}
                 >
-                  Admin Portal 👑
+                  Trang Quản trị 👑
                 </Link>
               )}
             </>
@@ -109,7 +109,7 @@ export const MobileNav = ({
                 className={`block py-3 text-sm font-black uppercase tracking-[0.2em] transition-colors ${isActive("/login") ? "text-primary-400" : "text-surface-400 hover:text-white"
                   }`}
               >
-                Login
+                Đăng nhập
               </Link>
               <Link
                 to="/register"
@@ -117,7 +117,7 @@ export const MobileNav = ({
                 className={`block py-3 text-sm font-black uppercase tracking-[0.2em] transition-colors ${isActive("/register") ? "text-primary-400" : "text-surface-400 hover:text-white"
                   }`}
               >
-                Register
+                Đăng ký
               </Link>
             </>
           )}
