@@ -1,6 +1,6 @@
-import { motion, AnimatePresence, animate } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { CloudUpload, FileCheck, AlertTriangle, ArrowLeft } from "lucide-react";
 import type { RootState } from "../app/store";
@@ -42,56 +42,12 @@ const SCORING_TIPS = [
   },
 ];
 
-const TIP_NUMBER_COLORS = [
-  "text-amber-400",
-  "text-blue-400",
-  "text-emerald-400",
-  "text-purple-400",
-  "text-rose-400",
-];
-
 const TABS: { key: ResultTab; label: string }[] = [
   { key: "ats", label: "Điểm ATS" },
   { key: "extraction", label: "Kỹ năng & Thông tin" },
   { key: "jobmatch", label: "Độ tương thích JD" },
   { key: "feedback", label: "Gợi ý & Nhận xét" },
 ];
-
-// ═══════════════════════════════════════════════════════════════════════
-// Animated Stat Component
-// ═══════════════════════════════════════════════════════════════════════
-const AnimatedStat = ({ value, label }: { value: string; label: string }) => {
-  const nodeRef = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    const node = nodeRef.current;
-    if (!node) return;
-
-    if (!isNaN(Number(value))) {
-      const controls = animate(0, Number(value), {
-        duration: 2,
-        ease: "easeOut",
-        onUpdate(val) {
-          node.textContent = Math.round(val).toString();
-        },
-      });
-      return () => controls.stop();
-    } else {
-      node.textContent = value;
-    }
-  }, [value]);
-
-  return (
-    <div className="text-center group cursor-default">
-      <span ref={nodeRef} className="block text-3xl font-black text-white font-display group-hover:text-primary-400 transition-colors duration-500">
-        {value}
-      </span>
-      <span className="text-sm text-surface-400 font-medium mt-1 block">
-        {label}
-      </span>
-    </div>
-  );
-};
 
 // ═══════════════════════════════════════════════════════════════════════
 // Component
@@ -199,18 +155,15 @@ const ResumeAnalyzer = () => {
         >
           {/* ── Hero ── */}
           <div className="text-center space-y-6 relative py-10">
-            {/* Cyber-Industrial Grid Background */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-size-[40px_40px] mask-[radial-gradient(ellipse_at_center,black_20%,transparent_70%)] pointer-events-none -z-10" />
-
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, type: "spring", stiffness: 260, damping: 20 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary-500/20 bg-surface-800/80 backdrop-blur-sm text-[10px] font-black tracking-widest text-primary-400 uppercase shadow-[0_0_15px_rgba(45,212,191,0.1)]"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-teal-200 bg-teal-50/80 backdrop-blur-sm text-[10px] font-black tracking-widest text-teal-700 uppercase shadow-2xs"
             >
               <span className="relative flex h-2 w-2 mr-1">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
               </span>
               Trí tuệ nhân tạo AI · Phân tích tức thì
             </motion.div>
@@ -219,18 +172,18 @@ const ResumeAnalyzer = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, type: "spring", stiffness: 260, damping: 20 }}
-              className="text-5xl md:text-6xl font-black text-white leading-[1.1] tracking-tighter"
+              className="text-4xl md:text-5xl font-black text-slate-900 leading-[1.15] tracking-tight font-display"
             >
               Đánh giá chính xác
               <br />
-              <span className="text-gradient">chất lượng CV của bạn</span>
+              <span className="bg-gradient-to-r from-teal-600 to-indigo-600 bg-clip-text text-transparent">chất lượng CV của bạn</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, type: "spring", stiffness: 260, damping: 20 }}
-              className="text-surface-400 max-w-2xl mx-auto leading-relaxed text-[15px] font-medium"
+              className="text-slate-600 max-w-2xl mx-auto leading-relaxed text-[15px] font-medium"
             >
               Tải lên CV của bạn để nhận điểm chuẩn ATS tức thì, trích xuất kỹ năng, kinh nghiệm và kiểm tra độ tương thích với mô tả công việc.
             </motion.p>
@@ -240,7 +193,7 @@ const ResumeAnalyzer = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.4, type: "spring", stiffness: 260, damping: 20 }}
-              className="flex items-center justify-center gap-8 pt-6"
+              className="flex items-center justify-center gap-8 pt-4"
             >
               {[
                 { value: "100", label: "Thang điểm ATS" },
@@ -248,8 +201,15 @@ const ResumeAnalyzer = () => {
                 { value: "AI", label: "Công nghệ Gemini" },
               ].map((s, i) => (
                 <div key={i} className="flex items-center gap-8">
-                  {i > 0 && <div className="w-px h-12 bg-linear-to-b from-transparent via-surface-700 to-transparent -ml-4" />}
-                  <AnimatedStat value={s.value} label={s.label} />
+                  {i > 0 && <div className="w-px h-12 bg-slate-200 -ml-4" />}
+                  <div className="text-center group cursor-default">
+                    <span className="block text-3xl font-black text-slate-900 font-display group-hover:text-teal-600 transition-colors duration-300">
+                      {s.value}
+                    </span>
+                    <span className="text-xs text-slate-500 font-semibold mt-1 block">
+                      {s.label}
+                    </span>
+                  </div>
                 </div>
               ))}
             </motion.div>
@@ -258,10 +218,10 @@ const ResumeAnalyzer = () => {
           {/* ── Upload + Tips Grid ── */}
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
             {/* Upload Card */}
-            <div className="lg:col-span-3 bg-surface-800/40 border border-surface-600/30 rounded-3xl p-8 space-y-6 shadow-2xl shadow-black/40 backdrop-blur-md relative overflow-hidden">
+            <div className="lg:col-span-3 bg-white border border-slate-200/80 rounded-3xl p-8 space-y-6 shadow-xs relative overflow-hidden">
               <div className="flex items-center justify-between relative z-10">
-                <h2 className="text-lg font-black text-white tracking-tight">Tải CV lên</h2>
-                <span className="px-3 py-1 bg-surface-900/50 rounded-full text-xs font-medium text-surface-400 border border-surface-700/50">PDF · DOCX · TXT · Tối đa 5MB</span>
+                <h2 className="text-lg font-black text-slate-900 tracking-tight font-display">Tải CV lên</h2>
+                <span className="px-3 py-1 bg-slate-50 rounded-full text-xs font-bold text-slate-500 border border-slate-200">PDF · DOCX · TXT · Tối đa 5MB</span>
               </div>
 
               {/* Drop Zone */}
@@ -271,11 +231,11 @@ const ResumeAnalyzer = () => {
                 onDragOver={handleDrag}
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
-                className={`relative h-48 rounded-2xl flex flex-col items-center justify-center cursor-pointer transition-all duration-500 overflow-hidden group ${dragActive
-                  ? "bg-primary-500/10 border border-primary-500/50 shadow-[0_0_30px_rgba(45,212,191,0.15)]"
+                className={`relative h-48 rounded-2xl flex flex-col items-center justify-center cursor-pointer transition-all duration-300 overflow-hidden group ${dragActive
+                  ? "bg-teal-50 border-2 border-dashed border-teal-500"
                   : file
-                    ? "bg-primary-500/5 border border-primary-500/30"
-                    : "bg-surface-900/40 border border-surface-700/60 hover:border-primary-500/40 shadow-inner shadow-black/20"
+                    ? "bg-teal-50/50 border border-teal-300"
+                    : "bg-slate-50 border border-dashed border-slate-300 hover:border-teal-500"
                   }`}
               >
                 <input
@@ -289,18 +249,18 @@ const ResumeAnalyzer = () => {
                 <div className="relative z-10 flex flex-col items-center text-center">
                   {file ? (
                     <>
-                      <div className="w-12 h-12 rounded-full bg-primary-400/20 flex items-center justify-center mb-3 shadow-[0_0_15px_rgba(45,212,191,0.2)]">
-                        <FileCheck className="w-6 h-6 text-primary-400" strokeWidth={2.5} />
+                      <div className="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center mb-3 text-teal-700">
+                        <FileCheck className="w-6 h-6 text-teal-700" strokeWidth={2.5} />
                       </div>
-                      <span className="text-sm font-black text-white">{file.name}</span>
-                      <span className="text-[11px] text-surface-400 font-medium tracking-wide mt-1">Bấm hoặc kéo thả file khác để thay thế</span>
+                      <span className="text-sm font-black text-slate-900">{file.name}</span>
+                      <span className="text-[11px] text-slate-500 font-medium tracking-wide mt-1">Bấm hoặc kéo thả file khác để thay thế</span>
                     </>
                   ) : (
                     <>
-                      <CloudUpload className="w-10 h-10 text-surface-500 group-hover:text-primary-400/80 transition-colors duration-300 mb-3 drop-shadow-md" strokeWidth={1.5} />
-                      <span className="text-[13px] font-bold text-surface-300 tracking-wide">
+                      <CloudUpload className="w-10 h-10 text-slate-400 group-hover:text-teal-600 transition-colors duration-300 mb-3" strokeWidth={1.5} />
+                      <span className="text-[13px] font-bold text-slate-700 tracking-wide">
                         Kéo thả CV vào đây hoặc{" "}
-                        <span className="text-primary-400 underline underline-offset-4 decoration-primary-400/30 group-hover:decoration-primary-400 transition-colors">chọn file</span>
+                        <span className="text-teal-600 underline underline-offset-4 decoration-teal-300 group-hover:decoration-teal-600 transition-colors">chọn file</span>
                       </span>
                     </>
                   )}
@@ -310,11 +270,11 @@ const ResumeAnalyzer = () => {
               {/* JD Section */}
               <div className="space-y-2 relative z-10">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-bold text-surface-300">Mô tả công việc (JD)</h3>
-                  <span className="text-xs font-medium text-primary-400/80">Không bắt buộc</span>
+                  <h3 className="text-sm font-bold text-slate-800">Mô tả công việc (JD)</h3>
+                  <span className="text-xs font-semibold text-teal-600">Không bắt buộc</span>
                 </div>
                 <textarea
-                  className="w-full h-24 bg-surface-900/40 border border-surface-700/60 rounded-xl p-4 text-[13px] text-surface-200 focus:outline-none focus:border-primary-400/50 focus:bg-surface-900/60 transition-all placeholder:text-surface-600 resize-none shadow-inner shadow-black/20"
+                  className="w-full h-24 bg-slate-50 border border-slate-200 rounded-xl p-4 text-[13px] text-slate-800 focus:outline-none focus:border-teal-500 focus:bg-white transition-all placeholder:text-slate-400 resize-none"
                   placeholder="Dán nội dung mô tả công việc (JD) để đánh giá độ tương thích..."
                   value={jdText}
                   onChange={(e) => setJdText(e.target.value)}
@@ -326,29 +286,23 @@ const ResumeAnalyzer = () => {
                 onClick={handleUpload}
                 disabled={!file}
                 className={`relative z-10 w-full py-4 rounded-xl font-bold text-base transition-all duration-300 overflow-hidden ${file
-                  ? "bg-primary-600 text-surface-950 hover:bg-primary-500 hover:-translate-y-px active:scale-[0.98] shadow-[0_0_20px_rgba(45,212,191,0.3)] cursor-pointer"
-                  : "bg-surface-800 text-surface-600 border border-surface-700/50 cursor-not-allowed!"
+                  ? "btn-primary cursor-pointer"
+                  : "bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed!"
                   }`}
               >
-                {file && <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />}
                 <span className="relative z-10">Bắt đầu phân tích CV</span>
               </button>
             </div>
 
             {/* Tips Card (Bento Box) */}
             <div className="lg:col-span-2 flex flex-col h-full space-y-4">
-              <h3 className="text-sm font-bold text-surface-400 pt-2">Mẹo tối ưu điểm CV</h3>
+              <h3 className="text-sm font-bold text-slate-700 pt-2">Mẹo tối ưu điểm CV</h3>
               <div className="grid grid-cols-1 gap-3 flex-1">
                 {SCORING_TIPS.map((tip, i) => (
-                  <div key={i} className="group relative bg-surface-800/30 border border-surface-700/40 rounded-2xl p-4 overflow-hidden hover:-translate-y-1 hover:bg-surface-800/60 hover:border-surface-600/50 transition-all duration-300 cursor-default shadow-lg shadow-black/20">
-                    {/* Oversized Number */}
-                    <div className="absolute -right-2 -bottom-4 text-[80px] font-black text-surface-900/50 group-hover:text-surface-700/30 transition-colors font-display leading-none select-none z-0">
-                      {i + 1}
-                    </div>
-
+                  <div key={i} className="group relative bg-white border border-slate-200/80 rounded-2xl p-4 overflow-hidden hover:border-teal-300 transition-all duration-300 cursor-default shadow-xs">
                     <div className="relative z-10">
-                      <p className={`text-sm font-black mb-1 ${TIP_NUMBER_COLORS[i]}`}>{tip.title}</p>
-                      <p className="text-[12px] text-surface-400 leading-relaxed font-medium max-w-[85%] group-hover:text-surface-300 transition-colors">{tip.desc}</p>
+                      <p className="text-sm font-extrabold mb-1 text-slate-900">{tip.title}</p>
+                      <p className="text-[12px] text-slate-600 leading-relaxed font-medium">{tip.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -368,49 +322,48 @@ const ResumeAnalyzer = () => {
           {/* Header Row */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0 mb-6">
             <div>
-              <p className="text-xs font-medium text-surface-400 mb-1">
-                FILE&nbsp;&nbsp;{resumeData?.originalFilename || file?.name || "Processing..."}
+              <p className="text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wider">
+                FILE: {resumeData?.originalFilename || file?.name || "Processing..."}
               </p>
-              <h2 className="text-2xl font-black text-white">
-                {isUploading ? getStatusMessage() : "Analysis Complete"}
+              <h2 className="text-2xl font-black text-slate-900 font-display">
+                {isUploading ? getStatusMessage() : "Hoàn thành phân tích"}
               </h2>
             </div>
             {!isUploading && (
               <button
                 onClick={handleResetAll}
-                className="w-full sm:w-auto px-5 py-3 sm:py-2 border border-surface-600 rounded-lg text-[11px] font-bold text-surface-300 hover:text-white hover:border-surface-400 transition-all cursor-pointer whitespace-nowrap"
+                className="w-full sm:w-auto btn-secondary px-5 py-2.5 text-xs font-bold whitespace-nowrap cursor-pointer"
               >
-                Analyze Another Resume
+                Phân tích CV khác
               </button>
             )}
           </div>
 
           {/* Divider */}
-          <div className="border-t border-surface-700" />
+          <div className="border-t border-slate-200" />
 
           {status === "invalid_document" ? (
             <div className="py-16 text-center space-y-6">
-              <div className="w-24 h-24 bg-red-500/10 border border-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-[0_0_30px_rgba(239,68,68,0.15)]">
-                <AlertTriangle className="w-12 h-12 text-red-400" strokeWidth={2} />
+              <div className="w-24 h-24 bg-rose-50 border border-rose-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                <AlertTriangle className="w-12 h-12 text-rose-500" strokeWidth={2} />
               </div>
-              <h3 className="text-3xl font-black text-white">This doesn't look like a resume</h3>
-              <p className="text-surface-400 max-w-lg mx-auto text-sm leading-relaxed">
-                We couldn't detect any professional experience, education, or typical resume sections in this document. Please upload a valid Resume or CV to get your analysis.
+              <h3 className="text-3xl font-black text-slate-900">File không giống một tài liệu CV</h3>
+              <p className="text-slate-600 max-w-lg mx-auto text-sm leading-relaxed">
+                Hệ thống không tìm thấy thông tin kinh nghiệm hoặc học vấn tiêu chuẩn. Vui lòng tải lại một bản CV hợp lệ.
               </p>
               <button
                 onClick={handleResetAll}
-                className="mt-8 btn-primary px-8! py-4! text-base! rounded-xl inline-flex items-center gap-2"
+                className="mt-8 btn-primary px-8 py-4 text-base rounded-xl inline-flex items-center gap-2 cursor-pointer"
               >
                 <ArrowLeft className="w-4 h-4" strokeWidth={2.5} />
-                Upload Another Document
+                Tải lại file khác
               </button>
             </div>
           ) : (
             <>
               {/* Tab Bar */}
-              <div className="flex items-center gap-6 border-b border-surface-700 mt-0 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="flex items-center gap-6 border-b border-slate-200 mt-0 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 {TABS.map((tab) => {
-                  // During upload, if we have streaming text, force 'feedback' tab, otherwise 'ats'
                   const isTabActive = isUploading ? (streamingFeedbackText ? tab.key === "feedback" : tab.key === "ats") : activeTab === tab.key;
                   const handleClick = () => {
                     if (!isUploading) setActiveTab(tab.key);
@@ -420,14 +373,14 @@ const ResumeAnalyzer = () => {
                     <button
                       key={tab.key}
                       onClick={handleClick}
-                      className={`relative pb-3 pt-4 text-sm font-semibold whitespace-nowrap transition-colors ${isUploading && !streamingFeedbackText ? "cursor-not-allowed opacity-50" : "cursor-pointer"
-                        } ${isTabActive ? "text-primary-400 opacity-100!" : "text-surface-400 hover:text-surface-200"}`}
+                      className={`relative pb-3 pt-4 text-sm font-extrabold whitespace-nowrap transition-colors ${isUploading && !streamingFeedbackText ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+                        } ${isTabActive ? "text-teal-700 opacity-100!" : "text-slate-500 hover:text-slate-900"}`}
                     >
                       {tab.label}
                       {isTabActive && (
                         <motion.div
                           layoutId="tab-indicator"
-                          className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary-400 rounded-full"
+                          className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-teal-600 rounded-full"
                         />
                       )}
                     </button>

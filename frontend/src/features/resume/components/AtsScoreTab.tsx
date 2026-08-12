@@ -198,8 +198,7 @@ export const AtsScoreTab = ({ resumeData, isLoading = false }: AtsScoreTabProps)
       {/* Top Section: Score & Breakdown */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Overall Score Card */}
-        <div className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-2xl shadow-black/40 backdrop-blur-md relative overflow-hidden">
-          <div className={`absolute inset-0 bg-linear-to-b ${scoreConfig.gradient} to-transparent pointer-events-none`} />
+        <div className="bg-white border border-slate-200/80 rounded-3xl p-8 flex flex-col items-center justify-center text-center shadow-xs relative overflow-hidden">
           <div className="relative w-36 h-36 mb-6 z-10">
             <svg
               className="w-full h-full transform -rotate-90"
@@ -212,7 +211,7 @@ export const AtsScoreTab = ({ resumeData, isLoading = false }: AtsScoreTabProps)
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="8"
-                className="text-surface-700"
+                className="text-slate-100"
               />
               <circle
                 cx="50"
@@ -227,38 +226,38 @@ export const AtsScoreTab = ({ resumeData, isLoading = false }: AtsScoreTabProps)
               />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-4xl font-black text-white font-display leading-none">{atsScore}</span>
-              <span className="text-[10px] font-black tracking-widest text-surface-400 uppercase mt-1">/100</span>
+              <span className="text-4xl font-black text-slate-900 font-display leading-none">{atsScore}</span>
+              <span className="text-[10px] font-black tracking-widest text-slate-400 uppercase mt-1">/100</span>
             </div>
           </div>
-          <span className={`px-4 py-1.5 rounded-full border ${scoreConfig.border} ${scoreConfig.bg} text-[10px] font-black ${scoreConfig.color} tracking-widest uppercase mb-3 ${scoreConfig.shadow} z-10`}>
+          <span className={`px-4 py-1.5 rounded-full border ${scoreConfig.border} ${scoreConfig.bg} text-[10px] font-black ${scoreConfig.color} tracking-widest uppercase mb-3 z-10`}>
             {scoreConfig.label}
           </span>
-          <p className="text-[13px] text-surface-400 font-medium z-10">
-            {rawTextLength} words{" "}
-            <span className={rawTextLength > 800 || rawTextLength < 200 ? "text-amber-400 font-bold" : "text-primary-400 font-bold"}>
-              · {rawTextLength > 800 ? "too long" : rawTextLength < 200 ? "too short" : "good length"}
+          <p className="text-[13px] text-slate-600 font-medium z-10">
+            {rawTextLength} từ{" "}
+            <span className={rawTextLength > 800 || rawTextLength < 200 ? "text-amber-600 font-bold" : "text-teal-600 font-bold"}>
+              · {rawTextLength > 800 ? "quá dài" : rawTextLength < 200 ? "quá ngắn" : "độ dài phù hợp"}
             </span>
           </p>
         </div>
 
         {/* Score Breakdown Card */}
-        <div className="md:col-span-2 bg-surface-800/40 border border-surface-600/30 rounded-3xl p-8 shadow-2xl shadow-black/40 backdrop-blur-md relative overflow-hidden">
-          <h3 className="text-xs font-black tracking-widest text-surface-400 uppercase mb-8">Score Breakdown</h3>
+        <div className="md:col-span-2 bg-white border border-slate-200/80 rounded-3xl p-8 shadow-xs relative overflow-hidden">
+          <h3 className="text-xs font-black tracking-widest text-slate-500 uppercase mb-8">Chi tiết điểm thành phần</h3>
           <div className="space-y-5 relative z-10">
             {scoreBreakdown.map((item, idx) => (
               <div key={idx} className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
-                <span className="w-full md:w-40 text-[13px] font-bold text-surface-300">
+                <span className="w-full md:w-40 text-[13px] font-bold text-slate-700">
                   {item.label}
                 </span>
                 <div className="flex items-center gap-4 flex-1 w-full">
-                  <div className="flex-1 h-2 bg-surface-900/60 rounded-full overflow-hidden shadow-inner shadow-black/40">
+                  <div className="flex-1 h-2.5 bg-slate-100 rounded-full overflow-hidden">
                     <div
                       className={`h-full ${item.color} rounded-full transition-all duration-1000`}
                       style={{ width: `${(item.score / item.max) * 100}%` }}
                     />
                   </div>
-                  <span className="w-12 text-right text-xs font-black text-surface-300">
+                  <span className="w-12 text-right text-xs font-black text-slate-800">
                     {item.score}/{item.max}
                   </span>
                 </div>
@@ -270,11 +269,11 @@ export const AtsScoreTab = ({ resumeData, isLoading = false }: AtsScoreTabProps)
 
       {/* Middle Section: Visual Insights */}
       <div>
-        <h3 className="text-xs font-black tracking-widest text-surface-400 uppercase mb-4 mt-8 ml-1">Visual Insights</h3>
+        <h3 className="text-xs font-black tracking-widest text-slate-500 uppercase mb-4 mt-8 ml-1">Biểu đồ tổng quan</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-8 flex flex-col items-center justify-center shadow-2xl shadow-black/40 backdrop-blur-md relative overflow-hidden">
-            <h4 className="text-[10px] font-black text-surface-400 mb-6 w-full text-left uppercase tracking-widest">
-              Competency Radar
+          <div className="bg-white border border-slate-200/80 rounded-3xl p-8 flex flex-col items-center justify-center shadow-xs relative overflow-hidden">
+            <h4 className="text-[10px] font-black text-slate-500 mb-6 w-full text-left uppercase tracking-widest">
+              Năng lực tổng thể
             </h4>
             <div className="w-full max-w-[250px] aspect-square relative z-10">
               <Radar
@@ -289,10 +288,10 @@ export const AtsScoreTab = ({ resumeData, isLoading = false }: AtsScoreTabProps)
                   datasets: [
                     {
                       data: radarData,
-                      backgroundColor: "rgba(45, 212, 191, 0.2)",
-                      borderColor: "#2dd4bf",
+                      backgroundColor: "rgba(13, 148, 136, 0.15)",
+                      borderColor: "#0d9488",
                       borderWidth: 2,
-                      pointBackgroundColor: "#2dd4bf",
+                      pointBackgroundColor: "#0d9488",
                     },
                   ],
                 }}
@@ -301,9 +300,9 @@ export const AtsScoreTab = ({ resumeData, isLoading = false }: AtsScoreTabProps)
                     r: {
                       min: 0,
                       max: 100,
-                      angleLines: { color: "rgba(255,255,255,0.05)" },
-                      grid: { color: "rgba(255,255,255,0.05)" },
-                      pointLabels: { color: "#a3a3a3", font: { size: 10, family: "Inter", weight: 'bold' } },
+                      angleLines: { color: "rgba(0,0,0,0.08)" },
+                      grid: { color: "rgba(0,0,0,0.08)" },
+                      pointLabels: { color: "#475569", font: { size: 10, family: "Inter", weight: 'bold' } },
                       ticks: { display: false },
                     },
                   },
@@ -314,9 +313,9 @@ export const AtsScoreTab = ({ resumeData, isLoading = false }: AtsScoreTabProps)
             </div>
           </div>
 
-          <div className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-8 flex flex-col items-center justify-center shadow-2xl shadow-black/40 backdrop-blur-md relative overflow-hidden">
-            <h4 className="text-[10px] font-black text-surface-400 mb-6 w-full text-left uppercase tracking-widest">
-              Content Balance
+          <div className="bg-white border border-slate-200/80 rounded-3xl p-8 flex flex-col items-center justify-center shadow-xs relative overflow-hidden">
+            <h4 className="text-[10px] font-black text-slate-500 mb-6 w-full text-left uppercase tracking-widest">
+              Cân bằng nội dung
             </h4>
             <div className="w-full max-w-[180px] aspect-square relative z-10 mb-8">
               <Doughnut
@@ -325,7 +324,7 @@ export const AtsScoreTab = ({ resumeData, isLoading = false }: AtsScoreTabProps)
                   datasets: [
                     {
                       data: balanceData,
-                      backgroundColor: ["#2dd4bf", "#818cf8", "#f59e0b", "#ef4444"],
+                      backgroundColor: ["#0d9488", "#6366f1", "#f59e0b", "#f43f5e"],
                       borderWidth: 0,
                       hoverOffset: 6,
                       borderRadius: 4,
@@ -342,10 +341,10 @@ export const AtsScoreTab = ({ resumeData, isLoading = false }: AtsScoreTabProps)
                       display: false,
                     },
                     tooltip: {
-                      backgroundColor: "rgba(15, 23, 42, 0.9)",
-                      titleColor: "#f8fafc",
-                      bodyColor: "#cbd5e1",
-                      borderColor: "rgba(51, 65, 85, 0.5)",
+                      backgroundColor: "rgba(255, 255, 255, 0.95)",
+                      titleColor: "#0f172a",
+                      bodyColor: "#334155",
+                      borderColor: "rgba(203, 213, 225, 0.8)",
                       borderWidth: 1,
                       padding: 12,
                       displayColors: true,
@@ -361,14 +360,14 @@ export const AtsScoreTab = ({ resumeData, isLoading = false }: AtsScoreTabProps)
             {/* Custom HTML Legend */}
             <div className="w-full grid grid-cols-2 gap-y-4 gap-x-2 z-10 mt-auto">
               {[
-                { label: "Action Verbs", color: "text-teal-400", bg: "bg-teal-400", shadow: "shadow-[0_0_8px_rgba(45,212,191,0.6)]", value: balanceData[0] },
-                { label: "Keywords", color: "text-indigo-400", bg: "bg-indigo-400", shadow: "shadow-[0_0_8px_rgba(129,140,248,0.6)]", value: balanceData[1] },
-                { label: "Metrics", color: "text-amber-500", bg: "bg-amber-500", shadow: "shadow-[0_0_8px_rgba(245,158,11,0.6)]", value: balanceData[2] },
-                { label: "Filler", color: "text-red-500", bg: "bg-red-500", shadow: "shadow-[0_0_8px_rgba(239,68,68,0.6)]", value: balanceData[3] },
+                { label: "Action Verbs", color: "text-teal-700", bg: "bg-teal-600", value: balanceData[0] },
+                { label: "Keywords", color: "text-indigo-700", bg: "bg-indigo-600", value: balanceData[1] },
+                { label: "Metrics", color: "text-amber-700", bg: "bg-amber-500", value: balanceData[2] },
+                { label: "Filler", color: "text-rose-700", bg: "bg-rose-500", value: balanceData[3] },
               ].map((item, idx) => (
                 <div key={idx} className="flex items-center gap-2">
-                  <div className={`w-2.5 h-2.5 rounded-full ${item.bg} ${item.shadow} shrink-0`} />
-                  <span className="text-xs font-bold text-surface-300 truncate">{item.label}</span>
+                  <div className={`w-2.5 h-2.5 rounded-full ${item.bg} shrink-0`} />
+                  <span className="text-xs font-bold text-slate-700 truncate">{item.label}</span>
                   <span className={`text-xs font-black ${item.color} ml-auto`}>{item.value}%</span>
                 </div>
               ))}
@@ -379,55 +378,55 @@ export const AtsScoreTab = ({ resumeData, isLoading = false }: AtsScoreTabProps)
 
       {/* Bottom Section: Readability & Scannability */}
       <div className="pb-8">
-        <h3 className="text-xs font-black tracking-widest text-surface-400 uppercase mb-4 mt-8 ml-1">
-          Readability & Scannability
+        <h3 className="text-xs font-black tracking-widest text-slate-500 uppercase mb-4 mt-8 ml-1">
+          Độ dễ đọc & Khả năng quét (Readability)
         </h3>
 
         {/* Metric Boxes */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-surface-800/40 border border-surface-600/30 rounded-2xl p-6 flex flex-col items-center justify-center shadow-lg shadow-black/20 backdrop-blur-md">
-            <span className="text-[10px] font-black uppercase tracking-widest text-surface-500 mb-3 text-center">
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-6 flex flex-col items-center justify-center shadow-xs">
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 text-center">
               READABILITY SCORE
             </span>
-            <div className="px-6 py-2 bg-primary-500/10 border border-primary-500/30 rounded-xl text-2xl font-black text-white shadow-inner shadow-primary-500/5 font-display">
+            <div className="px-6 py-2 bg-teal-50 border border-teal-200 rounded-xl text-2xl font-black text-teal-700 shadow-2xs font-display">
               {readabilityScore}
             </div>
           </div>
-          <div className="bg-surface-800/40 border border-surface-600/30 rounded-2xl p-6 flex flex-col items-center justify-center shadow-lg shadow-black/20 backdrop-blur-md">
-            <span className="text-[10px] font-black uppercase tracking-widest text-surface-500 mb-3 text-center">
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-6 flex flex-col items-center justify-center shadow-xs">
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 text-center">
               GRADE
             </span>
-            <div className="text-2xl font-black text-white font-display">{readabilityGrade}</div>
+            <div className="text-2xl font-black text-slate-900 font-display">{readabilityGrade}</div>
           </div>
-          <div className="bg-surface-800/40 border border-surface-600/30 rounded-2xl p-6 flex flex-col items-center justify-center shadow-lg shadow-black/20 backdrop-blur-md">
-            <span className="text-[10px] font-black uppercase tracking-widest text-surface-500 mb-3 text-center">
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-6 flex flex-col items-center justify-center shadow-xs">
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 text-center">
               AVG SENTENCE LENGTH
             </span>
-            <div className="text-2xl font-black text-white font-display">
-              {avgSentenceLength} <span className="text-sm font-bold text-surface-400 ml-1">words</span>
+            <div className="text-2xl font-black text-slate-900 font-display">
+              {avgSentenceLength} <span className="text-sm font-bold text-slate-400 ml-1">từ</span>
             </div>
           </div>
-          <div className="bg-surface-800/40 border border-surface-600/30 rounded-2xl p-6 flex flex-col items-center justify-center shadow-lg shadow-black/20 backdrop-blur-md">
-            <span className="text-[10px] font-black uppercase tracking-widest text-surface-500 mb-3 text-center">
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-6 flex flex-col items-center justify-center shadow-xs">
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 text-center">
               ACTIVE VOICE
             </span>
-            <div className="text-2xl font-black text-white font-display">{activeVoicePercent}%</div>
+            <div className="text-2xl font-black text-slate-900 font-display">{activeVoicePercent}%</div>
           </div>
         </div>
 
         {/* Feedback List */}
-        <div className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-8 shadow-2xl shadow-black/40 backdrop-blur-md relative overflow-hidden">
-          <h4 className="text-[10px] font-black tracking-widest text-surface-400 uppercase mb-6">Feedback</h4>
+        <div className="bg-white border border-slate-200/80 rounded-3xl p-8 shadow-xs relative overflow-hidden">
+          <h4 className="text-[10px] font-black tracking-widest text-slate-500 uppercase mb-6">Đánh giá chi tiết</h4>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative z-10">
             {generatedFeedback.map((fb, idx) => (
               <div
                 key={idx}
-                className="bg-surface-900/40 border border-surface-600/30 rounded-2xl p-5 flex items-start gap-4 transition-all hover:bg-surface-800/60"
+                className="bg-slate-50 border border-slate-200 rounded-2xl p-5 flex items-start gap-4 transition-all hover:bg-slate-100/80"
               >
-                <div className="w-8 h-8 rounded-full bg-primary-500/10 flex items-center justify-center shrink-0 border border-primary-500/20">
-                  <div className="w-2 h-2 rounded-full bg-primary-400" />
+                <div className="w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center shrink-0 border border-teal-200">
+                  <div className="w-2 h-2 rounded-full bg-teal-600" />
                 </div>
-                <p className="text-[14px] text-surface-200 font-medium leading-relaxed pt-1">{fb}</p>
+                <p className="text-[14px] text-slate-800 font-medium leading-relaxed pt-1">{fb}</p>
               </div>
             ))}
           </div>

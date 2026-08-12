@@ -82,13 +82,13 @@ export const ResumeHistoryWidget = () => {
         label: "ATS Score",
         data: chartData,
         fill: true,
-        backgroundColor: "rgba(45, 212, 191, 0.1)", // primary-400
-        borderColor: "#2dd4bf", // primary-400
-        borderWidth: 2,
-        pointBackgroundColor: "#2dd4bf",
+        backgroundColor: "rgba(13, 148, 136, 0.08)",
+        borderColor: "#0d9488",
+        borderWidth: 2.5,
+        pointBackgroundColor: "#0d9488",
         pointBorderColor: "#fff",
         pointHoverBackgroundColor: "#fff",
-        pointHoverBorderColor: "#2dd4bf",
+        pointHoverBorderColor: "#0d9488",
         pointRadius: chartData.length > 30 ? 1 : (chartData.length > 15 ? 3 : 5),
         pointHoverRadius: 6,
         tension: 0.4, // smooth curve
@@ -104,7 +104,7 @@ export const ResumeHistoryWidget = () => {
         display: false,
       },
       tooltip: {
-        backgroundColor: "#1e293b",
+        backgroundColor: "#0f172a",
         titleFont: { family: "Inter", size: 13 },
         bodyFont: { family: "Inter", size: 14, weight: "bold" as const },
         padding: 12,
@@ -122,10 +122,10 @@ export const ResumeHistoryWidget = () => {
         min: 0,
         max: 100,
         grid: {
-          color: "rgba(255, 255, 255, 0.05)",
+          color: "rgba(0, 0, 0, 0.05)",
         },
         ticks: {
-          color: "#94a3b8",
+          color: "#64748b",
           font: { family: "Inter", size: 11 },
           stepSize: 20,
         },
@@ -136,7 +136,7 @@ export const ResumeHistoryWidget = () => {
           display: false,
         },
         ticks: {
-          color: "#94a3b8",
+          color: "#64748b",
           font: { family: "Inter", size: 10 },
           maxTicksLimit: 6,
           maxRotation: 45,
@@ -150,26 +150,26 @@ export const ResumeHistoryWidget = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-surface-800/40 border border-surface-600/30 rounded-3xl sm:rounded-[3rem] p-6 sm:p-8 shadow-2xl shadow-black/40 backdrop-blur-md relative overflow-hidden w-full"
+      className="bg-white border border-slate-200/80 rounded-3xl sm:rounded-[2.5rem] p-6 sm:p-8 shadow-xs relative overflow-hidden w-full"
     >
-      <div className="absolute top-0 right-0 w-64 h-64 bg-primary-500/10 rounded-full blur-[80px] -mr-32 -mt-32 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-64 h-64 bg-teal-50 rounded-full blur-[80px] -mr-32 -mt-32 pointer-events-none" />
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 sm:mb-8 gap-4 sm:gap-0">
         <div>
-          <h2 className="text-lg sm:text-xl font-black text-white flex items-center gap-2 sm:gap-3 font-display">
-            <span className="p-3 bg-surface-800/40 border border-surface-600/30 shadow-[0_0_15px_rgba(0,0,0,0.5)] rounded-2xl flex items-center justify-center backdrop-blur-md">
-              <svg className="w-6 h-6 text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <h2 className="text-lg sm:text-xl font-black text-slate-900 flex items-center gap-2 sm:gap-3 font-display">
+            <span className="p-3 bg-slate-50 border border-slate-200/80 shadow-2xs rounded-2xl flex items-center justify-center">
+              <svg className="w-6 h-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
               </svg>
             </span>
-            ATS Score History
+            Lịch sử điểm ATS CV
           </h2>
-          <p className="text-surface-400 text-xs sm:text-sm mt-1 font-medium">
-            Track your resume improvements over time
+          <p className="text-slate-500 text-xs sm:text-sm mt-1 font-medium">
+            Theo dõi sự cải thiện của CV qua các lần tải lên
           </p>
         </div>
-        <div className="px-3 sm:px-4 py-1.5 rounded-full bg-surface-800 border border-white/5 text-[10px] sm:text-xs font-bold text-surface-300 self-start sm:self-auto whitespace-nowrap">
-          {resumes.length} Scans
+        <div className="px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200 text-[10px] sm:text-xs font-bold text-teal-700 self-start sm:self-auto whitespace-nowrap">
+          {resumes.length} Lần quét
         </div>
       </div>
 

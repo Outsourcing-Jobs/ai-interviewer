@@ -22,19 +22,19 @@ export const MobileNav = ({
       {/* Mobile Menu Button */}
       <button
         onClick={onToggle}
-        className="md:hidden p-2 rounded-xl bg-white/5 border border-white/10 hover:border-primary-400 transition-all duration-300 cursor-pointer group"
+        className="md:hidden p-2 rounded-xl bg-white border border-slate-200 hover:border-teal-500 transition-all duration-300 cursor-pointer group shadow-xs"
       >
         <div className="w-6 h-6 flex flex-col justify-center items-center space-y-1.5">
           <span
-            className={`block w-5 h-0.5 bg-surface-300 transition-all duration-300 ${isOpen ? "rotate-45 translate-y-2" : ""
+            className={`block w-5 h-0.5 bg-slate-700 transition-all duration-300 ${isOpen ? "rotate-45 translate-y-2" : ""
               }`}
           ></span>
           <span
-            className={`block w-5 h-0.5 bg-surface-300 transition-all duration-300 ${isOpen ? "opacity-0" : "opacity-100"
+            className={`block w-5 h-0.5 bg-slate-700 transition-all duration-300 ${isOpen ? "opacity-0" : "opacity-100"
               }`}
           ></span>
           <span
-            className={`block w-5 h-0.5 bg-surface-300 transition-all duration-300 ${isOpen ? "-rotate-45 -translate-y-2" : ""
+            className={`block w-5 h-0.5 bg-slate-700 transition-all duration-300 ${isOpen ? "-rotate-45 -translate-y-2" : ""
               }`}
           ></span>
         </div>
@@ -42,10 +42,10 @@ export const MobileNav = ({
 
       {/* Mobile Navigation Dropdown */}
       <div
-        className={`md:hidden absolute top-full left-0 w-full overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? "max-h-125 border-b border-white/10 shadow-2xl" : "max-h-0"
+        className={`md:hidden absolute top-full left-0 w-full overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? "max-h-125 border-b border-slate-200/80 shadow-xl" : "max-h-0"
           }`}
       >
-        <div className="bg-surface-900/95 backdrop-blur-2xl px-6 py-8 space-y-6">
+        <div className="bg-white/95 backdrop-blur-2xl px-6 py-8 space-y-6">
           {user ? (
             <>
               <div
@@ -53,17 +53,17 @@ export const MobileNav = ({
                   onOpenModal();
                   onClose();
                 }}
-                className="flex items-center space-x-4 mb-4 p-4 bg-white/5 rounded-2xl border border-white/5 cursor-pointer hover:bg-white/10 transition-all"
+                className="flex items-center space-x-4 mb-4 p-4 bg-slate-50 rounded-2xl border border-slate-200 cursor-pointer hover:bg-teal-50/50 transition-all"
               >
                 <div className="w-3 h-3 bg-emerald-500 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)] animate-pulse"></div>
-                <span className="text-sm font-black uppercase tracking-[0.2em] text-white">
+                <span className="text-sm font-black uppercase tracking-[0.2em] text-slate-800">
                   {user.name}
                 </span>
               </div>
               <Link
                 to="/"
                 onClick={onClose}
-                className={`block py-3 text-sm font-black uppercase tracking-[0.2em] transition-colors ${isActive("/") ? "text-primary-400" : "text-surface-400 hover:text-white"
+                className={`block py-3 text-sm font-black uppercase tracking-[0.2em] transition-colors ${isActive("/") ? "text-teal-600" : "text-slate-600 hover:text-slate-900"
                   }`}
               >
                 Trang chủ
@@ -72,8 +72,8 @@ export const MobileNav = ({
                 to="/resume-analyzer"
                 onClick={onClose}
                 className={`block py-3 text-sm font-black uppercase tracking-[0.2em] transition-colors ${isActive("/resume-analyzer")
-                  ? "text-primary-400"
-                  : "text-surface-400 hover:text-white"
+                  ? "text-teal-600"
+                  : "text-slate-600 hover:text-slate-900"
                   }`}
               >
                 Phân tích CV
@@ -82,8 +82,8 @@ export const MobileNav = ({
                 to="/analytics"
                 onClick={onClose}
                 className={`block py-3 text-sm font-black uppercase tracking-[0.2em] transition-colors ${isActive("/analytics")
-                  ? "text-primary-400"
-                  : "text-surface-400 hover:text-white"
+                  ? "text-teal-600"
+                  : "text-slate-600 hover:text-slate-900"
                   }`}
               >
                 Thống kê & Tiến độ
@@ -93,8 +93,8 @@ export const MobileNav = ({
                   to="/admin"
                   onClick={onClose}
                   className={`block py-3 text-sm font-black uppercase tracking-[0.2em] transition-colors ${isActive("/admin")
-                    ? "text-amber-300"
-                    : "text-amber-400 hover:text-amber-300"
+                    ? "text-amber-700 font-black"
+                    : "text-amber-600 hover:text-amber-800"
                     }`}
                 >
                   Trang Quản trị 👑
@@ -106,7 +106,7 @@ export const MobileNav = ({
               <Link
                 to="/login"
                 onClick={onClose}
-                className={`block py-3 text-sm font-black uppercase tracking-[0.2em] transition-colors ${isActive("/login") ? "text-primary-400" : "text-surface-400 hover:text-white"
+                className={`block py-3 text-sm font-black uppercase tracking-[0.2em] transition-colors ${isActive("/login") ? "text-teal-600" : "text-slate-600 hover:text-slate-900"
                   }`}
               >
                 Đăng nhập
@@ -114,7 +114,7 @@ export const MobileNav = ({
               <Link
                 to="/register"
                 onClick={onClose}
-                className={`block py-3 text-sm font-black uppercase tracking-[0.2em] transition-colors ${isActive("/register") ? "text-primary-400" : "text-surface-400 hover:text-white"
+                className={`block py-3 text-sm font-black uppercase tracking-[0.2em] transition-colors ${isActive("/register") ? "text-teal-600" : "text-slate-600 hover:text-slate-900"
                   }`}
               >
                 Đăng ký

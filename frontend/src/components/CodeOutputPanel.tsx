@@ -49,14 +49,14 @@ const CodeOutputPanel: React.FC<CodeOutputPanelProps> = ({ language, code }) => 
     const isSuccess = result && result.exitCode === 0 && !result.stderr;
 
     return (
-        <div className="bg-surface-900 rounded-[2.5rem] group/form h-125 flex flex-col border border-white/5 overflow-hidden">
+        <div className="bg-white rounded-[2.5rem] group/form h-125 flex flex-col border border-slate-200/80 overflow-hidden shadow-xs">
             {/* Toolbar */}
-            <div className="flex justify-between items-center px-8 py-3 bg-white/5 border-b border-white/5">
+            <div className="flex justify-between items-center px-8 py-3 bg-slate-50 border-b border-slate-200">
                 <div className="flex items-center gap-3">
-                    <Terminal size={14} className="text-primary-400" />
-                    <span className="text-[10px] font-black text-surface-500 uppercase tracking-widest">Output</span>
+                    <Terminal size={14} className="text-teal-600" />
+                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Output</span>
                     {executionTime !== null && (
-                        <span className="flex items-center gap-1 text-[9px] font-bold text-surface-600 bg-white/5 px-2 py-0.5 rounded-full">
+                        <span className="flex items-center gap-1 text-[9px] font-bold text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-full">
                             <Clock size={10} />
                             {executionTime}ms
                         </span>
@@ -65,7 +65,7 @@ const CodeOutputPanel: React.FC<CodeOutputPanelProps> = ({ language, code }) => 
                 <div className="flex items-center gap-2">
                     <button
                         onClick={() => setShowStdin(!showStdin)}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest text-surface-400 hover:text-white bg-white/5 hover:bg-white/10 transition-all cursor-pointer border border-white/5"
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 transition-all cursor-pointer border border-slate-200"
                         title="Toggle stdin input"
                     >
                         {showStdin ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
@@ -74,7 +74,7 @@ const CodeOutputPanel: React.FC<CodeOutputPanelProps> = ({ language, code }) => 
                     {hasOutput && (
                         <button
                             onClick={handleClear}
-                            className="p-1.5 rounded-lg text-surface-500 hover:text-rose-400 bg-white/5 hover:bg-white/10 transition-all cursor-pointer border border-white/5"
+                            className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 bg-slate-100 hover:bg-rose-50 transition-all cursor-pointer border border-slate-200"
                             title="Clear output"
                         >
                             <Trash2 size={12} />
@@ -85,10 +85,10 @@ const CodeOutputPanel: React.FC<CodeOutputPanelProps> = ({ language, code }) => 
                         disabled={!canExecute || isRunning}
                         className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all active:scale-[0.96] border ${
                             isRunning
-                                ? "bg-amber-500/20 text-amber-400 border-amber-500/30 cursor-wait"
+                                ? "bg-amber-50 text-amber-700 border-amber-200 cursor-wait"
                                 : canExecute
-                                ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/30 cursor-pointer"
-                                : "bg-surface-800 text-surface-600 border-white/5 cursor-not-allowed"
+                                ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100 cursor-pointer"
+                                : "bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed"
                         }`}
                     >
                         {isRunning ? (
@@ -108,21 +108,21 @@ const CodeOutputPanel: React.FC<CodeOutputPanelProps> = ({ language, code }) => 
 
             {/* Stdin Input */}
             {showStdin && (
-                <div className="px-6 py-3 border-b border-white/5 bg-white/2">
-                    <label className="text-[9px] font-black text-surface-500 uppercase tracking-widest mb-1.5 block ml-1">Standard Input (stdin)</label>
+                <div className="px-6 py-3 border-b border-slate-200 bg-slate-50/50">
+                    <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1.5 block ml-1">Standard Input (stdin)</label>
                     <textarea
                         value={stdin}
                         onChange={(e) => setStdin(e.target.value)}
                         placeholder="Enter input for your program..."
-                        className="w-full h-20 bg-surface-950/50 border border-white/5 rounded-xl px-4 py-3 text-xs font-mono text-surface-200 placeholder-surface-700 resize-none focus:outline-none focus:border-primary-500/30 transition-colors"
+                        className="w-full h-20 bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs font-mono text-slate-800 placeholder-slate-400 resize-none focus:outline-none focus:border-teal-500 transition-colors"
                     />
                 </div>
             )}
 
             {/* Output Area */}
-            <div className="flex-1 overflow-hidden flex flex-col">
+            <div className="flex-1 overflow-hidden flex flex-col bg-slate-900 text-slate-100 font-mono">
                 {!result && !isRunning && (
-                    <div className="flex-1 flex flex-col items-center justify-center text-surface-600 gap-3">
+                    <div className="flex-1 flex flex-col items-center justify-center text-slate-500 gap-3">
                         <Terminal size={32} className="opacity-30" />
                         <p className="text-[10px] font-black uppercase tracking-widest">
                             {canExecute ? "Click Run to execute your code" : "This language does not support execution"}
@@ -133,9 +133,9 @@ const CodeOutputPanel: React.FC<CodeOutputPanelProps> = ({ language, code }) => 
                 {isRunning && (
                     <div className="flex-1 flex flex-col items-center justify-center gap-3">
                         <div className="relative">
-                            <div className="w-10 h-10 rounded-full border-2 border-primary-500/30 border-t-primary-400 animate-spin"></div>
+                            <div className="w-10 h-10 rounded-full border-2 border-teal-500/30 border-t-teal-400 animate-spin"></div>
                         </div>
-                        <p className="text-[10px] font-black uppercase tracking-widest text-primary-400 animate-pulse">
+                        <p className="text-[10px] font-black uppercase tracking-widest text-teal-400 animate-pulse">
                             Compiling & Executing...
                         </p>
                     </div>
@@ -144,12 +144,12 @@ const CodeOutputPanel: React.FC<CodeOutputPanelProps> = ({ language, code }) => 
                 {result && (
                     <div className="flex-1 flex flex-col overflow-hidden">
                         {/* Status Bar */}
-                        <div className={`px-6 py-2 flex items-center gap-2 text-[9px] font-black uppercase tracking-widest border-b border-white/5 ${
+                        <div className={`px-6 py-2 flex items-center gap-2 text-[9px] font-black uppercase tracking-widest border-b border-white/10 ${
                             result.timedOut 
-                                ? "bg-amber-500/10 text-amber-400" 
+                                ? "bg-amber-500/20 text-amber-300" 
                                 : isSuccess 
-                                ? "bg-emerald-500/10 text-emerald-400" 
-                                : "bg-rose-500/10 text-rose-400"
+                                ? "bg-emerald-500/20 text-emerald-300" 
+                                : "bg-rose-500/20 text-rose-300"
                         }`}>
                             {result.timedOut ? (
                                 <><AlertTriangle size={12} /> Timed Out</>
@@ -166,13 +166,13 @@ const CodeOutputPanel: React.FC<CodeOutputPanelProps> = ({ language, code }) => 
                             className="flex-1 overflow-auto px-6 py-4 text-xs font-mono leading-relaxed whitespace-pre-wrap wrap-break-word"
                         >
                             {result.stdout && (
-                                <span className="text-surface-200">{result.stdout}</span>
+                                <span className="text-slate-100">{result.stdout}</span>
                             )}
                             {result.stderr && (
                                 <span className="text-rose-400">{result.stderr}</span>
                             )}
                             {!result.stdout && !result.stderr && (
-                                <span className="text-surface-600 italic">No output produced.</span>
+                                <span className="text-slate-500 italic">No output produced.</span>
                             )}
                         </pre>
                     </div>

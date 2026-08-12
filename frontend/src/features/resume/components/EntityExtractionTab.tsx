@@ -163,81 +163,80 @@ export const EntityExtractionTab = ({
       className="space-y-6"
     >
       {/* Top Actions */}
-      <div className="flex flex-col sm:flex-row gap-4 justify-between items-stretch sm:items-center bg-surface-800/40 p-5 rounded-3xl border border-surface-600/30 shadow-2xl shadow-black/40 backdrop-blur-md">
+      <div className="flex flex-col sm:flex-row gap-4 justify-between items-stretch sm:items-center bg-white p-5 rounded-3xl border border-slate-200/80 shadow-xs">
         <div className="flex items-center gap-4 w-full sm:w-auto">
           <button
             onClick={() => setIsEditing(!isEditing)}
-            className={`w-full sm:w-auto px-6 py-3 sm:py-2 rounded-xl text-[11px] font-black uppercase tracking-widest transition-colors cursor-pointer text-center ${isEditing ? "bg-primary-500 text-white shadow-lg shadow-primary-500/20" : "bg-surface-700/50 text-surface-300 hover:bg-surface-600 hover:text-white"
+            className={`w-full sm:w-auto px-6 py-3 sm:py-2 rounded-xl text-[11px] font-black uppercase tracking-widest transition-colors cursor-pointer text-center ${isEditing ? "btn-primary" : "btn-secondary"
               }`}
           >
-            {isEditing ? "Done Editing" : "Edit Mode"}
+            {isEditing ? "Lưu chỉnh sửa" : "Chế độ Chỉnh sửa"}
           </button>
         </div>
 
         <PDFDownloadLink
           document={<ResumePDF profile={editedProfile} />}
           fileName="Optimized_Resume.pdf"
-          className="w-full sm:w-auto px-6 py-3 sm:py-2 bg-indigo-500/20 hover:bg-indigo-500/30 border border-indigo-500/50 text-indigo-300 rounded-xl text-[11px] font-black uppercase tracking-widest transition-colors flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/10"
+          className="w-full sm:w-auto btn-primary px-6 py-3 sm:py-2 text-[11px] font-black uppercase tracking-widest flex items-center justify-center gap-2"
         >
-          {({ loading }) => (loading ? "Preparing PDF..." : "Download ATS PDF")}
+          {({ loading }) => (loading ? "Đang chuẩn bị..." : "Tải CV PDF chuẩn ATS")}
         </PDFDownloadLink>
       </div>
 
       {/* Profile Summary */}
       {editedProfile.summary !== undefined && (
-        <section className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-8 shadow-2xl shadow-black/40 backdrop-blur-md">
-          <h3 className="text-[10px] font-black uppercase tracking-widest text-primary-400 mb-4">
-            Profile Summary
+        <section className="bg-white border border-slate-200/80 rounded-3xl p-8 shadow-xs">
+          <h3 className="text-[10px] font-black uppercase tracking-widest text-teal-700 mb-4">
+            Tóm tắt hồ sơ (Summary)
           </h3>
           {isEditing ? (
             <textarea
-              className="w-full bg-surface-900/50 border border-surface-600/50 rounded-xl p-4 text-sm text-white focus:outline-hidden focus:border-primary-500 min-h-[100px]"
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-800 focus:outline-none focus:border-teal-500 min-h-[100px]"
               value={editedProfile.summary}
               onChange={(e) => setEditedProfile(p => ({ ...p, summary: e.target.value }))}
             />
           ) : (
-            <p className="text-sm text-surface-200 font-medium leading-relaxed">{editedProfile.summary}</p>
+            <p className="text-sm text-slate-700 font-medium leading-relaxed">{editedProfile.summary}</p>
           )}
         </section>
       )}
 
       {/* Detected Industry & Role */}
       <section>
-        <h3 className="text-xs font-black tracking-widest text-surface-400 uppercase mb-4 ml-1">Detected Industry & Role</h3>
+        <h3 className="text-xs font-black tracking-widest text-slate-500 uppercase mb-4 ml-1">Lĩnh vực & Vị trí dự đoán</h3>
 
         {/* Primary Industry Card */}
-        <div className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-6 sm:p-10 flex flex-col items-center justify-center mb-6 text-center shadow-2xl shadow-black/40 backdrop-blur-md relative overflow-hidden">
-          <div className="absolute inset-0 bg-linear-to-b from-indigo-500/5 to-transparent pointer-events-none" />
-          <span className="text-[10px] font-black uppercase tracking-widest text-surface-500 mb-3 relative z-10">PRIMARY INDUSTRY</span>
-          <h2 className="text-2xl sm:text-4xl font-black text-indigo-400 mb-4 relative z-10 font-display">{primaryIndustry.name}</h2>
-          <span className="px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-black uppercase tracking-widest whitespace-nowrap relative z-10 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
-            High confidence
+        <div className="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-10 flex flex-col items-center justify-center mb-6 text-center shadow-xs relative overflow-hidden">
+          <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 relative z-10">LĨNH VỰC CHÍNH</span>
+          <h2 className="text-2xl sm:text-4xl font-black text-teal-700 mb-4 relative z-10 font-display">{primaryIndustry.name}</h2>
+          <span className="px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[10px] font-black uppercase tracking-widest whitespace-nowrap relative z-10 shadow-2xs">
+            Độ tin cậy cao
           </span>
         </div>
 
         {/* Secondary Industry & Scores */}
-        <div className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-8 space-y-6 shadow-2xl shadow-black/40 backdrop-blur-md">
+        <div className="bg-white border border-slate-200/80 rounded-3xl p-8 space-y-6 shadow-xs">
           {secondaryIndustry && (
-            <div className="flex items-center gap-3 pb-6 border-b border-surface-600/30">
-              <span className="text-[11px] font-black uppercase tracking-widest text-surface-400">Secondary:</span>
-              <span className="text-[13px] font-bold text-surface-200">{secondaryIndustry.name}</span>
+            <div className="flex items-center gap-3 pb-6 border-b border-slate-200">
+              <span className="text-[11px] font-black uppercase tracking-widest text-slate-400">Phụ:</span>
+              <span className="text-[13px] font-bold text-slate-800">{secondaryIndustry.name}</span>
             </div>
           )}
 
           <div>
-            <h4 className="text-sm font-bold text-white mb-6">Industry Scores</h4>
+            <h4 className="text-sm font-bold text-slate-900 mb-6 font-display">Điểm phù hợp ngành</h4>
             <div className="space-y-4">
               {industryScores.map((ind, i) => (
                 <div key={i} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-                  <span className="w-full sm:w-40 text-xs font-medium text-surface-300 truncate" title={ind.name}>{ind.name}</span>
+                  <span className="w-full sm:w-40 text-xs font-medium text-slate-700 truncate" title={ind.name}>{ind.name}</span>
                   <div className="flex items-center gap-4 w-full sm:flex-1">
-                    <div className="flex-1 h-1.5 bg-surface-700/50 rounded-full overflow-hidden">
+                    <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-linear-to-r from-indigo-500 to-primary-400 rounded-full"
+                        className="h-full bg-teal-600 rounded-full"
                         style={{ width: `${(ind.score / maxIndScore) * 100}%` }}
                       />
                     </div>
-                    <span className="w-8 text-right text-xs text-surface-400">{ind.score.toFixed(1)}</span>
+                    <span className="w-8 text-right text-xs text-slate-500 font-bold">{ind.score.toFixed(1)}</span>
                   </div>
                 </div>
               ))}
@@ -248,42 +247,42 @@ export const EntityExtractionTab = ({
 
       {/* Contact Information */}
       <section>
-        <h3 className="text-xs font-black tracking-widest text-surface-400 uppercase mb-4 ml-1">Contact Information</h3>
+        <h3 className="text-xs font-black tracking-widest text-slate-500 uppercase mb-4 ml-1">Thông tin liên hệ</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-surface-800/40 border border-surface-600/30 rounded-2xl p-6 shadow-lg shadow-black/20 backdrop-blur-md">
-            <span className="text-[10px] font-black uppercase tracking-widest text-surface-500 mb-3 block">NAME</span>
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-xs">
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 block">HỌ TÊN</span>
             {isEditing ? (
               <input
-                className="w-full bg-surface-900/50 border border-surface-600/50 rounded-xl p-3 text-sm text-white font-bold"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800 font-bold"
                 value={editedProfile.personal_info?.name || ""}
                 onChange={(e) => setEditedProfile(p => ({ ...p, personal_info: { ...p.personal_info, name: e.target.value } }))}
               />
             ) : (
-              <p className="text-lg text-white font-black font-display">{editedProfile.personal_info?.name || "Not Found"}</p>
+              <p className="text-lg text-slate-900 font-black font-display">{editedProfile.personal_info?.name || "Chưa có"}</p>
             )}
           </div>
-          <div className="bg-surface-800/40 border border-surface-600/30 rounded-2xl p-6 shadow-lg shadow-black/20 backdrop-blur-md">
-            <span className="text-[10px] font-black uppercase tracking-widest text-surface-500 mb-3 block">EMAIL</span>
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-xs">
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 block">EMAIL</span>
             {isEditing ? (
               <input
-                className="w-full bg-surface-900/50 border border-surface-600/50 rounded-xl p-3 text-sm text-white font-bold"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800 font-bold"
                 value={editedProfile.personal_info?.email || ""}
                 onChange={(e) => setEditedProfile(p => ({ ...p, personal_info: { ...p.personal_info, email: e.target.value } }))}
               />
             ) : (
-              <p className="text-[13px] text-surface-200 font-medium break-all">{editedProfile.personal_info?.email || "Not Found"}</p>
+              <p className="text-[13px] text-slate-700 font-medium break-all">{editedProfile.personal_info?.email || "Chưa có"}</p>
             )}
           </div>
-          <div className="bg-surface-800/40 border border-surface-600/30 rounded-2xl p-6 shadow-lg shadow-black/20 backdrop-blur-md">
-            <span className="text-[10px] font-black uppercase tracking-widest text-surface-500 mb-3 block">PHONE</span>
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-xs">
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 block">SỐ ĐIỆN THOẠI</span>
             {isEditing ? (
               <input
-                className="w-full bg-surface-900/50 border border-surface-600/50 rounded-xl p-3 text-sm text-white font-bold"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800 font-bold"
                 value={editedProfile.personal_info?.phone || ""}
                 onChange={(e) => setEditedProfile(p => ({ ...p, personal_info: { ...p.personal_info, phone: e.target.value } }))}
               />
             ) : (
-              <p className="text-[14.5px] text-surface-200 font-medium">{editedProfile.personal_info?.phone || "Not Found"}</p>
+              <p className="text-[14.5px] text-slate-700 font-medium">{editedProfile.personal_info?.phone || "Chưa có"}</p>
             )}
           </div>
         </div>
@@ -365,11 +364,11 @@ export const EntityExtractionTab = ({
       {/* Technical Skills */}
       {editedProfile.skills?.technical && editedProfile.skills.technical.length > 0 && (
         <section>
-          <h3 className="text-xs font-black tracking-widest text-surface-400 uppercase mb-4 ml-1">Technical Skills</h3>
-          <div className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-8 shadow-2xl shadow-black/40 backdrop-blur-md">
+          <h3 className="text-xs font-black tracking-widest text-slate-500 uppercase mb-4 ml-1">Kỹ năng kỹ thuật (Technical Skills)</h3>
+          <div className="bg-white border border-slate-200/80 rounded-3xl p-8 shadow-xs">
             {isEditing ? (
               <textarea
-                className="w-full bg-surface-900/50 border border-surface-600/50 rounded-xl p-4 text-sm text-white focus:outline-hidden focus:border-primary-500 min-h-[80px]"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-800 focus:outline-none focus:border-teal-500 min-h-[80px]"
                 value={editedProfile.skills.technical.join(", ")}
                 onChange={(e) => setEditedProfile(p => ({
                   ...p,
@@ -381,7 +380,7 @@ export const EntityExtractionTab = ({
                 {editedProfile.skills.technical.map((s: string, i: number) => (
                   <span
                     key={i}
-                    className="px-4 py-2 bg-indigo-500/10 border border-indigo-500/30 rounded-xl text-[13px] font-bold text-indigo-300 shadow-[0_0_15px_rgba(99,102,241,0.1)]"
+                    className="px-4 py-2 bg-teal-50 border border-teal-200 rounded-xl text-[13px] font-bold text-teal-700 shadow-2xs"
                   >
                     {s}
                   </span>
@@ -395,11 +394,11 @@ export const EntityExtractionTab = ({
       {/* Extracted Keywords (Soft Skills / Others) */}
       {editedProfile.skills?.soft && editedProfile.skills.soft.length > 0 && (
         <section>
-          <h3 className="text-xs font-black tracking-widest text-surface-400 uppercase mb-4 ml-1">Extracted Keywords</h3>
-          <div className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-8 shadow-2xl shadow-black/40 backdrop-blur-md">
+          <h3 className="text-xs font-black tracking-widest text-slate-500 uppercase mb-4 ml-1">Từ khóa & Kỹ năng mềm</h3>
+          <div className="bg-white border border-slate-200/80 rounded-3xl p-8 shadow-xs">
             {isEditing ? (
               <textarea
-                className="w-full bg-surface-900/50 border border-surface-600/50 rounded-xl p-4 text-sm text-white focus:outline-hidden focus:border-primary-500 min-h-[80px]"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-800 focus:outline-none focus:border-teal-500 min-h-[80px]"
                 value={editedProfile.skills.soft.join(", ")}
                 onChange={(e) => setEditedProfile(p => ({
                   ...p,
@@ -411,7 +410,7 @@ export const EntityExtractionTab = ({
                 {editedProfile.skills.soft.map((s: string, i: number) => (
                   <span
                     key={i}
-                    className="px-4 py-2 bg-surface-800/50 border border-surface-600/30 rounded-xl text-[13px] font-bold text-surface-300 shadow-[0_0_15px_rgba(0,0,0,0.2)]"
+                    className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-[13px] font-bold text-slate-700 shadow-2xs"
                   >
                     {s}
                   </span>
@@ -425,12 +424,12 @@ export const EntityExtractionTab = ({
       {/* Work Experience */}
       {editedProfile.experience && editedProfile.experience.length > 0 && (
         <section>
-          <h3 className="text-xs font-black tracking-widest text-surface-400 uppercase mb-4 ml-1">Work Experience</h3>
-          <div className="space-y-6 relative before:absolute before:inset-0 before:ml-[31px] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-linear-to-b before:from-transparent before:via-surface-600 before:to-transparent z-10">
+          <h3 className="text-xs font-black tracking-widest text-slate-500 uppercase mb-4 ml-1">Kinh nghiệm làm việc</h3>
+          <div className="space-y-6">
             {editedProfile.experience.map((exp, i) => (
               <div
                 key={i}
-                className="relative bg-surface-800/40 border border-surface-600/30 rounded-3xl p-8 shadow-2xl shadow-black/40 backdrop-blur-md"
+                className="bg-white border border-slate-200/80 rounded-3xl p-8 shadow-xs"
               >
                 <div className="flex flex-col sm:flex-row items-start sm:justify-between gap-4">
                   <div className="min-w-0 flex-1 w-full order-2 sm:order-1">
@@ -438,74 +437,74 @@ export const EntityExtractionTab = ({
                       <div className="space-y-2 mb-3">
                         <input
                           type="text"
-                          className="w-full bg-surface-900/50 border border-surface-600/50 rounded-xl p-3 text-sm font-bold text-white"
+                          className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm font-bold text-slate-800"
                           value={exp.role || exp.title || ""}
                           onChange={(e) => {
                             const newExp = [...editedProfile.experience!];
                             newExp[i] = { ...newExp[i], role: e.target.value };
                             setEditedProfile(p => ({ ...p, experience: newExp }));
                           }}
-                          placeholder="Role / Title"
+                          placeholder="Chức danh / Vị trí"
                         />
                         <div className="flex gap-2">
                           <input
                             type="text"
-                            className="flex-1 bg-surface-900/50 border border-surface-600/50 rounded-xl p-3 text-sm text-primary-400 font-bold"
+                            className="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-teal-700 font-bold"
                             value={exp.company || ""}
                             onChange={(e) => {
                               const newExp = [...editedProfile.experience!];
                               newExp[i] = { ...newExp[i], company: e.target.value };
                               setEditedProfile(p => ({ ...p, experience: newExp }));
                             }}
-                            placeholder="Company"
+                            placeholder="Tên công ty"
                           />
                           <input
                             type="text"
-                            className="flex-1 bg-surface-900/50 border border-surface-600/50 rounded-xl p-3 text-sm text-surface-400"
+                            className="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-600"
                             value={exp.duration || ""}
                             onChange={(e) => {
                               const newExp = [...editedProfile.experience!];
                               newExp[i] = { ...newExp[i], duration: e.target.value };
                               setEditedProfile(p => ({ ...p, experience: newExp }));
                             }}
-                            placeholder="Duration (e.g. Jan 2020 - Present)"
+                            placeholder="Thời gian (ví dụ: Jan 2020 - Present)"
                           />
                         </div>
                         <textarea
-                          className="w-full bg-surface-900/50 border border-surface-600/50 rounded-xl p-3 text-sm text-surface-300 min-h-[100px]"
+                          className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-800 min-h-[100px]"
                           value={exp.description || ""}
                           onChange={(e) => {
                             const newExp = [...editedProfile.experience!];
                             newExp[i] = { ...newExp[i], description: e.target.value };
                             setEditedProfile(p => ({ ...p, experience: newExp }));
                           }}
-                          placeholder="Bullet points"
+                          placeholder="Mô tả công việc (gạch đầu dòng)"
                         />
                       </div>
                     ) : (
                       <>
-                        <h4 className="text-xl font-black text-white font-display">
-                          {exp.role || exp.title || "Role"}
+                        <h4 className="text-xl font-black text-slate-900 font-display">
+                          {exp.role || exp.title || "Vị trí"}
                         </h4>
                         {exp.company && (
-                          <p className="text-[13px] text-primary-400 font-bold mt-2 mb-1">{exp.company}</p>
+                          <p className="text-[13px] text-teal-700 font-bold mt-2 mb-1">{exp.company}</p>
                         )}
                         {exp.location && (
-                          <p className="text-[11px] font-bold uppercase tracking-widest text-surface-500">{exp.location}</p>
+                          <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400">{exp.location}</p>
                         )}
                         {exp.description && (
                           <ul className="mt-6 space-y-3">
                             {exp.description.split(/(?:\n|•)/).filter(b => b.trim().length > 3).map((bullet, idx) => (
-                              <li key={idx} className="group flex flex-col sm:flex-row items-start gap-3 text-[14.5px] text-surface-300 font-medium leading-relaxed hover:text-surface-100 transition-colors">
+                              <li key={idx} className="group flex flex-col sm:flex-row items-start gap-3 text-[14.5px] text-slate-700 font-medium leading-relaxed">
                                 <div className="flex items-start gap-3 w-full">
-                                  <Sparkles className="w-4 h-4 text-primary-500 mt-1 shrink-0" />
+                                  <Sparkles className="w-4 h-4 text-teal-600 mt-1 shrink-0" />
                                   <span className="flex-1">{bullet.trim()}</span>
                                 </div>
                                 <button
                                   onClick={() => handleRewrite(bullet.trim(), i, idx)}
-                                  className="opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity bg-primary-500/20 hover:bg-primary-500/40 text-primary-400 rounded-lg px-3 py-1.5 text-[10px] font-black uppercase tracking-widest shrink-0 sm:ml-2 mt-2 sm:mt-0 self-end sm:self-auto cursor-pointer shadow-[0_0_15px_rgba(45,212,191,0.1)]"
+                                  className="opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 rounded-lg px-3 py-1.5 text-[10px] font-black uppercase tracking-widest shrink-0 sm:ml-2 mt-2 sm:mt-0 cursor-pointer shadow-2xs"
                                 >
-                                  Rewrite
+                                  AI Rewrite
                                 </button>
                               </li>
                             ))}
@@ -515,103 +514,8 @@ export const EntityExtractionTab = ({
                     )}
                   </div>
                   {!isEditing && exp.duration && (
-                    <span className="text-[10px] font-black tracking-widest text-surface-400 uppercase bg-surface-800/50 rounded-full px-3 py-1.5 whitespace-nowrap shrink-0 border border-surface-600/30 order-1 sm:order-2 mb-2 sm:mb-0 shadow-inner shadow-black/20">
+                    <span className="text-[10px] font-black tracking-widest text-slate-500 uppercase bg-slate-50 rounded-full px-3.5 py-1.5 whitespace-nowrap shrink-0 border border-slate-200 order-1 sm:order-2 mb-2 sm:mb-0">
                       {exp.duration}
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Projects */}
-      {editedProfile.projects && editedProfile.projects.length > 0 && (
-        <section>
-          <h3 className="text-xs font-black tracking-widest text-surface-400 uppercase mb-4 ml-1">Projects</h3>
-          <div className="space-y-6 relative before:absolute before:inset-0 before:ml-[31px] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-linear-to-b before:from-transparent before:via-surface-600 before:to-transparent z-10">
-            {editedProfile.projects.map((proj, i) => (
-              <div
-                key={i}
-                className="relative bg-surface-800/40 border border-emerald-500/20 rounded-3xl p-8 shadow-2xl shadow-black/40 backdrop-blur-md"
-              >
-                <div className="flex flex-col sm:flex-row items-start sm:justify-between gap-4">
-                  <div className="min-w-0 flex-1 w-full order-2 sm:order-1">
-                    {isEditing ? (
-                      <div className="space-y-2 mb-3">
-                        <input
-                          type="text"
-                          className="w-full bg-surface-900/50 border border-surface-600/50 rounded-xl p-3 text-sm font-bold text-white"
-                          value={proj.title || ""}
-                          onChange={(e) => {
-                            const newProj = [...editedProfile.projects!];
-                            newProj[i] = { ...newProj[i], title: e.target.value };
-                            setEditedProfile(p => ({ ...p, projects: newProj }));
-                          }}
-                          placeholder="Project Title"
-                        />
-                        <div className="flex gap-2">
-                          <input
-                            type="text"
-                            className="flex-1 bg-surface-900/50 border border-surface-600/50 rounded-xl p-3 text-sm text-emerald-400 font-bold"
-                            value={proj.link || ""}
-                            onChange={(e) => {
-                              const newProj = [...editedProfile.projects!];
-                              newProj[i] = { ...newProj[i], link: e.target.value };
-                              setEditedProfile(p => ({ ...p, projects: newProj }));
-                            }}
-                            placeholder="Link URL"
-                          />
-                          <input
-                            type="text"
-                            className="flex-1 bg-surface-900/50 border border-surface-600/50 rounded-xl p-3 text-sm text-surface-400"
-                            value={proj.duration || ""}
-                            onChange={(e) => {
-                              const newProj = [...editedProfile.projects!];
-                              newProj[i] = { ...newProj[i], duration: e.target.value };
-                              setEditedProfile(p => ({ ...p, projects: newProj }));
-                            }}
-                            placeholder="Duration"
-                          />
-                        </div>
-                        <textarea
-                          className="w-full bg-surface-900/50 border border-surface-600/50 rounded-xl p-3 text-sm text-surface-300 min-h-[100px]"
-                          value={proj.description || ""}
-                          onChange={(e) => {
-                            const newProj = [...editedProfile.projects!];
-                            newProj[i] = { ...newProj[i], description: e.target.value };
-                            setEditedProfile(p => ({ ...p, projects: newProj }));
-                          }}
-                          placeholder="Project description / bullet points"
-                        />
-                      </div>
-                    ) : (
-                      <>
-                        <h4 className="text-xl font-black text-white font-display">
-                          {proj.title || "Project"}
-                        </h4>
-                        {proj.link && (
-                          <a href={proj.link.startsWith('http') ? proj.link : `https://${proj.link}`} target="_blank" rel="noreferrer" className="text-[13px] text-emerald-400 font-bold mt-2 mb-1 block hover:underline truncate">
-                            {proj.link}
-                          </a>
-                        )}
-                        {proj.description && (
-                          <ul className="mt-6 space-y-3">
-                            {proj.description.split(/(?:\n|•)/).filter(b => b.trim().length > 3).map((bullet, idx) => (
-                              <li key={idx} className="group flex items-start gap-3 text-[14.5px] text-surface-300 font-medium leading-relaxed hover:text-surface-100 transition-colors">
-                                <Sparkles className="w-4 h-4 text-emerald-500 mt-1 shrink-0" />
-                                <span className="flex-1">{bullet.trim()}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </>
-                    )}
-                  </div>
-                  {!isEditing && proj.duration && (
-                    <span className="text-[10px] font-black tracking-widest text-surface-400 uppercase bg-surface-800/50 rounded-full px-3 py-1.5 whitespace-nowrap shrink-0 border border-surface-600/30 order-1 sm:order-2 mb-2 sm:mb-0 shadow-inner shadow-black/20">
-                      {proj.duration}
                     </span>
                   )}
                 </div>
@@ -624,69 +528,68 @@ export const EntityExtractionTab = ({
       {/* Education */}
       {editedProfile.education && editedProfile.education.length > 0 && (
         <section className="pb-8">
-          <h3 className="text-xs font-black tracking-widest text-surface-400 uppercase mb-4 ml-1">Education</h3>
+          <h3 className="text-xs font-black tracking-widest text-slate-500 uppercase mb-4 ml-1">Học vấn & Bằng cấp</h3>
           <div className="space-y-6">
             {editedProfile.education.map((edu, i) => (
               <div
                 key={i}
-                className="bg-surface-800/40 border border-indigo-500/20 rounded-3xl p-8 shadow-2xl shadow-black/40 backdrop-blur-md relative overflow-hidden"
+                className="bg-white border border-slate-200/80 rounded-3xl p-8 shadow-xs relative overflow-hidden"
               >
-                <div className="absolute left-0 top-0 bottom-0 w-2 bg-indigo-500/50" />
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0 flex-1">
                     {isEditing ? (
                       <div className="space-y-2 mb-3">
                         <input
                           type="text"
-                          className="w-full bg-surface-900/50 border border-surface-600/50 rounded-xl p-3 text-sm font-bold text-white"
+                          className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm font-bold text-slate-800"
                           value={edu.institution || edu.school || ""}
                           onChange={(e) => {
                             const newEdu = [...editedProfile.education!];
                             newEdu[i] = { ...newEdu[i], institution: e.target.value };
                             setEditedProfile(p => ({ ...p, education: newEdu }));
                           }}
-                          placeholder="Institution / School"
+                          placeholder="Trường học / Viện đào tạo"
                         />
                         <div className="flex gap-2">
                           <input
                             type="text"
-                            className="flex-1 bg-surface-900/50 border border-surface-600/50 rounded-xl p-3 text-sm text-indigo-400 font-bold"
+                            className="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-indigo-700 font-bold"
                             value={edu.degree || ""}
                             onChange={(e) => {
                               const newEdu = [...editedProfile.education!];
                               newEdu[i] = { ...newEdu[i], degree: e.target.value };
                               setEditedProfile(p => ({ ...p, education: newEdu }));
                             }}
-                            placeholder="Degree"
+                            placeholder="Bằng cấp"
                           />
                           <input
                             type="text"
-                            className="flex-1 bg-surface-900/50 border border-surface-600/50 rounded-xl p-3 text-sm text-surface-400"
+                            className="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm text-slate-600"
                             value={edu.year || ""}
                             onChange={(e) => {
                               const newEdu = [...editedProfile.education!];
                               newEdu[i] = { ...newEdu[i], year: e.target.value };
                               setEditedProfile(p => ({ ...p, education: newEdu }));
                             }}
-                            placeholder="Year"
+                            placeholder="Năm tốt nghiệp"
                           />
                         </div>
                       </div>
                     ) : (
                       <>
-                        <h4 className="text-xl font-black text-white font-display">
-                          {edu.institution || edu.school || "School"}
+                        <h4 className="text-xl font-black text-slate-900 font-display">
+                          {edu.institution || edu.school || "Trường học"}
                         </h4>
                         {(edu.degree || edu.field) && (
-                          <p className="text-[13px] text-indigo-400 font-bold mt-2 mb-1">
-                            {edu.degree} {edu.field ? `in ${edu.field}` : ""}
+                          <p className="text-[13px] text-indigo-700 font-bold mt-2 mb-1">
+                            {edu.degree} {edu.field ? `ngành ${edu.field}` : ""}
                           </p>
                         )}
                       </>
                     )}
                   </div>
                   {!isEditing && edu.year && (
-                    <span className="text-[10px] font-black tracking-widest text-surface-400 uppercase bg-surface-800/50 rounded-full px-3 py-1.5 whitespace-nowrap shrink-0 border border-surface-600/30 shadow-inner shadow-black/20">
+                    <span className="text-[10px] font-black tracking-widest text-slate-500 uppercase bg-slate-50 rounded-full px-3.5 py-1.5 whitespace-nowrap shrink-0 border border-slate-200">
                       {edu.year}
                     </span>
                   )}

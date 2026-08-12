@@ -1,5 +1,4 @@
 import apiClient from "./apiClient";
-import type { User } from "../types/user";
 
 export interface AdminStats {
   totalUsers: number;

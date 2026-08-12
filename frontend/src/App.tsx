@@ -39,10 +39,10 @@ function App() {
 
   return (
     <>
-      <div className="relative min-h-screen bg-surface-900 text-surface-300 overflow-x-hidden">
-        {/* Decorative background elements */}
-        <div className="bg-glow w-125 h-125 bg-primary-500 -top-48 -left-48 opacity-10"></div>
-        <div className="bg-glow w-100 h-100 bg-indigo-500 bottom-0 -right-24 opacity-10"></div>
+      <div className="relative min-h-screen bg-slate-50 text-slate-700 overflow-x-hidden">
+        {/* Soft decorative light background elements */}
+        <div className="bg-glow w-125 h-125 bg-teal-200/50 -top-48 -left-48 opacity-60"></div>
+        <div className="bg-glow w-100 h-100 bg-indigo-200/50 bottom-0 -right-24 opacity-60"></div>
 
         <ToastContainer
           position="top-right"
@@ -53,7 +53,7 @@ function App() {
           pauseOnFocusLoss
           draggable
           pauseOnHover
-          theme="dark"
+          theme="light"
         />
         <Header />
         <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">

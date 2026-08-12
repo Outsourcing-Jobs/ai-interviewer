@@ -36,27 +36,27 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
 
     return (
         <div className={`relative ${isOpen ? 'z-50' : 'z-10'}`} ref={containerRef}>
-            {label && <label className="text-[10px] font-black text-surface-500 uppercase tracking-[0.2em] ml-1 block mb-3">{label}</label>}
+            {label && <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.15em] ml-1 block mb-2.5">{label}</label>}
             
             <div className="relative">
                 <div 
                     onClick={() => setIsOpen(!isOpen)}
-                    className={`w-full bg-white/1 overflow-hidden border border-white/10 rounded-xl p-2.5 px-6 text-xs font-bold text-white cursor-pointer transition-all hover:bg-white/10 flex items-center justify-between ${isOpen ? 'ring-2 ring-primary-500/50 border-primary-500/50' : ''}`}
+                    className={`w-full bg-slate-50 overflow-hidden border border-slate-200 rounded-xl p-3 px-5 text-xs font-bold text-slate-800 cursor-pointer transition-all hover:bg-slate-100/80 flex items-center justify-between shadow-2xs ${isOpen ? 'ring-2 ring-teal-500/20 border-teal-500 bg-white' : ''}`}
                 >
                 <span className="truncate">{selectedOption?.label || placeholder}</span>
-                <div className={`absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-surface-500 transition-transform duration-300 ${isOpen ? 'rotate-180 text-primary-400' : ''}`}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+                <div className={`absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 transition-transform duration-300 ${isOpen ? 'rotate-180 text-teal-600' : ''}`}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
                 </div>
             </div>
 
             {isOpen && (
-                <div className="absolute z-50 top-[calc(100%+8px)] left-0 w-full glass-card bg-surface-950/95 backdrop-blur-xl border-white/10 rounded-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 shadow-2xl">
-                    <div className="max-h-60 overflow-y-auto py-2 scrollbar-thin scrollbar-thumb-white/10">
+                <div className="absolute z-50 top-[calc(100%+8px)] left-0 w-full bg-white border border-slate-200 rounded-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200 shadow-xl shadow-slate-200/80">
+                    <div className="max-h-60 overflow-y-auto py-2 scrollbar-thin">
                         {normalizedOptions.map((opt) => (
                             <div
                                 key={opt.value}
                                 onClick={() => handleSelect(opt.value)}
-                                className={`px-5 py-3 text-xs font-bold cursor-pointer transition-colors ${opt.value === value ? 'bg-primary-500/20 text-primary-400' : 'text-surface-300 hover:bg-white/5 hover:text-white'}`}
+                                className={`px-5 py-2.5 text-xs font-bold cursor-pointer transition-colors ${opt.value === value ? 'bg-teal-50 text-teal-700 font-extrabold' : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900'}`}
                             >
                                 {opt.label}
                             </div>

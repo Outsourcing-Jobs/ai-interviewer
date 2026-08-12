@@ -88,20 +88,20 @@ const Register = () => {
     return (
         <div className="flex flex-col justify-center items-center min-h-[85vh] py-12 px-4">
             <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-8 duration-700">
-                <div className="glass-card rounded-[2.5rem] p-10 relative overflow-hidden">
+                <div className="bg-white border border-slate-200/80 shadow-2xl shadow-slate-200/60 rounded-[2.5rem] p-10 relative overflow-hidden">
                     {/* Decorative element */}
-                    <div className="absolute top-0 left-0 w-32 h-32 bg-indigo-500/10 blur-3xl -ml-16 -mt-16"></div>
+                    <div className="absolute top-0 left-0 w-32 h-32 bg-indigo-100/60 blur-3xl -ml-16 -mt-16 pointer-events-none"></div>
 
                     <div className="text-center mb-10 relative z-10">
-                        <h2 className="text-4xl font-extrabold tracking-tight mb-3">
+                        <h2 className="text-4xl font-extrabold tracking-tight mb-3 text-slate-900">
                             Tạo tài khoản <span className="text-gradient">mới</span>
                         </h2>
-                        <p className="text-surface-400 text-sm font-medium">Bắt đầu trải nghiệm luyện phỏng vấn với AI</p>
+                        <p className="text-slate-500 text-sm font-medium">Bắt đầu trải nghiệm luyện phỏng vấn với AI</p>
                     </div>
 
                     <form className="grid grid-cols-1 gap-5 relative z-10" onSubmit={onSubmit}>
                         <div className="space-y-2">
-                            <label htmlFor="name" className="text-[11px] font-black uppercase tracking-widest text-surface-500 ml-1">Họ và tên</label>
+                            <label htmlFor="name" className="text-[11px] font-black uppercase tracking-widest text-slate-500 ml-1">Họ và tên</label>
                             <input
                                 type="text"
                                 id="name"
@@ -114,7 +114,7 @@ const Register = () => {
                             />
                         </div>
                         <div className="space-y-2">
-                            <label htmlFor="email" className="text-[11px] font-black uppercase tracking-widest text-surface-500 ml-1">Địa chỉ Email</label>
+                            <label htmlFor="email" className="text-[11px] font-black uppercase tracking-widest text-slate-500 ml-1">Địa chỉ Email</label>
                             <input
                                 type="email"
                                 id="email"
@@ -128,7 +128,7 @@ const Register = () => {
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <label htmlFor="password" className="text-[11px] font-black uppercase tracking-widest text-surface-500 ml-1">Mật khẩu</label>
+                                <label htmlFor="password" className="text-[11px] font-black uppercase tracking-widest text-slate-500 ml-1">Mật khẩu</label>
                                 <PasswordInput
                                     id="password"
                                     name="password"
@@ -139,7 +139,7 @@ const Register = () => {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label htmlFor="confirmPassword" className="text-[11px] font-black uppercase tracking-widest text-surface-500 ml-1">Xác nhận MK</label>
+                                <label htmlFor="confirmPassword" className="text-[11px] font-black uppercase tracking-widest text-slate-500 ml-1">Xác nhận MK</label>
                                 <PasswordInput
                                     id="confirmPassword"
                                     name="confirmPassword"
@@ -158,10 +158,10 @@ const Register = () => {
                         </button>
                     </form>
 
-                    <div className="my-10 flex items-center relative z-10">
-                        <div className="grow border-t border-white/5"></div>
-                        <div className="mx-4 text-surface-500 text-[10px] font-black tracking-[0.2em] uppercase">Hoặc</div>
-                        <div className="grow border-t border-white/5"></div>
+                    <div className="my-8 flex items-center relative z-10">
+                        <div className="grow border-t border-slate-200"></div>
+                        <div className="mx-4 text-slate-400 text-[10px] font-black tracking-[0.2em] uppercase">Hoặc</div>
+                        <div className="grow border-t border-slate-200"></div>
                     </div>
 
                     <div className="w-full flex items-center justify-center relative z-10">
@@ -170,7 +170,7 @@ const Register = () => {
                             onError={() => {
                                 toast.error("Đăng nhập Google thất bại");
                             }}
-                            theme="filled_black"
+                            theme="outline"
                             shape="pill"
                             size="large"
                             text="continue_with"
@@ -178,15 +178,15 @@ const Register = () => {
                         />
                     </div>
 
-                    <div className="mt-10 text-center relative z-10">
-                        <p className="text-surface-400 text-sm font-medium">
+                    <div className="mt-8 text-center relative z-10">
+                        <p className="text-slate-500 text-sm font-medium">
                             Đã có tài khoản?{" "}
-                            <Link to="/login" className="text-primary-400 hover:text-primary-300 font-bold underline underline-offset-4 transition-colors">Đăng nhập ngay</Link>
+                            <Link to="/login" className="text-teal-600 hover:text-teal-700 font-bold underline underline-offset-4 transition-colors">Đăng nhập ngay</Link>
                         </p>
                     </div>
                 </div>
 
-                <p className="mt-8 text-center text-surface-500 text-[10px] font-bold uppercase tracking-widest">
+                <p className="mt-8 text-center text-slate-400 text-[10px] font-bold uppercase tracking-widest">
                     &copy; 2024 Prepify AI. The smart way to interview.
                 </p>
             </div>

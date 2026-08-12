@@ -17,8 +17,8 @@ const AIFeedbackSection: React.FC<AIFeedbackSectionProps> = ({ isEvaluated, feed
     if (!isEvaluated) return null;
 
     return (
-        <div className="mt-6 glass-card border border-white/10 p-6 rounded-[2.5rem] relative overflow-hidden">
-            <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
+        <div className="mt-6 bg-white border border-slate-200/80 p-6 sm:p-8 rounded-[2.5rem] relative overflow-hidden shadow-xs">
+            <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none text-teal-600">
                 <svg className="w-32 h-32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.5">
                     <circle cx="12" cy="12" r="10" />
                     <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
@@ -27,13 +27,13 @@ const AIFeedbackSection: React.FC<AIFeedbackSectionProps> = ({ isEvaluated, feed
             </div>
 
             {hasFollowUp && (
-                <div className="mb-6 bg-primary-500/10 border border-primary-500/20 text-primary-400 p-4 rounded-2xl flex items-center gap-3 relative z-10">
-                    <svg className="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="mb-6 bg-teal-50 border border-teal-200 text-teal-800 p-4 rounded-2xl flex items-center gap-3 relative z-10">
+                    <svg className="w-5 h-5 shrink-0 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                     <div>
-                        <h4 className="font-black text-sm uppercase tracking-widest">Follow-up Generated</h4>
-                        <p className="text-xs mt-1 text-primary-200">The interviewer has a dynamic follow-up question based on your answer. Click Next to continue.</p>
+                        <h4 className="font-black text-sm uppercase tracking-widest text-teal-900">Follow-up Generated</h4>
+                        <p className="text-xs mt-1 text-teal-700">The interviewer has a dynamic follow-up question based on your answer. Click Next to continue.</p>
                     </div>
                 </div>
             )}
@@ -42,24 +42,24 @@ const AIFeedbackSection: React.FC<AIFeedbackSectionProps> = ({ isEvaluated, feed
                 <div className="flex gap-2">
                     <button
                         onClick={() => setActiveTab('feedback')}
-                        className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-colors ${activeTab === 'feedback' ? 'bg-primary-500/20 text-primary-400 border border-primary-500/30' : 'text-surface-500 hover:text-white'}`}
+                        className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-colors cursor-pointer ${activeTab === 'feedback' ? 'bg-teal-50 text-teal-700 border border-teal-200 font-extrabold' : 'text-slate-500 hover:text-slate-900'}`}
                     >
                         AI Feedback
                     </button>
                     {speechMetrics && (
                         <button
                             onClick={() => setActiveTab('speech')}
-                            className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-colors ${activeTab === 'speech' ? 'bg-primary-500/20 text-primary-400 border border-primary-500/30' : 'text-surface-500 hover:text-white'}`}
+                            className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-colors cursor-pointer ${activeTab === 'speech' ? 'bg-teal-50 text-teal-700 border border-teal-200 font-extrabold' : 'text-slate-500 hover:text-slate-900'}`}
                         >
                             Speech Analysis
                         </button>
                     )}
                 </div>
 
-                <div className="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></span>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-surface-300">
-                        Score: <span className="text-white">{score}</span>/100
+                <div className="px-4 py-1.5 rounded-full bg-slate-50 border border-slate-200 flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-2xs"></span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-600">
+                        Score: <span className="text-slate-900 font-extrabold">{score}</span>/100
                     </span>
                 </div>
             </div>
@@ -73,7 +73,7 @@ const AIFeedbackSection: React.FC<AIFeedbackSectionProps> = ({ isEvaluated, feed
                         exit={{ opacity: 0, y: -10 }}
                         className="relative z-10"
                     >
-                        <p className="text-surface-300 text-sm leading-relaxed whitespace-pre-wrap font-medium">{feedback}</p>
+                        <p className="text-slate-800 text-sm sm:text-base leading-relaxed whitespace-pre-wrap font-medium">{feedback}</p>
                     </motion.div>
                 ) : (
                     <motion.div
