@@ -16,38 +16,38 @@
   --color-primary-900: #134e4a;
   --color-primary-950: #042f2e;
 
-  --color-surface-50: #fafafa;
-  --color-surface-100: #f5f5f5;
-  --color-surface-200: #e5e5e5;
-  --color-surface-300: #d4d4d4;
-  --color-surface-400: #a3a3a3;
-  --color-surface-500: #737373;
-  --color-surface-600: #525252;
-  --color-surface-700: #404040;
-  --color-surface-800: #262626;
-  --color-surface-900: #171717;
-  --color-surface-950: #0a0a0a;
+  --color-surface-50: #ffffff;
+  --color-surface-100: #f8fafc;
+  --color-surface-200: #f1f5f9;
+  --color-surface-300: #e2e8f0;
+  --color-surface-400: #94a3b8;
+  --color-surface-500: #64748b;
+  --color-surface-600: #475569;
+  --color-surface-700: #334155;
+  --color-surface-800: #1e293b;
+  --color-surface-900: #0f172a;
+  --color-surface-950: #020617;
 }
 
 @layer base {
   html {
-    @apply bg-surface-900;
+    @apply bg-slate-50;
     scrollbar-gutter: stable;
     overflow-y: scroll;
     overscroll-behavior-y: none;
   }
 
   body {
-    @apply font-sans bg-surface-900 text-surface-300 selection:bg-primary-500/30 selection:text-primary-200 min-h-screen;
+    @apply font-sans bg-slate-50 text-slate-700 selection:bg-teal-500/20 selection:text-teal-900 min-h-screen antialiased;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
 
   @media print {
-
     html,
     body {
-      background-color: var(--color-surface-900) !important;
+      background-color: #ffffff !important;
+      color: #000000 !important;
     }
 
     canvas {
@@ -65,10 +65,10 @@
     }
 
     .glass-card {
-      background-color: var(--color-surface-900) !important;
+      background-color: #ffffff !important;
       box-shadow: none !important;
       transform: none !important;
-      border-color: var(--color-surface-800) !important;
+      border-color: #e2e8f0 !important;
     }
   }
 
@@ -78,57 +78,57 @@
   h4,
   h5,
   h6 {
-    @apply font-display font-bold text-surface-100;
+    @apply font-display font-bold text-slate-900;
   }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-surface-900/30 backdrop-blur-xl border border-white/5 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)];
+    @apply bg-white/90 backdrop-blur-xl border border-slate-200/80 shadow-sm shadow-slate-200/50 rounded-3xl;
     transform: translateZ(0);
     backface-visibility: hidden;
     isolation: isolate;
   }
 
   .glass-card-hover {
-    @apply bg-surface-900/30 backdrop-blur-xl border border-white/5 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] transition-all duration-300 hover:-translate-y-1 hover:border-primary-500/30 hover:shadow-[0_12px_40px_0_rgba(20,184,166,0.15)] cursor-pointer;
+    @apply bg-white/90 backdrop-blur-xl border border-slate-200/80 shadow-sm shadow-slate-200/50 rounded-3xl transition-all duration-300 hover:-translate-y-1 hover:border-teal-500/40 hover:shadow-xl hover:shadow-teal-900/5 cursor-pointer;
   }
 
   .glass-input {
-    @apply w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-3 focus:outline-none focus:ring-2 focus:ring-primary-500/30 focus:border-primary-500/30 transition-all duration-300 text-surface-100 placeholder:text-surface-600;
+    @apply w-full bg-white border border-slate-200 rounded-2xl px-5 py-3 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all duration-300;
   }
 
   .btn-primary {
-    @apply relative overflow-hidden bg-primary-600 hover:bg-primary-500 text-surface-950 font-bold py-3 px-6 rounded-2xl transition-all duration-300 active:scale-[0.98] hover:-translate-y-px hover:shadow-[0_0_20px_rgba(20,184,166,0.4)] cursor-pointer;
+    @apply relative overflow-hidden bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-6 rounded-2xl shadow-md shadow-teal-600/20 transition-all duration-300 active:scale-[0.98] hover:-translate-y-0.5 cursor-pointer;
   }
 
   .btn-secondary {
-    @apply relative overflow-hidden bg-white/5 hover:bg-white/10 text-surface-200 border border-white/10 font-bold py-3 px-6 rounded-2xl transition-all duration-300 active:scale-95 hover:border-primary-500/30 hover:text-white cursor-pointer;
+    @apply relative overflow-hidden bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/80 font-bold py-3 px-6 rounded-2xl shadow-xs transition-all duration-300 active:scale-95 hover:border-slate-300 hover:text-slate-900 cursor-pointer;
   }
 }
 
 @layer utilities {
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-linear-to-r from-primary-300 to-primary-500;
+    @apply bg-clip-text text-transparent bg-linear-to-r from-teal-600 via-teal-500 to-indigo-600;
   }
 
   .bg-glow {
-    @apply absolute -z-10 blur-[120px] opacity-20 rounded-full;
+    @apply absolute -z-10 blur-[100px] opacity-40 rounded-full pointer-events-none;
   }
 }
 
-/* Custom Scrollbar */
+/* Custom Light Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-surface-950;
+  @apply bg-slate-100;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-surface-800 rounded-full hover:bg-surface-700 transition-colors;
+  @apply bg-slate-300 rounded-full hover:bg-slate-400 transition-colors;
 }
 
 select::-webkit-scrollbar {

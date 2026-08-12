@@ -129,34 +129,34 @@ const Dashboard = () => {
                 className="flex flex-col sm:flex-row sm:items-end justify-between gap-8 pb-4"
             >
                 <div className="space-y-4">
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-500/10 border border-primary-500/20 shadow-[0_0_15px_rgba(45,212,191,0.1)]">
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-50 border border-teal-200 shadow-xs">
                         <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-600"></span>
                         </span>
-                        <span className="text-sm font-bold text-primary-400">Hệ thống sẵn sàng</span>
+                        <span className="text-sm font-bold text-teal-700">Hệ thống sẵn sàng</span>
                     </div>
-                    <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-none font-display">
-                        Xin chào, <span className="text-primary-400 pr-4">{user?.name?.split(' ')[0]}</span>
+                    <h1 className="text-4xl sm:text-6xl font-black tracking-tight leading-none font-display text-slate-900">
+                        Xin chào, <span className="text-teal-600 pr-4">{user?.name?.split(' ')[0]}</span>
                     </h1>
-                    <p className="text-surface-400 text-base sm:text-lg font-medium max-w-md leading-relaxed">
+                    <p className="text-slate-600 text-base sm:text-lg font-medium max-w-md leading-relaxed">
                         Luyện tập phỏng vấn AI thông minh. Nâng tầm kỹ năng ứng tuyển của bạn ngay hôm nay.
                     </p>
                 </div>
 
                 <div className="flex flex-wrap lg:flex-nowrap items-center gap-4 w-full lg:w-auto">
-                    <div className="bg-surface-800/40 border border-surface-600/30 shadow-2xl shadow-black/40 backdrop-blur-md px-6 py-5 rounded-3xl flex flex-col gap-1 flex-1 min-w-[140px]">
-                        <p className="text-sm text-surface-400 font-medium whitespace-nowrap">Tổng bài phỏng vấn</p>
-                        <p className="text-3xl font-black text-white font-display">{totalSessions}</p>
+                    <div className="bg-white border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow px-6 py-5 rounded-3xl flex flex-col gap-1 flex-1 min-w-[140px]">
+                        <p className="text-xs font-bold text-slate-500 uppercase tracking-wider whitespace-nowrap">Tổng bài phỏng vấn</p>
+                        <p className="text-3xl font-black text-slate-900 font-display">{totalSessions}</p>
                     </div>
-                    <div className="bg-surface-800/40 border border-surface-600/30 border-l-primary-500/50 shadow-2xl shadow-black/40 backdrop-blur-md px-6 py-5 rounded-3xl flex flex-col gap-1 flex-1 min-w-[140px]">
-                        <p className="text-sm text-surface-400 font-medium whitespace-nowrap">Đã hoàn thành</p>
-                        <p className="text-3xl font-black text-emerald-400 font-display">{completedSessions}</p>
+                    <div className="bg-white border border-slate-200/80 border-l-4 border-l-emerald-500 shadow-sm hover:shadow-md transition-shadow px-6 py-5 rounded-3xl flex flex-col gap-1 flex-1 min-w-[140px]">
+                        <p className="text-xs font-bold text-slate-500 uppercase tracking-wider whitespace-nowrap">Đã hoàn thành</p>
+                        <p className="text-3xl font-black text-emerald-600 font-display">{completedSessions}</p>
                     </div>
                     {activeSessions > 0 && (
-                        <div className="bg-surface-800/40 border border-surface-600/30 border-l-indigo-500/50 shadow-2xl shadow-black/40 backdrop-blur-md px-6 py-5 rounded-3xl flex flex-col gap-1 animate-pulse flex-1 min-w-[140px]">
-                            <p className="text-sm text-surface-400 font-medium whitespace-nowrap">Đang chờ</p>
-                            <p className="text-3xl font-black text-indigo-400 font-display">{activeSessions}</p>
+                        <div className="bg-white border border-slate-200/80 border-l-4 border-l-indigo-500 shadow-sm hover:shadow-md transition-shadow px-6 py-5 rounded-3xl flex flex-col gap-1 animate-pulse flex-1 min-w-[140px]">
+                            <p className="text-xs font-bold text-slate-500 uppercase tracking-wider whitespace-nowrap">Đang chờ</p>
+                            <p className="text-3xl font-black text-indigo-600 font-display">{activeSessions}</p>
                         </div>
                     )}
                 </div>
@@ -169,7 +169,7 @@ const Dashboard = () => {
                 transition={{ delay: 0.2 }}
                 className="relative group z-20"
             >
-                <div className="absolute -inset-1 bg-linear-to-r from-primary-500/10 to-indigo-500/10 rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-50 transition duration-1000"></div>
+                <div className="absolute -inset-1 bg-linear-to-r from-teal-500/20 to-indigo-500/20 rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-100 transition duration-700"></div>
                 <div className="relative">
                     <NewInterviewForm
                         formData={formData}
@@ -210,15 +210,15 @@ const Dashboard = () => {
                 className="space-y-8 pb-12"
             >
                 <div className="flex items-center justify-between">
-                    <h2 className="text-2xl font-black flex items-center gap-4 text-white font-display">
-                        <span className="p-3 bg-surface-800/40 border border-surface-600/30 shadow-[0_0_15px_rgba(0,0,0,0.5)] rounded-2xl flex items-center justify-center backdrop-blur-md">
-                            <svg className="w-6 h-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <h2 className="text-2xl font-black flex items-center gap-4 text-slate-900 font-display">
+                        <span className="p-3 bg-white border border-slate-200/80 shadow-xs rounded-2xl flex items-center justify-center">
+                            <svg className="w-6 h-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                             </svg>
                         </span>
-                        Lịch sử <span className="text-surface-500">phỏng vấn</span>
+                        Lịch sử <span className="text-slate-400 font-bold">phỏng vấn</span>
                     </h2>
-                    <div className="h-px grow mx-6 bg-white/5 hidden sm:block"></div>
+                    <div className="h-px grow mx-6 bg-slate-200/80 hidden sm:block"></div>
                 </div>
 
                 <div className="grid gap-8">
@@ -232,13 +232,13 @@ const Dashboard = () => {
                         (!sessions || !Array.isArray(sessions) || sessions.length === 0) ? (
                             <motion.div
                                 variants={itemVariants}
-                                className="glass-card rounded-[3rem] py-24 text-center border-dashed border-white/10 group/empty"
+                                className="bg-white rounded-[2.5rem] py-20 text-center border border-dashed border-slate-300 shadow-xs group/empty"
                             >
-                                <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-8 border border-white/5 group-hover/empty:scale-110 transition-transform duration-500">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-surface-600"><circle cx="12" cy="12" r="10" /><path d="M8 12h8" /><path d="M12 8v8" /></svg>
+                                <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 border border-slate-200 group-hover/empty:scale-110 transition-transform duration-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-400"><circle cx="12" cy="12" r="10" /><path d="M8 12h8" /><path d="M12 8v8" /></svg>
                                 </div>
-                                <h3 className="text-2xl font-black text-white">Chưa có bài phỏng vấn nào</h3>
-                                <p className="text-surface-400 mt-2 font-medium max-w-sm mx-auto">Tạo buổi phỏng vấn mới để bắt đầu lưu lịch sử rèn luyện.</p>
+                                <h3 className="text-2xl font-black text-slate-800">Chưa có bài phỏng vấn nào</h3>
+                                <p className="text-slate-500 mt-2 font-medium max-w-sm mx-auto text-sm">Tạo buổi phỏng vấn mới để bắt đầu lưu lịch sử rèn luyện.</p>
                             </motion.div>
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

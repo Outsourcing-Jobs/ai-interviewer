@@ -75,20 +75,20 @@ const Login = () => {
     return (
         <div className="flex flex-col justify-center items-center min-h-[85vh] py-12 px-4">
             <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-8 duration-700">
-                <div className="glass-card rounded-[2.5rem] p-10 relative overflow-hidden">
+                <div className="bg-white border border-slate-200/80 shadow-2xl shadow-slate-200/60 rounded-[2.5rem] p-10 relative overflow-hidden">
                     {/* Decorative element */}
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary-500/10 blur-3xl -mr-16 -mt-16"></div>
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-teal-100/60 blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
                     
                     <div className="text-center mb-10 relative z-10">
-                        <h2 className="text-4xl font-extrabold tracking-tight mb-3">
+                        <h2 className="text-4xl font-extrabold tracking-tight mb-3 text-slate-900">
                             Chào mừng <span className="text-gradient">trở lại</span>
                         </h2>
-                        <p className="text-surface-400 text-sm font-medium">Đăng nhập vào tài khoản AI Interviewer</p>
+                        <p className="text-slate-500 text-sm font-medium">Đăng nhập vào tài khoản AI Interviewer</p>
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
                         <div className="space-y-2">
-                            <label htmlFor="email" className="text-[11px] font-black uppercase tracking-widest text-surface-500 ml-1">Địa chỉ Email</label>
+                            <label htmlFor="email" className="text-[11px] font-black uppercase tracking-widest text-slate-500 ml-1">Địa chỉ Email</label>
                             <input 
                                 type="email" 
                                 id="email" 
@@ -101,7 +101,7 @@ const Login = () => {
                             />
                         </div>
                         <div className="space-y-2">
-                            <label htmlFor="password" className="text-[11px] font-black uppercase tracking-widest text-surface-500 ml-1">Mật khẩu</label>
+                            <label htmlFor="password" className="text-[11px] font-black uppercase tracking-widest text-slate-500 ml-1">Mật khẩu</label>
                             <PasswordInput
                                 id="password"
                                 name="password"
@@ -118,17 +118,17 @@ const Login = () => {
                         </button>
                     </form>
 
-                    <div className="my-10 flex items-center relative z-10">
-                        <div className="grow border-t border-white/5"></div>
-                        <div className="mx-4 text-surface-500 text-[10px] font-black tracking-[0.2em] uppercase">Hoặc</div>
-                        <div className="grow border-t border-white/5"></div>
+                    <div className="my-8 flex items-center relative z-10">
+                        <div className="grow border-t border-slate-200"></div>
+                        <div className="mx-4 text-slate-400 text-[10px] font-black tracking-[0.2em] uppercase">Hoặc</div>
+                        <div className="grow border-t border-slate-200"></div>
                     </div>
                     
                     <div className="w-full flex items-center justify-center relative z-10">
                         <button
                             type="button"
                             onClick={handleGoogleSignIn}
-                            className="w-full flex items-center justify-center gap-3 px-6 py-3 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-white text-sm font-semibold tracking-wide transition-all duration-200 hover:border-white/20 active:scale-[0.98]"
+                            className="w-full flex items-center justify-center gap-3 px-6 py-3 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-sm font-semibold tracking-wide shadow-xs transition-all duration-200 hover:border-slate-300 active:scale-[0.98] cursor-pointer"
                         >
                             {/* Google logo SVG */}
                             <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
@@ -141,16 +141,16 @@ const Login = () => {
                         </button>
                     </div>
 
-                    <div className="mt-10 text-center relative z-10">
-                        <p className="text-surface-400 text-sm font-medium">
+                    <div className="mt-8 text-center relative z-10">
+                        <p className="text-slate-500 text-sm font-medium">
                             Chưa có tài khoản?{" "}
-                            <Link to="/register" className="text-primary-400 hover:text-primary-300 font-bold underline underline-offset-4 transition-colors">Đăng ký ngay</Link>
+                            <Link to="/register" className="text-teal-600 hover:text-teal-700 font-bold underline underline-offset-4 transition-colors">Đăng ký ngay</Link>
                         </p>
                     </div>
                 </div>
 
                 {/* Footer text */}
-                <p className="mt-8 text-center text-surface-500 text-[10px] font-bold uppercase tracking-widest">
+                <p className="mt-8 text-center text-slate-400 text-[10px] font-bold uppercase tracking-widest">
                     &copy; 2024 Prepify AI. Built for the next generation of talent.
                 </p>
             </div>

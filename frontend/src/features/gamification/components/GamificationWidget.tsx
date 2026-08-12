@@ -53,22 +53,22 @@ export const GamificationWidget = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
       {/* 1. Professional Development */}
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, type: "spring", stiffness: 260, damping: 20 }} className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-6 shadow-2xl shadow-black/40 backdrop-blur-md flex flex-col justify-between">
-        <h3 className="text-white font-bold text-lg mb-4 leading-tight">Thăng tiến<br /></h3>
-        <div className="bg-surface-900/40 p-5 rounded-2xl border border-white/5">
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1, type: "spring", stiffness: 260, damping: 20 }} className="bg-white border border-slate-200/80 rounded-3xl p-6 shadow-xs flex flex-col justify-between">
+        <h3 className="text-slate-900 font-extrabold text-lg mb-4 leading-tight font-display">Thăng tiến<br /></h3>
+        <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200/80">
           <div className="flex justify-between items-end mb-4">
             <div>
-              <div className="text-surface-400 text-[10px] uppercase tracking-wider mb-1">Current Tier</div>
-              <div className="text-[#2ECA8B] text-sm font-bold">{profile.title}</div>
+              <div className="text-slate-400 text-[10px] uppercase font-black tracking-wider mb-1">Cấp độ hiện tại</div>
+              <div className="text-teal-600 text-sm font-black">{profile.title}</div>
             </div>
             <div className="text-right">
-              <div className="text-white font-bold text-xl">Level {profile.level}</div>
+              <div className="text-slate-900 font-black text-xl font-display">Level {profile.level}</div>
             </div>
           </div>
 
-          <div className="w-full bg-[#1E2530] rounded-full h-3 overflow-hidden border border-white/5 mb-3 shadow-inner">
+          <div className="w-full bg-slate-200 rounded-full h-3 overflow-hidden border border-slate-300/50 mb-3 shadow-inner">
             <div
-              className="bg-linear-to-r from-[#20b2aa] to-[#2ECA8B] h-full rounded-full transition-all duration-1000 ease-out relative"
+              className="bg-linear-to-r from-teal-600 to-emerald-500 h-full rounded-full transition-all duration-1000 ease-out relative"
               style={{ width: `${calculateXpProgress()}%` }}
             >
               <div className="absolute inset-0 bg-white/20 w-full h-full" style={{ animation: 'shimmer 2s infinite' }}></div>
@@ -76,19 +76,19 @@ export const GamificationWidget = () => {
           </div>
 
           <div className="flex justify-between items-center text-sm">
-            <span className="text-surface-500 text-[10px] font-medium">Progress to next level</span>
-            <span className="text-[#a1a1aa] text-[11px] font-bold tracking-wide">{profile.xp} / {nextLevelXp || "MAX"} XP</span>
+            <span className="text-slate-500 text-[10px] font-bold">Tiến độ cấp tiếp theo</span>
+            <span className="text-slate-700 text-[11px] font-black tracking-wide">{profile.xp} / {nextLevelXp || "MAX"} XP</span>
           </div>
         </div>
       </motion.div>
 
       {/* 2. Consistency */}
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, type: "spring", stiffness: 260, damping: 20 }} className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-6 shadow-2xl shadow-black/40 backdrop-blur-md flex flex-col">
-        <h3 className="text-white font-bold text-lg mb-4">Độ bền bỉ</h3>
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15, type: "spring", stiffness: 260, damping: 20 }} className="bg-white border border-slate-200/80 rounded-3xl p-6 shadow-xs flex flex-col">
+        <h3 className="text-slate-900 font-extrabold text-lg mb-4 font-display">Độ bền bỉ</h3>
 
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 flex-1">
           <div className="flex-1">
-            <div className="flex justify-between text-[10px] text-surface-400 mb-2 px-1 w-full md:max-w-[260px]">
+            <div className="flex justify-between text-[10px] font-black text-slate-400 mb-2 px-1 w-full md:max-w-[260px]">
               <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
             </div>
             <div className="grid grid-cols-7 gap-2 w-full md:max-w-[260px]">
@@ -97,62 +97,62 @@ export const GamificationWidget = () => {
                 const isActive = daysAgo < profile.currentStreak;
                 const isHighActivity = isActive && i % 2 === 0;
                 return (
-                  <div key={i} className={`w-full aspect-square rounded-full flex items-center justify-center ${isActive ? 'bg-[#2ECA8B]/20' : 'bg-[#1E2530]'}`}>
-                    {isActive && <div className={`w-2 h-2 rounded-full ${isHighActivity ? 'bg-[#2ECA8B]' : 'bg-[#2ECA8B]/60'}`}></div>}
+                  <div key={i} className={`w-full aspect-square rounded-full flex items-center justify-center ${isActive ? 'bg-emerald-100/80' : 'bg-slate-100'}`}>
+                    {isActive && <div className={`w-2 h-2 rounded-full ${isHighActivity ? 'bg-emerald-600' : 'bg-emerald-400'}`}></div>}
                   </div>
                 );
               })}
             </div>
           </div>
 
-          <div className="flex items-center gap-4 lg:flex-col lg:items-start lg:justify-center bg-surface-900/40 p-4 rounded-2xl border border-white/5 lg:min-w-[140px] h-full">
-            <div className="w-10 h-10 rounded-xl bg-[#2ECA8B]/10 flex items-center justify-center text-[#2ECA8B] shrink-0">
+          <div className="flex items-center gap-4 lg:flex-col lg:items-start lg:justify-center bg-slate-50 p-4 rounded-2xl border border-slate-200/80 lg:min-w-[140px] h-full">
+            <div className="w-10 h-10 rounded-xl bg-teal-100/80 flex items-center justify-center text-teal-700 shrink-0 font-bold">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
             <div>
-              <div className="text-2xl font-bold text-[#2ECA8B] tracking-tight">{profile.currentStreak} Days</div>
-              <div className="text-[9px] text-surface-400 uppercase tracking-widest mt-1">Active Streak</div>
+              <div className="text-2xl font-black text-teal-700 tracking-tight font-display">{profile.currentStreak} Days</div>
+              <div className="text-[9px] text-slate-500 font-black uppercase tracking-widest mt-0.5">Chuỗi phỏng vấn</div>
             </div>
           </div>
         </div>
       </motion.div>
 
       {/* 3. Skills Verified */}
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, type: "spring", stiffness: 260, damping: 20 }} className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-6 shadow-2xl shadow-black/40 backdrop-blur-md flex flex-col">
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, type: "spring", stiffness: 260, damping: 20 }} className="bg-white border border-slate-200/80 rounded-3xl p-6 shadow-xs flex flex-col">
         <div className="flex justify-between items-start mb-6">
-          <h3 className="text-white font-bold text-lg">Thành tích</h3>
-          <span className="text-[#2ECA8B] text-xs font-bold">{profile?.badges?.length || 0} thành tích</span>
+          <h3 className="text-slate-900 font-extrabold text-lg font-display">Thành tích</h3>
+          <span className="text-teal-600 text-xs font-black">{profile?.badges?.length || 0} thành tích</span>
         </div>
         <div className="flex flex-wrap gap-x-3 gap-y-4 justify-center items-start px-1 pb-2">
           {profile?.badges && profile.badges.length > 0 ? profile.badges.slice(0, 8).map((badge, idx) => (
             <div key={idx} className="flex flex-col items-center min-w-[55px] max-w-[65px]">
               <BadgeIcon badgeId={badge.badgeId} className="w-12 h-12 mb-2 shrink-0" />
               <span
-                className="text-[9px] text-surface-400 whitespace-nowrap overflow-hidden text-ellipsis w-full text-center"
+                className="text-[9px] text-slate-600 font-bold whitespace-nowrap overflow-hidden text-ellipsis w-full text-center"
                 title={badge.badgeId.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
               >
                 {badge.badgeId.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
               </span>
             </div>
           )) : (
-            <div className="w-full text-center text-surface-500 text-xs py-4">Chưa có thành tích</div>
+            <div className="w-full text-center text-slate-400 text-xs py-4 font-medium">Chưa có thành tích</div>
           )}
         </div>
       </motion.div>
 
       {/* 4. Global Rank */}
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, type: "spring", stiffness: 260, damping: 20 }} className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-6 shadow-2xl shadow-black/40 backdrop-blur-md flex flex-col">
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, type: "spring", stiffness: 260, damping: 20 }} className="bg-white border border-slate-200/80 rounded-3xl p-6 shadow-xs flex flex-col">
         <div className="flex items-start gap-3 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-[#2ECA8B]/20 flex items-center justify-center text-[#2ECA8B] shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-teal-100/80 flex items-center justify-center text-teal-700 shrink-0 font-bold">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
             </svg>
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="text-white font-bold text-lg whitespace-nowrap">Bảng xếp hạng</h3>
-            <p className="text-surface-400 text-xs truncate">Vị trí của bạn: {profile?.leaderboardOptIn ? leaderboard?.find(l => l.userId ? (l.userId === user?._id || l.userId === user?.id) : (l.name === user?.name))?.rank || '-' : 'Opted Out'}</p>
+            <h3 className="text-slate-900 font-extrabold text-lg whitespace-nowrap font-display">Bảng xếp hạng</h3>
+            <p className="text-slate-500 text-xs font-medium truncate">Vị trí của bạn: {profile?.leaderboardOptIn ? leaderboard?.find(l => l.userId ? (l.userId === user?._id || l.userId === user?.id) : (l.name === user?.name))?.rank || '-' : 'Opted Out'}</p>
           </div>
         </div>
 
@@ -160,17 +160,17 @@ export const GamificationWidget = () => {
           {leaderboard?.slice(0, 10).map((entry, idx) => {
             const isCurrentUser = entry.userId ? (entry.userId === user?._id || entry.userId === user?.id) : (entry.name === user?.name);
             return (
-              <div key={idx} className={`p-2 flex items-center gap-3 rounded-xl ${isCurrentUser ? 'bg-[#2ECA8B]/10 border border-[#2ECA8B]/20' : ''}`}>
-                <span className={`${isCurrentUser ? 'text-[#2ECA8B]' : 'text-surface-500'} font-bold text-xs w-4 text-center shrink-0`}>{idx + 1}.</span>
-                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${isCurrentUser ? 'bg-[#2ECA8B] text-black' : 'bg-surface-700 text-surface-400'}`}>
+              <div key={idx} className={`p-2 flex items-center gap-3 rounded-xl ${isCurrentUser ? 'bg-teal-50 border border-teal-200' : 'bg-slate-50/50'}`}>
+                <span className={`${isCurrentUser ? 'text-teal-700' : 'text-slate-400'} font-black text-xs w-4 text-center shrink-0`}>{idx + 1}.</span>
+                <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${isCurrentUser ? 'bg-teal-600 text-white' : 'bg-slate-200 text-slate-600'}`}>
                   {isCurrentUser ? (idx + 1) : <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className={`${isCurrentUser ? 'text-white' : 'text-surface-300'} text-xs font-bold truncate`}>{isCurrentUser ? "You" : entry.name}</div>
-                  <div className={`text-[9px] truncate ${isCurrentUser ? 'text-[#2ECA8B]' : 'text-surface-500'}`}>Level {entry.level} • {entry.xp} XP</div>
+                  <div className={`${isCurrentUser ? 'text-slate-900 font-extrabold' : 'text-slate-700'} text-xs font-bold truncate`}>{isCurrentUser ? "You" : entry.name}</div>
+                  <div className={`text-[9px] truncate ${isCurrentUser ? 'text-teal-600 font-bold' : 'text-slate-400'}`}>Level {entry.level} • {entry.xp} XP</div>
                 </div>
                 {isCurrentUser && (
-                  <svg className="w-4 h-4 text-[#f59e0b] shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-4 h-4 text-amber-500 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.599-.8a1 1 0 01.894 1.79l-1.233.616 1.738 5.42a1 1 0 01-.285 1.05A3.989 3.989 0 0115 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.715-5.349L11 6.477V16h2a1 1 0 110 2H7a1 1 0 110-2h2V6.477L6.237 7.582l1.715 5.349a1 1 0 01-.285 1.05A3.989 3.989 0 015 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.738-5.42-1.233-.617a1 1 0 01.894-1.788l1.599.799L9 4.323V3a1 1 0 011-1zm-5 8.274l-.818 2.552c.25.112.526.174.818.174.292 0 .569-.062.818-.174L5 10.274zm10 0l-.818 2.552c.25.112.526.174.818.174.292 0 .569-.062.818-.174L15 10.274z" clipRule="evenodd" />
                   </svg>
                 )}

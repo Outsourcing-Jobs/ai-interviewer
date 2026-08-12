@@ -32,7 +32,7 @@ const Header = () => {
       <header
         className={`sticky top-0 z-50 transition-all duration-500 ${
           scrolled
-            ? "bg-surface-900/80 backdrop-blur-xl border-b border-white/5 py-2"
+            ? "bg-white/80 backdrop-blur-xl border-b border-slate-200/80 shadow-xs py-3"
             : "bg-transparent py-4 border-b border-transparent"
         }`}
       >

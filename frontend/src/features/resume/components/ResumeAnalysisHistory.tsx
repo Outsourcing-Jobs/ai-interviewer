@@ -72,12 +72,12 @@ const ScoreRing = ({ score, size = 56, strokeWidth = 5 }: { score: number; size?
   const r = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * r;
   const offset = circumference - (circumference * Math.min(score, 100)) / 100;
-  const color = score >= 75 ? "text-emerald-400" : score >= 50 ? "text-amber-400" : "text-rose-400";
+  const color = score >= 75 ? "text-emerald-600" : score >= 50 ? "text-amber-600" : "text-rose-600";
 
   return (
     <div className="relative" style={{ width: size, height: size }}>
       <svg className="w-full h-full transform -rotate-90" viewBox={`0 0 ${size} ${size}`}>
-        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="currentColor" className="text-surface-700/50" strokeWidth={strokeWidth} />
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="currentColor" className="text-slate-100" strokeWidth={strokeWidth} />
         <circle
           cx={size / 2} cy={size / 2} r={r} fill="none" stroke="currentColor"
           className={`${color} transition-all duration-1000 ease-out`}
@@ -88,7 +88,7 @@ const ScoreRing = ({ score, size = 56, strokeWidth = 5 }: { score: number; size?
         />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-sm font-black text-white font-display">{score}</span>
+        <span className="text-sm font-black text-slate-900 font-display">{score}</span>
       </div>
     </div>
   );
@@ -99,24 +99,24 @@ const ScoreRing = ({ score, size = 56, strokeWidth = 5 }: { score: number; size?
 // ═══════════════════════════════════════════════════════════════════════
 
 const SkeletonCard = () => (
-  <div className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-6 shadow-2xl shadow-black/40 backdrop-blur-md animate-pulse">
+  <div className="bg-white border border-slate-200/80 rounded-3xl p-6 shadow-xs animate-pulse">
     <div className="flex items-start justify-between mb-5">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-surface-700/50" />
+        <div className="w-10 h-10 rounded-xl bg-slate-200" />
         <div>
-          <div className="h-4 w-36 bg-surface-700/50 rounded-full mb-2" />
-          <div className="h-3 w-20 bg-surface-700/50 rounded-full" />
+          <div className="h-4 w-36 bg-slate-200 rounded-full mb-2" />
+          <div className="h-3 w-20 bg-slate-200 rounded-full" />
         </div>
       </div>
-      <div className="w-14 h-14 rounded-full bg-surface-700/50" />
+      <div className="w-14 h-14 rounded-full bg-slate-200" />
     </div>
     <div className="flex gap-2 mb-4">
-      <div className="h-5 w-16 bg-surface-700/50 rounded-full" />
-      <div className="h-5 w-14 bg-surface-700/50 rounded-full" />
-      <div className="h-5 w-12 bg-surface-700/50 rounded-full" />
+      <div className="h-5 w-16 bg-slate-200 rounded-full" />
+      <div className="h-5 w-14 bg-slate-200 rounded-full" />
+      <div className="h-5 w-12 bg-slate-200 rounded-full" />
     </div>
-    <div className="h-2 w-full bg-surface-700/50 rounded-full mb-3" />
-    <div className="h-3 w-3/4 bg-surface-700/50 rounded-full" />
+    <div className="h-2 w-full bg-slate-200 rounded-full mb-3" />
+    <div className="h-3 w-3/4 bg-slate-200 rounded-full" />
   </div>
 );
 
@@ -156,13 +156,10 @@ const ResumeCard = ({ resume, index, onDelete, isDeleting }: ResumeCardProps) =>
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ delay: index * 0.05, type: "spring", stiffness: 260, damping: 20 }}
-      className={`bg-surface-800/40 border border-surface-600/30 rounded-3xl p-6 shadow-2xl shadow-black/40 backdrop-blur-md relative overflow-hidden group transition-all duration-500 ${isCompleted ? "cursor-pointer hover:border-primary-500/30 hover:-translate-y-1" : ""
+      className={`bg-white border border-slate-200/80 rounded-3xl p-6 shadow-xs relative overflow-hidden group transition-all duration-300 ${isCompleted ? "cursor-pointer hover:border-teal-500/40 hover:shadow-xl" : ""
         }`}
       onClick={handleClick}
     >
-      {/* Hover glow */}
-      <div className="absolute inset-0 bg-linear-to-br from-primary-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-
       {/* Header: filename + ATS ring */}
       <div className="flex items-start justify-between mb-4 relative z-10">
         <div className="flex items-center gap-3 min-w-0 flex-1">
@@ -171,11 +168,11 @@ const ResumeCard = ({ resume, index, onDelete, isDeleting }: ResumeCardProps) =>
             <span className={`text-[10px] font-black ${fileType.color} uppercase`}>{fileType.label}</span>
           </div>
           <div className="min-w-0">
-            <h4 className="text-sm font-bold text-white truncate pr-2 group-hover:text-primary-300 transition-colors" title={resume.originalFilename}>
+            <h4 className="text-sm font-bold text-slate-900 truncate pr-2 group-hover:text-teal-700 transition-colors font-sans" title={resume.originalFilename}>
               {resume.originalFilename}
             </h4>
             <div className="flex items-center gap-2 mt-1">
-              <span className="text-[10px] text-surface-500 font-bold" title={resume.createdAt ? new Date(resume.createdAt).toLocaleString() : ""}>
+              <span className="text-[10px] text-slate-400 font-bold" title={resume.createdAt ? new Date(resume.createdAt).toLocaleString() : ""}>
                 {getRelativeTime(resume.createdAt)}
               </span>
               <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full ${status.bg} ${status.color} border ${status.border}`}>
@@ -193,19 +190,19 @@ const ResumeCard = ({ resume, index, onDelete, isDeleting }: ResumeCardProps) =>
       {isCompleted && (
         <div className="flex items-center gap-4 mb-4 relative z-10">
           <div className="flex-1">
-            <div className="flex justify-between text-[10px] font-bold text-surface-500 mb-1.5 uppercase tracking-wider">
+            <div className="flex justify-between text-[10px] font-bold text-slate-500 mb-1.5 uppercase tracking-wider">
               <span>Overall</span>
-              <span className="text-surface-300">{overallScore}/100</span>
+              <span className="text-slate-700 font-black">{overallScore}/100</span>
             </div>
-            <div className="w-full bg-surface-900/60 rounded-full h-1.5 overflow-hidden">
+            <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
               <div
-                className="bg-primary-500 h-full rounded-full transition-all duration-1000 shadow-[0_0_8px_rgba(45,212,191,0.4)]"
+                className="bg-teal-600 h-full rounded-full transition-all duration-1000"
                 style={{ width: `${Math.min(overallScore, 100)}%` }}
               />
             </div>
           </div>
           {jdMatch > 0 && (
-            <div className="px-2.5 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-[10px] font-black text-indigo-400 uppercase tracking-wider shrink-0">
+            <div className="px-2.5 py-1 rounded-lg bg-indigo-50 border border-indigo-200 text-[10px] font-black text-indigo-700 uppercase tracking-wider shrink-0">
               JD {jdMatch}%
             </div>
           )}
@@ -216,7 +213,7 @@ const ResumeCard = ({ resume, index, onDelete, isDeleting }: ResumeCardProps) =>
       {isCompleted && topSkills.length > 0 && (
         <div className="flex flex-wrap gap-1.5 mb-3 relative z-10">
           {topSkills.map((skill, i) => (
-            <span key={i} className="text-[10px] font-bold text-surface-300 bg-surface-900/50 border border-surface-600/20 px-2.5 py-1 rounded-lg">
+            <span key={i} className="text-[10px] font-bold text-slate-700 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-lg">
               {skill}
             </span>
           ))}
@@ -225,8 +222,8 @@ const ResumeCard = ({ resume, index, onDelete, isDeleting }: ResumeCardProps) =>
 
       {/* Strength */}
       {isCompleted && strength && (
-        <p className="text-[11px] text-surface-400 font-medium line-clamp-2 relative z-10 leading-relaxed flex items-start gap-1">
-          <Sparkles className="w-3 h-3 text-emerald-400 shrink-0 mt-0.5" /> 
+        <p className="text-[11px] text-slate-600 font-medium line-clamp-2 relative z-10 leading-relaxed flex items-start gap-1">
+          <Sparkles className="w-3 h-3 text-teal-600 shrink-0 mt-0.5" /> 
           <span>{strength}</span>
         </p>
       )}
@@ -241,21 +238,21 @@ const ResumeCard = ({ resume, index, onDelete, isDeleting }: ResumeCardProps) =>
                 setShowConfirm(false);
               }}
               disabled={isDeleting}
-              className="text-[9px] font-black text-rose-400 bg-rose-500/10 border border-rose-500/20 px-2.5 py-1 rounded-lg uppercase tracking-wider hover:bg-rose-500/20 transition-colors cursor-pointer disabled:opacity-50"
+              className="text-[9px] font-black text-rose-700 bg-rose-50 border border-rose-200 px-2.5 py-1 rounded-lg uppercase tracking-wider hover:bg-rose-100 transition-colors cursor-pointer disabled:opacity-50"
             >
-              {isDeleting ? "..." : "Delete"}
+              {isDeleting ? "..." : "Xóa"}
             </button>
             <button
               onClick={() => setShowConfirm(false)}
-              className="text-[9px] font-black text-surface-400 bg-surface-700/30 border border-surface-600/20 px-2.5 py-1 rounded-lg uppercase tracking-wider hover:bg-surface-700/50 transition-colors cursor-pointer"
+              className="text-[9px] font-black text-slate-600 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-lg uppercase tracking-wider hover:bg-slate-100 transition-colors cursor-pointer"
             >
-              Cancel
+              Hủy
             </button>
           </div>
         ) : (
           <button
             onClick={() => setShowConfirm(true)}
-            className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-1.5 rounded-lg hover:bg-rose-500/10 text-surface-500 hover:text-rose-400 cursor-pointer"
+            className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-1.5 rounded-lg hover:bg-rose-50 text-slate-400 hover:text-rose-600 cursor-pointer"
             title="Delete resume"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -325,10 +322,10 @@ export const ResumeAnalysisHistory = () => {
     return (
       <div className="space-y-6">
         <div className="flex items-center gap-5">
-          <div className="w-12 h-12 rounded-2xl bg-surface-700/50 animate-pulse" />
+          <div className="w-12 h-12 rounded-2xl bg-slate-200 animate-pulse" />
           <div>
-            <div className="h-5 w-52 bg-surface-700/50 rounded-full animate-pulse mb-2" />
-            <div className="h-3 w-80 bg-surface-700/50 rounded-full animate-pulse" />
+            <div className="h-5 w-52 bg-slate-200 rounded-full animate-pulse mb-2" />
+            <div className="h-3 w-80 bg-slate-200 rounded-full animate-pulse" />
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -340,15 +337,15 @@ export const ResumeAnalysisHistory = () => {
 
   if (resumes.length === 0) {
     return (
-      <div className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-12 shadow-2xl shadow-black/40 backdrop-blur-md text-center">
-        <div className="w-16 h-16 rounded-2xl bg-surface-700/30 flex items-center justify-center mx-auto mb-5 border border-surface-600/20">
-          <svg className="w-8 h-8 text-surface-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="bg-white border border-slate-200/80 rounded-3xl p-12 shadow-xs text-center">
+        <div className="w-16 h-16 rounded-2xl bg-slate-50 flex items-center justify-center mx-auto mb-5 border border-slate-200">
+          <svg className="w-8 h-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
         </div>
-        <h3 className="text-white font-bold text-lg mb-2 font-display">No Resumes Analyzed Yet</h3>
-        <p className="text-surface-400 text-sm font-medium max-w-md mx-auto">
-          Upload your first resume on the Resume Analyzer page to see your analysis history here.
+        <h3 className="text-slate-900 font-black text-lg mb-2 font-display">Chưa có lịch sử phân tích CV</h3>
+        <p className="text-slate-500 text-sm font-medium max-w-md mx-auto">
+          Tải lên bản CV đầu tiên của bạn ở trang Phân tích CV để theo dõi lịch sử tại đây.
         </p>
       </div>
     );
@@ -358,15 +355,15 @@ export const ResumeAnalysisHistory = () => {
     <div className="space-y-6">
       {/* Section Header */}
       <div className="flex items-center gap-5">
-        <div className="w-12 h-12 rounded-2xl bg-primary-500/10 flex items-center justify-center text-primary-400 border border-primary-500/20 shadow-[0_0_15px_rgba(20,184,166,0.1)]">
+        <div className="w-12 h-12 rounded-2xl bg-teal-50 flex items-center justify-center text-teal-700 border border-teal-200 shadow-2xs">
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
         </div>
         <div>
-          <h3 className="text-white font-black text-xl font-display tracking-tight">Resume Analysis Archive</h3>
-          <p className="text-[13px] text-surface-400 font-medium mt-1">
-            {total} resume{total !== 1 ? "s" : ""} analyzed — click to view full report
+          <h3 className="text-slate-900 font-black text-xl font-display tracking-tight">Lịch sử Phân tích CV</h3>
+          <p className="text-[13px] text-slate-500 font-medium mt-1">
+            Đã phân tích {total} bản CV — bấm vào để xem báo cáo chi tiết
           </p>
         </div>
       </div>

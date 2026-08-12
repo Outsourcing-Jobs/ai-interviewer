@@ -64,24 +64,24 @@ const AccountModal = ({ onClose }: { onClose: () => void }) => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={onClose}
-                className="absolute inset-0 bg-surface-950/60 backdrop-blur-md"
+                className="absolute inset-0 bg-slate-900/40 backdrop-blur-md"
             />
             
             <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                className="relative w-full max-w-md glass-card rounded-[2.5rem] overflow-visible shadow-2xl border border-white/5"
+                className="relative w-full max-w-md bg-white rounded-[2.5rem] overflow-visible shadow-2xl border border-slate-200/80"
             >
                 {/* Header */}
-                <div className="bg-white/3 px-8 py-6 border-b border-white/5 flex items-center justify-between rounded-t-[2.5rem] overflow-hidden">
+                <div className="bg-slate-50 px-8 py-6 border-b border-slate-200 flex items-center justify-between rounded-t-[2.5rem] overflow-hidden">
                     <div>
-                        <h1 className="text-xl font-black text-surface-100 uppercase tracking-tighter">Cài đặt tài khoản</h1>
-                        <p className="text-surface-500 text-[9px] font-black uppercase tracking-widest mt-1">Cập nhật thông tin cá nhân của bạn</p>
+                        <h1 className="text-xl font-black text-slate-900 uppercase tracking-tighter">Cài đặt tài khoản</h1>
+                        <p className="text-slate-500 text-[9px] font-black uppercase tracking-widest mt-1">Cập nhật thông tin cá nhân của bạn</p>
                     </div>
                     <button 
                         onClick={onClose}
-                        className="p-2 text-surface-500 hover:text-white transition-colors rounded-xl hover:bg-white/5 cursor-pointer"
+                        className="p-2 text-slate-400 hover:text-slate-700 transition-colors rounded-xl hover:bg-slate-100 cursor-pointer"
                     >
                         <X size={20} />
                     </button>
@@ -92,9 +92,9 @@ const AccountModal = ({ onClose }: { onClose: () => void }) => {
                     <div className="space-y-6">
                         {/* Name Input */}
                         <div className="space-y-2">
-                            <label className="text-[10px] font-black text-surface-500 uppercase tracking-widest ml-1">Họ và tên</label>
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Họ và tên</label>
                             <div className="relative group">
-                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-surface-600 group-focus-within:text-primary-400 transition-colors">
+                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-teal-600 transition-colors">
                                     <User size={16} />
                                 </div>
                                 <input 
@@ -108,13 +108,13 @@ const AccountModal = ({ onClose }: { onClose: () => void }) => {
                         </div>
 
                         {/* Email (Locked) */}
-                        <div className="space-y-2 opacity-60">
-                            <label className="text-[10px] font-black text-surface-500 uppercase tracking-widest ml-1">Email tài khoản (Cố định)</label>
+                        <div className="space-y-2 opacity-70">
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1">Email tài khoản (Cố định)</label>
                             <div className="relative">
-                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-surface-500">
+                                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
                                     <Mail size={16} />
                                 </div>
-                                <div className="glass-input h-12 pl-12 flex items-center text-sm font-bold bg-white/2 cursor-not-allowed">
+                                <div className="glass-input h-12 pl-12 flex items-center text-sm font-bold bg-slate-50 text-slate-600 cursor-not-allowed">
                                     {user?.email}
                                 </div>
                             </div>

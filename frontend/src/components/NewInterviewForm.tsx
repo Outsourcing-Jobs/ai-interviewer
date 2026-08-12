@@ -56,19 +56,19 @@ const NewInterviewForm: React.FC<NewInterviewFormProps> = ({
     })) || [{ label: "Chung", value: "general" }];
 
     return (
-        <div className="bg-surface-800/40 border border-surface-600/30 rounded-3xl shadow-2xl shadow-black/40 backdrop-blur-md relative group/form z-10 transform-gpu">
-            <div className="bg-surface-900/40 px-10 py-6 border-b border-surface-600/30 flex items-center justify-between rounded-t-3xl">
-                <h2 className="text-xl font-black text-white flex items-center gap-4 font-display">
-                    <span className="bg-primary-500 w-1.5 h-6 rounded-full shadow-[0_0_15px_rgba(45,212,191,0.5)]"></span>
-                    Tạo buổi <span className="text-surface-500">Phỏng vấn mới</span>
+        <div className="bg-white border border-slate-200/80 rounded-3xl shadow-lg shadow-slate-200/50 relative group/form z-10">
+            <div className="bg-slate-50 px-8 py-5 border-b border-slate-200 flex items-center justify-between rounded-t-3xl">
+                <h2 className="text-xl font-black text-slate-900 flex items-center gap-3 font-display">
+                    <span className="bg-teal-600 w-1.5 h-6 rounded-full shadow-xs"></span>
+                    Tạo buổi <span className="text-teal-600">Phỏng vấn mới</span>
                 </h2>
                 <div className="flex gap-1.5">
-                    <div className="w-2 h-2 rounded-full bg-rose-500/20"></div>
-                    <div className="w-2 h-2 rounded-full bg-yellow-500/20"></div>
-                    <div className="w-2 h-2 rounded-full bg-green-500/20"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-rose-400/40"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-amber-400/40"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-400/40"></div>
                 </div>
             </div>
-            <form onSubmit={onSubmit} className="p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <form onSubmit={onSubmit} className="p-8 sm:p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <CustomSelect
                     label="Vị trí ứng tuyển"
                     name="role"
@@ -138,11 +138,11 @@ const NewInterviewForm: React.FC<NewInterviewFormProps> = ({
                     <button
                         type="submit"
                         disabled={isProcessing}
-                        className={`w-full h-14 rounded-2xl font-black text-xs uppercase tracking-widest text-white flex items-center justify-center gap-3 transition-all active:scale-[0.98] ${isProcessing ? 'bg-surface-800 text-surface-500 cursor-not-allowed' : 'bg-primary-600 hover:bg-primary-500 shadow-lg shadow-primary-900/40 cursor-pointer hover:-translate-y-1'}`}
+                        className={`w-full h-12 rounded-2xl font-black text-xs uppercase tracking-widest text-white flex items-center justify-center gap-3 transition-all active:scale-[0.98] ${isProcessing ? 'bg-slate-200 text-slate-400 cursor-not-allowed' : 'btn-primary'}`}
                     >
                         {isProcessing ? (
                             <>
-                                <span className="animate-spin h-4 w-4 border-2 border-surface-500 border-t-transparent rounded-full"></span>
+                                <span className="animate-spin h-4 w-4 border-2 border-slate-400 border-t-transparent rounded-full"></span>
                                 Đang tạo câu hỏi AI...
                             </>
                         ) : (

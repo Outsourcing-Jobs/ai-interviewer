@@ -54,9 +54,9 @@ const CodeEditorSection: React.FC<CodeEditorSectionProps> = ({
     }, []);
 
     return (
-        <div className="bg-surface-900 rounded-[2.5rem] group/form h-125 flex flex-col border border-white/5 relative overflow-visible">
-            <div className="flex justify-between items-center px-8 py-3 bg-white/5 border-b border-white/5 overflow-visible rounded-t-[2.5rem] z-20">
-                <span className="text-[10px] font-black text-surface-500 uppercase tracking-widest">Workspace</span>
+        <div className="bg-white rounded-[2.5rem] group/form h-125 flex flex-col border border-slate-200/80 shadow-xs relative overflow-visible">
+            <div className="flex justify-between items-center px-8 py-3 bg-slate-50 border-b border-slate-200 overflow-visible rounded-t-[2.5rem] z-20">
+                <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Khung lập trình (Workspace)</span>
                 <div className="w-48">
                     <CustomSelect 
                         label="" 
@@ -67,11 +67,11 @@ const CodeEditorSection: React.FC<CodeEditorSectionProps> = ({
                     />
                 </div>
             </div>
-            <div className="flex-1 opacity-90 overflow-visible relative z-10">
+            <div className="flex-1 overflow-visible relative z-10 p-2">
                 <MonacoEditor
                     height="100%"
                     language={language}
-                    theme="vs-dark"
+                    theme="vs"
                     value={localCode}
                     onChange={handleCodeChange}
                     options={{
