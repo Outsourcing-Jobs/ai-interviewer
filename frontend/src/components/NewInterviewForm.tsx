@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ROLES, LEVELS, TYPES, COUNTS } from "../constants/interview";
+import { ROLES, LEVELS, TYPES, COUNTS, LANGUAGES, VOICE_MODES } from "../constants/interview";
 import CustomSelect from "./CustomSelect";
 import { COMPANIES } from "../constants/companies";
 import type { NewInterviewFormProps } from "../types/forms";
@@ -134,7 +134,23 @@ const NewInterviewForm: React.FC<NewInterviewFormProps> = ({
                     onChange={handleCustomChange}
                 />
 
-                <div className="pt-5.5 lg:col-span-1 md:col-span-2">
+                <CustomSelect
+                    label="Ngôn ngữ phỏng vấn"
+                    name="language"
+                    options={LANGUAGES}
+                    value={formData.language || "vi"}
+                    onChange={handleCustomChange}
+                />
+
+                <CustomSelect
+                    label="Chế độ câu trả lời (Giọng nói / Text)"
+                    name="voiceMode"
+                    options={VOICE_MODES}
+                    value={formData.voiceMode || "voice"}
+                    onChange={handleCustomChange}
+                />
+
+                <div className="pt-5.5 lg:col-span-3 md:col-span-2 flex justify-end">
                     <button
                         type="submit"
                         disabled={isProcessing}

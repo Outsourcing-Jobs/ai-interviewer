@@ -160,29 +160,29 @@ export const AtsScoreTab = ({ resumeData, isLoading = false }: AtsScoreTabProps)
   const lengthScore = rawTextLength > 200 && rawTextLength < 800 ? 20 : 10;
 
   const scoreBreakdown = [
-    { label: "Contact Information", score: contactScore, max: 20, color: "bg-primary-400" },
-    { label: "Skills", score: skillsScore, max: 20, color: "bg-primary-400" },
-    { label: "Education", score: eduScore, max: 20, color: "bg-indigo-400" },
-    { label: "Work Experience", score: expScore, max: 20, color: "bg-indigo-400" },
-    { label: "Action Verbs", score: actionVerbsScoreCalculated, max: 20, color: "bg-primary-400" },
-    { label: "Resume Length", score: lengthScore, max: 20, color: "bg-indigo-400" },
+    { label: "Thông tin liên hệ", score: contactScore, max: 20, color: "bg-primary-400" },
+    { label: "Kỹ năng chuyên môn", score: skillsScore, max: 20, color: "bg-primary-400" },
+    { label: "Trình độ học vấn", score: eduScore, max: 20, color: "bg-indigo-400" },
+    { label: "Kinh nghiệm làm việc", score: expScore, max: 20, color: "bg-indigo-400" },
+    { label: "Động từ hành động", score: actionVerbsScoreCalculated, max: 20, color: "bg-primary-400" },
+    { label: "Độ dài CV", score: lengthScore, max: 20, color: "bg-indigo-400" },
   ];
 
-  const readabilityGrade = readabilityScore > 80 ? "Excellent" : readabilityScore > 60 ? "Good" : "Needs Work";
+  const readabilityGrade = readabilityScore > 80 ? "Xuất sắc" : readabilityScore > 60 ? "Tốt" : "Cần cải thiện";
   const activeVoicePercent = Math.min(100, Math.max(40, actionVerbsCount * 5));
 
   const generatedFeedback = [
-    avgSentenceLength > 20 ? `Sentences are a bit long (avg ${avgSentenceLength} words).` : `Good sentence length (avg ${avgSentenceLength} words).`,
-    actionVerbsCount > 5 ? `Strong action verb usage (${actionVerbsCount} verbs).` : `Consider using more action verbs (found ${actionVerbsCount}).`,
-    activeVoicePercent > 50 ? `Good active voice ratio (${activeVoicePercent}%).` : `Try to use more active voice.`,
-    rawTextLength > 800 ? `Resume is a bit long (${rawTextLength} words).` : rawTextLength < 200 ? `Resume is too short (${rawTextLength} words).` : `Good word count (${rawTextLength} words).`,
+    avgSentenceLength > 20 ? `Các câu khá dài (trung bình ${avgSentenceLength} từ/câu).` : `Độ dài câu phù hợp (trung bình ${avgSentenceLength} từ/câu).`,
+    actionVerbsCount > 5 ? `Sử dụng động từ hành động tốt (${actionVerbsCount} động từ).` : `Nên sử dụng thêm nhiều động từ hành động hơn (hiện tại có ${actionVerbsCount}).`,
+    activeVoicePercent > 50 ? `Tỷ lệ câu dạng chủ động tốt (${activeVoicePercent}%).` : `Nên tăng cường sử dụng câu ở dạng chủ động.`,
+    rawTextLength > 800 ? `Độ dài CV khá dài (${rawTextLength} từ).` : rawTextLength < 200 ? `Độ dài CV quá ngắn (${rawTextLength} từ).` : `Số lượng từ của CV phù hợp (${rawTextLength} từ).`,
   ];
 
   const getScoreLabel = (score: number) => {
-    if (score >= 80) return { label: "EXCELLENT", color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/30", shadow: "shadow-[0_0_15px_rgba(16,185,129,0.1)]", gradient: "from-emerald-500/5" };
-    if (score >= 60) return { label: "GOOD", color: "text-primary-400", bg: "bg-primary-500/10", border: "border-primary-500/30", shadow: "shadow-[0_0_15px_rgba(45,212,191,0.1)]", gradient: "from-primary-500/5" };
-    if (score >= 40) return { label: "FAIR", color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/30", shadow: "shadow-[0_0_15px_rgba(245,158,11,0.1)]", gradient: "from-amber-500/5" };
-    return { label: "NEEDS WORK", color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/30", shadow: "shadow-[0_0_15px_rgba(239,68,68,0.1)]", gradient: "from-red-500/5" };
+    if (score >= 80) return { label: "XUẤT SẮC", color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/30", shadow: "shadow-[0_0_15px_rgba(16,185,129,0.1)]", gradient: "from-emerald-500/5" };
+    if (score >= 60) return { label: "TỐT", color: "text-primary-400", bg: "bg-primary-500/10", border: "border-primary-500/30", shadow: "shadow-[0_0_15px_rgba(45,212,191,0.1)]", gradient: "from-primary-500/5" };
+    if (score >= 40) return { label: "KHÁ", color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/30", shadow: "shadow-[0_0_15px_rgba(245,158,11,0.1)]", gradient: "from-amber-500/5" };
+    return { label: "CẦN CẢI THIỆN", color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/30", shadow: "shadow-[0_0_15px_rgba(239,68,68,0.1)]", gradient: "from-red-500/5" };
   };
   const scoreConfig = getScoreLabel(atsScore);
 
@@ -279,11 +279,11 @@ export const AtsScoreTab = ({ resumeData, isLoading = false }: AtsScoreTabProps)
               <Radar
                 data={{
                   labels: [
-                    "Tech Skills",
-                    "Soft Skills",
-                    "Experience",
-                    "Education",
-                    "Format",
+                    "Kỹ năng kỹ thuật",
+                    "Kỹ năng mềm",
+                    "Kinh nghiệm",
+                    "Học vấn",
+                    "Định dạng",
                   ],
                   datasets: [
                     {
@@ -320,7 +320,7 @@ export const AtsScoreTab = ({ resumeData, isLoading = false }: AtsScoreTabProps)
             <div className="w-full max-w-[180px] aspect-square relative z-10 mb-8">
               <Doughnut
                 data={{
-                  labels: ["Action Verbs", "Keywords", "Metrics", "Filler"],
+                  labels: ["Động từ hành động", "Từ khóa chuyên ngành", "Chỉ số đo lường", "Từ đệm / Ngập ngừng"],
                   datasets: [
                     {
                       data: balanceData,
@@ -360,10 +360,10 @@ export const AtsScoreTab = ({ resumeData, isLoading = false }: AtsScoreTabProps)
             {/* Custom HTML Legend */}
             <div className="w-full grid grid-cols-2 gap-y-4 gap-x-2 z-10 mt-auto">
               {[
-                { label: "Action Verbs", color: "text-teal-700", bg: "bg-teal-600", value: balanceData[0] },
-                { label: "Keywords", color: "text-indigo-700", bg: "bg-indigo-600", value: balanceData[1] },
-                { label: "Metrics", color: "text-amber-700", bg: "bg-amber-500", value: balanceData[2] },
-                { label: "Filler", color: "text-rose-700", bg: "bg-rose-500", value: balanceData[3] },
+                { label: "Động từ hành động", color: "text-teal-700", bg: "bg-teal-600", value: balanceData[0] },
+                { label: "Từ khóa chuyên ngành", color: "text-indigo-700", bg: "bg-indigo-600", value: balanceData[1] },
+                { label: "Chỉ số đo lường (%/số)", color: "text-amber-700", bg: "bg-amber-500", value: balanceData[2] },
+                { label: "Từ đệm / Ngập ngừng", color: "text-rose-700", bg: "bg-rose-500", value: balanceData[3] },
               ].map((item, idx) => (
                 <div key={idx} className="flex items-center gap-2">
                   <div className={`w-2.5 h-2.5 rounded-full ${item.bg} shrink-0`} />
@@ -386,7 +386,7 @@ export const AtsScoreTab = ({ resumeData, isLoading = false }: AtsScoreTabProps)
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <div className="bg-white border border-slate-200/80 rounded-2xl p-6 flex flex-col items-center justify-center shadow-xs">
             <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 text-center">
-              READABILITY SCORE
+              ĐIỂM DỄ ĐỌC
             </span>
             <div className="px-6 py-2 bg-teal-50 border border-teal-200 rounded-xl text-2xl font-black text-teal-700 shadow-2xs font-display">
               {readabilityScore}
@@ -394,13 +394,13 @@ export const AtsScoreTab = ({ resumeData, isLoading = false }: AtsScoreTabProps)
           </div>
           <div className="bg-white border border-slate-200/80 rounded-2xl p-6 flex flex-col items-center justify-center shadow-xs">
             <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 text-center">
-              GRADE
+              XẾP LOẠI
             </span>
             <div className="text-2xl font-black text-slate-900 font-display">{readabilityGrade}</div>
           </div>
           <div className="bg-white border border-slate-200/80 rounded-2xl p-6 flex flex-col items-center justify-center shadow-xs">
             <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 text-center">
-              AVG SENTENCE LENGTH
+              ĐỘ DÀI CÂU TRUNG BÌNH
             </span>
             <div className="text-2xl font-black text-slate-900 font-display">
               {avgSentenceLength} <span className="text-sm font-bold text-slate-400 ml-1">từ</span>
@@ -408,7 +408,7 @@ export const AtsScoreTab = ({ resumeData, isLoading = false }: AtsScoreTabProps)
           </div>
           <div className="bg-white border border-slate-200/80 rounded-2xl p-6 flex flex-col items-center justify-center shadow-xs">
             <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-3 text-center">
-              ACTIVE VOICE
+              TỶ LỆ CÂU CHỦ ĐỘNG
             </span>
             <div className="text-2xl font-black text-slate-900 font-display">{activeVoicePercent}%</div>
           </div>

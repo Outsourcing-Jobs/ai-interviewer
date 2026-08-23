@@ -39,6 +39,8 @@ const Dashboard = () => {
         company: "general",
         companyTrack: "general",
         resumeId: "",
+        language: "vi",
+        voiceMode: "voice",
     })
 
     const [modalConfig, setModalConfig] = useState({

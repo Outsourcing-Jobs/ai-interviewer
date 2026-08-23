@@ -1,3 +1,15 @@
+import pkgutil
+import importlib.util
+
+if not hasattr(pkgutil, "find_loader"):
+    def _find_loader(fullname):
+        try:
+            spec = importlib.util.find_spec(fullname)
+            return spec.loader if spec else None
+        except Exception:
+            return None
+    pkgutil.find_loader = _find_loader
+
 import pytesseract
 from pdf2image import convert_from_bytes
 import logging

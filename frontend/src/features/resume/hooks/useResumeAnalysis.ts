@@ -89,22 +89,22 @@ export const useResumeAnalysis = ({ userId }: UseResumeAnalysisProps) => {
     };
   }, [userId, fetchResumeDetails]);
 
-    const getStatusMessage = () => {
+  const getStatusMessage = () => {
     switch (status) {
       case "pending":
-        return "Job enqueued…";
+        return "Đã thêm vào hàng đợi...";
       case "processing":
-        return "Extracting text from document…";
+        return "Đang trích xuất văn bản từ tài liệu...";
       case "parsed":
-        return "Raw text extracted. Analyzing skills…";
+        return "Đã trích xuất văn bản thô. Đang phân tích kỹ năng...";
       case "analyzing":
-        return "AI is evaluating your profile…";
+        return "AI đang đánh giá hồ sơ của bạn...";
       case "matching":
-        return "Matching against job description…";
+        return "Đang đối chiếu với mô tả công việc...";
       case "invalid_document":
-        return "Invalid Document Detected";
+        return "Phát hiện tài liệu không hợp lệ";
       default:
-        return "Processing…";
+        return "Đang xử lý...";
     }
   };
 

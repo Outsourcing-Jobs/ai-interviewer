@@ -104,3 +104,13 @@ export const LEVELS = ["Junior", "Mid-level", "Senior", "Architect", "Manager"];
 export const TYPES = [{ label: "Oral only", value: "oral-only" }, { label: "Coding mix", value: "coding-mix" }];
 
 export const COUNTS = [5, 10, 15, 20];
+
+export const LANGUAGES = [
+    { label: "Tiếng Việt (Vietnamese)", value: "vi" },
+    { label: "English (Tiếng Anh)", value: "en" }
+];
+
+export const VOICE_MODES = [
+    { label: "Bật Thu âm Giọng nói (Voice)", value: "voice" },
+    { label: "Chỉ nhập Văn bản (Tắt Mic)", value: "text" }
+];

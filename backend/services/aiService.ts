@@ -65,7 +65,7 @@ export const aiService = {
    * Request a list of interview questions from the AI service.
    */
   generateQuestions: async (params: GenerateQuestionsParams): Promise<GenerateQuestionsResponse> => {
-    const { role, level, interviewType, count, resumeText } = params;
+    const { role, level, interviewType, count, resumeText, company, companyTrack, language } = params;
 
     const response = await fetchWithRetry(`${API_SERVICE_URL}/generate-questions`, {
       method: "POST",
@@ -78,7 +78,10 @@ export const aiService = {
         level,
         interview_type: interviewType,
         count,
+        company,
+        company_track: companyTrack,
         resume_text: resumeText,
+        language: language || "vi",
       }),
     });
 

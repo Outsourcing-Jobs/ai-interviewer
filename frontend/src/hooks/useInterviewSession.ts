@@ -34,7 +34,7 @@ export const useInterviewSession = (stopRecording: () => void, setRecordingTime:
     const [submittedLocal, setSubmittedLocal] = useState<Record<number, boolean>>({});
 
     // Initial drafts state from IDB with empty fallback
-    const [drafts, setDrafts] = useState<Record<number, { code?: string; audio?: Blob; diagram?: Blob; diagramElements?: readonly unknown[] }>>({});
+    const [drafts, setDrafts] = useState<Record<number, { code?: string; audio?: Blob; diagram?: Blob; diagramElements?: readonly unknown[]; textAnswer?: string }>>({});
 
     useEffect(() => {
         if (!sessionId) return;
@@ -127,6 +127,14 @@ export const useInterviewSession = (stopRecording: () => void, setRecordingTime:
         }));
     };
 
+    const updateDraftText = (text: string) => {
+        if (isQuestionLocked) return;
+        setDrafts(prev => ({
+            ...prev,
+            [currentQuestionIndex]: { ...prev[currentQuestionIndex], textAnswer: text }
+        }));
+    };
+
     const deleteDraftAudio = () => {
         setDrafts(prev => ({
             ...prev,
@@ -142,9 +150,10 @@ export const useInterviewSession = (stopRecording: () => void, setRecordingTime:
         const code = draft.code || "";
         const audio = draft.audio || null;
         const diagram = draft.diagram || null;
+        const textAnswer = draft.textAnswer || "";
 
-        if (!code && !audio && !diagram) {
-            toast.error("Please provide an answer before submitting.");
+        if (!code && !audio && !diagram && !textAnswer.trim()) {
+            toast.error("Please provide an answer (audio or text) before submitting.");
             return;
         }
 
@@ -177,6 +186,7 @@ export const useInterviewSession = (stopRecording: () => void, setRecordingTime:
         if (selectedLanguage) formData.append("language", selectedLanguage);
         if (audio) formData.append("audio", audio, 'audio.webm');
         if (diagramImageUrl) formData.append("diagramImageUrl", diagramImageUrl);
+        if (textAnswer) formData.append("textAnswer", textAnswer);
 
         dispatch(submitAnswer({ sessionId, formData })).unwrap().catch(() => {
             setSubmittedLocal(prev => ({
@@ -214,6 +224,7 @@ export const useInterviewSession = (stopRecording: () => void, setRecordingTime:
         handleNavigation,
         updateDraftCode,
         updateDraftAudio,
+        updateDraftText,
         updateDraftDiagram,
         deleteDraftAudio,
         handleSubmitAnswer,

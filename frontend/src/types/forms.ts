@@ -20,6 +20,8 @@ export interface NewInterviewFormProps {
         company?: string;
         companyTrack?: string;
         resumeId?: string;
+        language?: string;
+        voiceMode?: string;
     };
     onChange: (e: FormChangeEvent) => void;
     onSubmit: (e: SyntheticEvent) => void;

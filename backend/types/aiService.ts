@@ -8,13 +8,17 @@ export interface GenerateQuestionsParams {
   level: string;
   interviewType: string;
   count: number;
+  company?: string;
+  companyTrack?: string;
   resumeText?: string;
+  language?: string;
 }
 
 export interface GenerateQuestionsResponse {
   questions: {
     question: string;
     ideal_answer: string;
+    question_type?: string;
   }[];
 }
 
@@ -28,6 +32,7 @@ export interface EvaluateAnswerParams {
   role: string;
   level: string;
   interview_type: string;
+  language?: string;
 }
 
 export interface EvaluateAnswerResponse {

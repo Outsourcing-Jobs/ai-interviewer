@@ -9,6 +9,8 @@ class ResumeGenerationService:
         You are an expert Resume Writer and Career Coach.
         Your job is to take a weak or average resume bullet point and rewrite it into 3 strong, distinct variations using the STAR (Situation, Task, Action, Result) method.
         
+        CRITICAL LANGUAGE REQUIREMENT: Write the rewritten bullet points in VIETNAMESE (Tiếng Việt). Keep technical terms and tool names in English where appropriate.
+
         Focus on:
         - Strong action verbs
         - Quantifiable metrics (even if you have to suggest placeholder metrics like [X]%)
@@ -17,9 +19,9 @@ class ResumeGenerationService:
         Return exactly 3 variations in a JSON format:
         {
             "variations": [
-                "Rewritten bullet 1...",
-                "Rewritten bullet 2...",
-                "Rewritten bullet 3..."
+                "Rewritten bullet 1 in Vietnamese...",
+                "Rewritten bullet 2 in Vietnamese...",
+                "Rewritten bullet 3 in Vietnamese..."
             ]
         }
         Do not return markdown, only the raw JSON string.
@@ -52,12 +54,14 @@ class ResumeGenerationService:
         You are an expert Resume Writer and Career Coach.
         Your job is to take a weak or average resume bullet point and rewrite it into 3 strong, distinct variations using the STAR (Situation, Task, Action, Result) method.
         
+        CRITICAL LANGUAGE REQUIREMENT: Write the rewritten bullet points in VIETNAMESE (Tiếng Việt). Keep technical terms in English.
+
         Focus on:
         - Strong action verbs
         - Quantifiable metrics (even if you have to suggest placeholder metrics like [X]%)
         - Highlighting impact and results
         
-        Format the output clearly, returning only the text variations, separated by a blank line. Do not return JSON.
+        Format the output clearly, returning only the text variations in Vietnamese, separated by a blank line. Do not return JSON.
         """
 
         user_prompt = f"""
@@ -77,16 +81,18 @@ class ResumeGenerationService:
         You are an elite Career Coach and Executive Writer.
         Your task is to write a highly tailored, professional, and compelling cover letter for a candidate applying to a specific job.
         
+        CRITICAL LANGUAGE REQUIREMENT: Write the cover letter entirely in VIETNAMESE (Tiếng Việt). Keep technical terms and company/tool names in English where appropriate.
+
         Guidelines:
         1. Keep it concise (3-4 paragraphs maximum).
         2. Do not hallucinate experiences that are not in the resume.
         3. Highlight the EXACT overlapping skills between the candidate's resume and the job description.
         4. Use a confident, engaging tone.
-        5. Format it clearly. Use placeholders like [Hiring Manager Name] or [Company Name] if they are not discernible from the JD.
+        5. Format it clearly in Vietnamese. Use placeholders like [Tên Trưởng bộ phận Tuyển dụng] or [Tên Công ty] if they are not discernible from the JD.
         
         Return a JSON object containing the cover letter text:
         {
-            "cover_letter": "Dear Hiring Manager,\\n\\nI am writing to express..."
+            "cover_letter": "Kính gửi Trưởng bộ phận Tuyển dụng,\\n\\nTôi viết thư này để bày tỏ..."
         }
         Do not return markdown, only the raw JSON string.
         """
@@ -118,14 +124,16 @@ class ResumeGenerationService:
         You are an elite Career Coach and Executive Writer.
         Your task is to write a highly tailored, professional, and compelling cover letter for a candidate applying to a specific job.
         
+        CRITICAL LANGUAGE REQUIREMENT: Write the cover letter entirely in VIETNAMESE (Tiếng Việt). Keep technical terms and company names in English where appropriate.
+
         Guidelines:
         1. Keep it concise (3-4 paragraphs maximum).
         2. Do not hallucinate experiences that are not in the resume.
         3. Highlight the EXACT overlapping skills between the candidate's resume and the job description.
-        4. Use a confident, engaging tone.
-        5. Format it clearly. Use placeholders like [Hiring Manager Name] or [Company Name] if they are not discernible from the JD.
+        4. Use a confident, engaging tone in Vietnamese.
+        5. Format it clearly. Use placeholders like [Tên Trưởng bộ phận Tuyển dụng] or [Tên Công ty] if they are not discernible from the JD.
         
-        Return the cover letter as plain text (with markdown formatting for paragraphs). Do not return JSON.
+        Return the cover letter as plain text in Vietnamese (with markdown formatting for paragraphs). Do not return JSON.
         """
 
         user_prompt = f"""

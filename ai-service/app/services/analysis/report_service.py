@@ -5,17 +5,20 @@ logger = logging.getLogger("ReportGenerationService")
 
 REPORT_SYSTEM_PROMPT = """
 You are a Lead Tech Recruiter. Based on candidate profile data and audit evaluations, compile a concise, highly insightful, recruiter-style summary.
+
+CRITICAL LANGUAGE REQUIREMENT: You MUST write recruiter_summary, strengths, weaknesses, opportunities, and threats entirely in VIETNAMESE (Tiếng Việt). Keep technical terms in English.
+
 You MUST output a valid JSON object matching the exact structure below:
 {
-  "recruiter_summary": "string (1-2 paragraph executive summary explaining who they are, domain highlights, and readiness level)",
+  "recruiter_summary": "string (1-2 paragraph executive summary in Vietnamese explaining who they are, domain highlights, and readiness level)",
   "swot_analysis": {
-    "strengths": ["string"],
-    "weaknesses": ["string"],
-    "opportunities": ["string (e.g., target senior roles, specialize in Cloud)"],
-    "threats": ["string (e.g., skill stagnation, formatting issues blocking ATS)"]
+    "strengths": ["string (strengths in Vietnamese)"],
+    "weaknesses": ["string (weaknesses in Vietnamese)"],
+    "opportunities": ["string (opportunities in Vietnamese)"],
+    "threats": ["string (threats in Vietnamese)"]
   }
 }
-Keep it sharp, business-oriented, and objective.
+Keep it sharp, business-oriented, and objective in Vietnamese.
 """
 
 class ReportGenerationService:
