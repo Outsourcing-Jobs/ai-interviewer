@@ -56,5 +56,6 @@ export const sessionCreationValidation = [
   body("interviewType").isIn(["oral-only", "coding-mix", "company-specific"]).withMessage("Invalid interview type"),
   body("company").optional().isString().withMessage("Company must be a string"),
   body("companyTrack").optional().isString().withMessage("Company track must be a string"),
+  body("language").optional().isString().withMessage("Language must be a string"),
   body("count").isInt({ min: 1, max: 20 }).withMessage("Count must be an integer between 1 and 20"),
 ];

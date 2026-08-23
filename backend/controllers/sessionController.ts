@@ -14,7 +14,7 @@ import { AuthenticatedRequest } from "../types/express.js";
  * @route POST /api/sessions
  */
 export const createSession = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  const { role, level, interviewType, count, resumeId } = req.body;
+  const { role, level, interviewType, count, resumeId, company, companyTrack, language, voiceMode } = req.body;
   const userId = req.user?.id || req.user?._id;
   const io = req.app.get("io");
 
@@ -29,10 +29,12 @@ export const createSession = asyncHandler(async (req: AuthenticatedRequest, res:
     level,
     interviewType,
     count,
-    undefined,
-    undefined,
+    company || undefined,
+    companyTrack || undefined,
     resumeId || undefined,
-    io
+    io,
+    language || "vi",
+    voiceMode || "voice"
   );
 
   res.status(201).json({
@@ -114,7 +116,7 @@ export const deleteSession = asyncHandler(async (req: AuthenticatedRequest, res:
  */
 export const submitAnswer = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
   const sessionId = req.params.sessionId as string;
-  const { questionIndex, code, language, diagramImageUrl } = req.body;
+  const { questionIndex, code, language, diagramImageUrl, textAnswer } = req.body;
   const userId = req.user?.id || req.user?._id;
   if (!userId) {
     res.status(401);
@@ -132,7 +134,8 @@ export const submitAnswer = asyncHandler(async (req: AuthenticatedRequest, res: 
       language,
       audioFilePath,
       diagramImageUrl || null,
-      req.app.get("io")
+      req.app.get("io"),
+      textAnswer || null
     );
 
     res.status(200).json({ message: "Answer received" });

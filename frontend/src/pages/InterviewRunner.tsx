@@ -41,6 +41,7 @@ const InterviewRunner = () => {
         handleNavigation,
         updateDraftCode,
         updateDraftAudio,
+        updateDraftText,
         updateDraftDiagram,
         deleteDraftAudio,
         handleSubmitAnswer,
@@ -116,6 +117,9 @@ const InterviewRunner = () => {
                         startRecording={() => startRecording(updateDraftAudio)}
                         stopRecording={stopRecording}
                         deleteDraftAudio={deleteDraftAudio}
+                        textAnswer={currentDraft.textAnswer || ""}
+                        updateTextAnswer={updateDraftText}
+                        voiceMode={activeSession.voiceMode || "voice"}
                     />
                     {currentQuestion?.questionType === 'system-design' && (
                         <div className="flex justify-center mt-2">

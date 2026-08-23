@@ -10,10 +10,10 @@ import os
 from app.services.gemini_service import call_gemini, parse_response, to_float
 from app.services.whisper_service import whisper_service
 from app.prompts import (
-    GENERATION_SYSTEM_PROMPT,
-    EVALUATION_SYSTEM_PROMPT_CODING,
-    EVALUATION_SYSTEM_PROMPT_CONCEPTUAL,
-    EVALUATION_SYSTEM_PROMPT_SYSTEM_DESIGN,
+    get_generation_system_prompt,
+    get_evaluation_system_prompt_coding,
+    get_evaluation_system_prompt_conceptual,
+    get_evaluation_system_prompt_system_design,
     get_generation_user_prompt,
     get_evaluation_user_prompt_coding,
     get_evaluation_user_prompt_conceptual,
@@ -31,6 +31,7 @@ class QuestionRequest(BaseModel):
     company: Optional[str] = Field(default=None, max_length=100)
     company_track: Optional[str] = Field(default=None, max_length=100)
     resume_text: Optional[str] = Field(default=None, max_length=20000)
+    language: Optional[str] = Field(default="vi", max_length=20)
 
 
 class QuestionItem(BaseModel):
@@ -53,6 +54,7 @@ class EvaluationRequest(BaseModel):
     user_code: Optional[str] = Field(default=None, max_length=50000)
     selected_language: Optional[str] = Field(default=None, max_length=50)
     diagram_payload: Optional[str] = Field(default=None, max_length=50000)
+    language: Optional[str] = Field(default="vi", max_length=20)
 
 
 class EvaluationResponse(BaseModel):
@@ -92,6 +94,7 @@ def generate_questions(req: QuestionRequest):
         else:
             instruction = "All questions should be conceptual questions. No runnable coding questions. Set `question_type` to 'oral' for all of them."
 
+        lang = req.language or "vi"
         user_prompt = get_generation_user_prompt(
             req.count,
             req.role,
@@ -100,8 +103,10 @@ def generate_questions(req: QuestionRequest):
             req.company,
             req.company_track,
             req.resume_text,
+            language=lang,
         )
-        text_output = call_gemini(GENERATION_SYSTEM_PROMPT, user_prompt, as_json=True)
+        system_prompt = get_generation_system_prompt(lang)
+        text_output = call_gemini(system_prompt, user_prompt, as_json=True)
 
         parsed = parse_response(text_output)
         items = parsed.get("questions", []) if isinstance(parsed, dict) else parsed
@@ -149,18 +154,19 @@ def evaluate_answer(req: EvaluationRequest):
     Evaluate a user's answer (text or code) for technical accuracy and confidence.
     Uses separate system prompts for coding and conceptual evaluation.
     """
+    lang = req.language or "vi"
     image_base64 = None
     if req.question_type == "coding":
         if not req.user_code or not req.user_code.strip():
             raise HTTPException(
                 status_code=422, detail="user_code is required for coding questions."
             )
-        system_prompt = EVALUATION_SYSTEM_PROMPT_CODING
+        system_prompt = get_evaluation_system_prompt_coding(lang)
         user_prompt = get_evaluation_user_prompt_coding(
             req.question, req.user_code, req.selected_language or "unknown"
         )
     elif req.question_type == "system-design":
-        system_prompt = EVALUATION_SYSTEM_PROMPT_SYSTEM_DESIGN
+        system_prompt = get_evaluation_system_prompt_system_design(lang)
         if req.diagram_payload and req.diagram_payload.startswith("http"):
             import requests
             import base64
@@ -178,15 +184,15 @@ def evaluate_answer(req: EvaluationRequest):
             "Diagram attached inline." if image_base64 else req.diagram_payload,
         )
     else:
+        system_prompt = get_evaluation_system_prompt_conceptual(lang)
         if not req.user_answer or not req.user_answer.strip():
             return EvaluationResponse(
                 technical_score=0.0,
                 confidence_score=0.0,
-                ai_feedback="No response was detected. Please ensure your microphone is working and that you provide a clear answer.",
-                # ideal_answer="A complete and relevant answer to the question."
+                ai_feedback="No response was detected. Please ensure your microphone is working and that you provide a clear answer." if lang == "en" else "Không phát hiện thấy câu trả lời. Vui lòng kiểm tra microphone và đưa ra câu trả lời rõ ràng.",
+                ideal_answer="A complete and relevant answer to the question." if lang == "en" else "Cần câu trả lời đầy đủ và phù hợp cho câu hỏi.",
             )
             
-        system_prompt = EVALUATION_SYSTEM_PROMPT_CONCEPTUAL
         user_prompt = get_evaluation_user_prompt_conceptual(
             req.question, req.user_answer
         )

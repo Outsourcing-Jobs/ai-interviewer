@@ -13,7 +13,7 @@ const FeedbackItem: React.FC<FeedbackItemProps> = ({ question, index }) => {
                 <div className="flex flex-col lg:flex-row justify-between items-start gap-8">
                     <div className="flex-1 space-y-3">
                         <div className="flex items-center gap-3">
-                            <span className="px-3 py-1 rounded-lg bg-teal-50 border border-teal-200 text-[10px] font-black uppercase tracking-widest text-teal-700">Terminal Q{index + 1}</span>
+                            <span className="px-3 py-1 rounded-lg bg-teal-50 border border-teal-200 text-[10px] font-black uppercase tracking-widest text-teal-700">Câu hỏi {index + 1}</span>
                             <div className="h-px w-12 bg-slate-200"></div>
                         </div>
                         <h4 className="text-xl sm:text-2xl font-black text-slate-900 leading-tight font-display">
@@ -23,12 +23,12 @@ const FeedbackItem: React.FC<FeedbackItemProps> = ({ question, index }) => {
 
                     <div className="flex gap-2 sm:gap-3 shrink-0 w-full lg:w-auto">
                         <div className="flex-1 lg:flex-none px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl border flex justify-center items-center gap-1.5 sm:gap-3 bg-slate-50 border-slate-200">
-                            <span className="text-[8px] sm:text-[10px] font-black uppercase text-slate-500 tracking-widest">Mastery</span>
+                            <span className="text-[8px] sm:text-[10px] font-black uppercase text-slate-500 tracking-widest">Độ chính xác</span>
                             <span className="text-xs sm:text-sm font-black text-teal-600">{question.technicalScore}%</span>
                         </div>
 
                         <div className="flex-1 lg:flex-none px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl border flex justify-center items-center gap-1.5 sm:gap-3 bg-slate-50 border-slate-200">
-                            <span className="text-[8px] sm:text-[10px] font-black uppercase text-slate-500 tracking-widest">Confidence</span>
+                            <span className="text-[8px] sm:text-[10px] font-black uppercase text-slate-500 tracking-widest">Độ tự tin</span>
                             <span className="text-xs sm:text-sm font-black text-indigo-600">{question.confidenceScore}%</span>
                         </div>
                     </div>

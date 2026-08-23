@@ -52,6 +52,8 @@ export interface ISession extends Document {
     avgTechnical: number;
     avgConfidence: number;
   };
+  language?: string;
+  voiceMode?: string;
   resumeId?: mongoose.Types.ObjectId;
   questions: mongoose.Types.DocumentArray<IQuestion & mongoose.Document>;
 
@@ -193,6 +195,16 @@ const sessionSchema = new Schema<ISession, ISessionModel>(
         type: Number,
         default: 0,
       },
+    },
+    language: {
+      type: String,
+      enum: ["vi", "en"],
+      default: "vi",
+    },
+    voiceMode: {
+      type: String,
+      enum: ["voice", "text"],
+      default: "voice",
     },
     resumeId: {
       type: Schema.Types.ObjectId,

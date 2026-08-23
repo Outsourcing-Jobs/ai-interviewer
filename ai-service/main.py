@@ -12,6 +12,19 @@ This is the isolated Python Microservice dedicated exclusively to running heavy 
 
 import os
 import sys
+import pkgutil
+import importlib.util
+
+# Python 3.14+ compatibility patch for legacy libraries (e.g. pytesseract) using removed pkgutil.find_loader
+if not hasattr(pkgutil, "find_loader"):
+    def _find_loader(fullname):
+        try:
+            spec = importlib.util.find_spec(fullname)
+            return spec.loader if spec else None
+        except Exception:
+            return None
+    pkgutil.find_loader = _find_loader
+
 import uvicorn
 from fastapi import FastAPI, Depends, HTTPException, Security
 from fastapi.security.api_key import APIKeyHeader

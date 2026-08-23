@@ -15,7 +15,9 @@ export const sessionService = {
     company: string | undefined,
     companyTrack: string | undefined,
     resumeId: string | undefined,
-    io: any
+    io: any,
+    language: string = "vi",
+    voiceMode: string = "voice"
   ) {
     const session = await Session.create({
       user: userId,
@@ -24,6 +26,8 @@ export const sessionService = {
       interviewType,
       company,
       companyTrack,
+      language,
+      voiceMode,
       resumeId,
       status: "pending",
     });
@@ -60,7 +64,10 @@ export const sessionService = {
           level,
           interviewType,
           count,
+          company,
+          companyTrack,
           resumeText,
+          language,
         });
         const questions = (aiData.questions || []).map((qInfo: any) => ({
           questionText: qInfo.question,
@@ -162,7 +169,8 @@ export const sessionService = {
     language: string | null,
     audioFilePath: string | null,
     diagramImageUrl: string | null,
-    io: any
+    io: any,
+    textAnswer: string | null = null
   ) {
     const session = await Session.findOne({ _id: sessionId, user: userId });
     if (!session) {
@@ -186,7 +194,8 @@ export const sessionService = {
       code,
       language,
       audioFilePath,
-      diagramImageUrl
+      diagramImageUrl,
+      textAnswer
     );
   },
 
@@ -198,7 +207,8 @@ export const sessionService = {
     codeSubmission: string | null,
     language: string | null,
     audioFilePath: string | null,
-    diagramImageUrl: string | null
+    diagramImageUrl: string | null,
+    textAnswer: string | null = null
   ) {
     try {
       const session = await Session.findById(sessionId);
@@ -223,12 +233,16 @@ export const sessionService = {
           console.error("Speech Analysis/Transcription Error:", error.message);
         } finally {
           // Ensure temp file is deleted even if transcription fails
-          if (fs.existsSync(audioFilePath)) {
-            await fs.promises.unlink(audioFilePath).catch((err) =>
-              console.error("Error unlinking file:", err)
-            );
+          try {
+            await fs.promises.unlink(audioFilePath);
+          } catch (e) {
+            /* ignore cleanup errors */
           }
         }
+      }
+
+      if (!transcription && textAnswer) {
+        transcription = textAnswer;
       }
 
       // Stage 2: AI Evaluation
@@ -244,6 +258,7 @@ export const sessionService = {
         role: session.role,
         level: session.level,
         interview_type: session.interviewType,
+        language: session.language || "vi",
       });
 
       const updateFields: any = {

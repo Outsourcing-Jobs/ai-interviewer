@@ -14,10 +14,10 @@ const SessionReviewStats: React.FC<SessionReviewStatsProps> = ({
     duration,
 }) => {
     const stats = [
-        { label: 'Overall Result', value: `${overallScore}%`, color: 'teal' },
-        { label: 'Avg. Technical', value: `${avgTechnical}%`, color: 'teal' },
-        { label: 'Avg Confidence', value: `${avgConfidence}%`, color: 'teal' },
-        { label: 'Session Time', value: duration, color: 'teal' }
+        { label: 'Kết quả tổng quan', value: `${overallScore}%`, color: 'teal' },
+        { label: 'ĐTB Kỹ thuật', value: `${avgTechnical}%`, color: 'teal' },
+        { label: 'ĐTB Tự tin', value: `${avgConfidence}%`, color: 'teal' },
+        { label: 'Thời lượng phỏng vấn', value: duration, color: 'teal' }
     ];
 
     return (
