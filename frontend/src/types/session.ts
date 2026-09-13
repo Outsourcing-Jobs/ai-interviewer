@@ -33,6 +33,8 @@ export interface Session {
     interviewType: string;
     company?: string;
     companyTrack?: string;
+    language?: "vi" | "en" | string;
+    voiceMode?: "voice" | "text" | string;
     questions: Question[];
     status: "pending" | "in-progress" | "completed" | "failed" | "cancelled";
     startTime?: Date | string;
