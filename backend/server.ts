@@ -68,10 +68,28 @@ connectDB();
 const app: Express = express();
 app.set("trust proxy", 1);
 const server = http.createServer(app);
-const allowOrigin = process.env.FRONTEND_URL || "";
+const allowedOrigins = (process.env.FRONTEND_URL || "")
+  .split(",")
+  .map((o) => o.trim().replace(/\/$/, ""))
+  .filter(Boolean);
+
+const isOriginAllowed = (origin: string | undefined): boolean => {
+  if (!origin) return true;
+  if (process.env.NODE_ENV === "development") return true;
+  if (allowedOrigins.includes("*") || allowedOrigins.includes(origin)) return true;
+  if (origin.endsWith(".vercel.app")) return true; // Allow all Vercel deployment and preview URLs
+  return false;
+};
+
 const io = new SocketIOServer(server, {
   cors: {
-    origin: allowOrigin,
+    origin: (origin, callback) => {
+      if (isOriginAllowed(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -84,24 +102,10 @@ app.use(helmet());
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-
-      if (process.env.NODE_ENV !== "production") {
-        logger.debug(`[CORS DEBUG] Incoming Origin: ${origin}`);
-        logger.debug(`[CORS DEBUG] Configured FRONTEND_URL: ${process.env.FRONTEND_URL}`);
-      }
-
-      const allowedOrigins = allowOrigin
-        .split(",")
-        .map((o) => o.trim().replace(/\/$/, "")); // Strip trailing slashes
-
-      if (
-        allowedOrigins.includes(origin) ||
-        process.env.NODE_ENV === "development"
-      ) {
+      if (isOriginAllowed(origin)) {
         callback(null, true);
       } else {
-        console.error(`CORS Blocked: Origin '${origin}' is not in allowed list '${allowedOrigins.join(', ')}'`);
+        console.error(`CORS Blocked: Origin '${origin}' is not in allowed list '${allowedOrigins.join(", ")}'`);
         callback(new Error("Not allowed by CORS"));
       }
     },
