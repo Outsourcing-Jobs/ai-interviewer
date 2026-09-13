@@ -10,6 +10,7 @@ export type ErrorCode =
   | "TIMEOUT"
   | "RATE_LIMITED"
   | "UNAUTHORIZED"
+  | "FORBIDDEN"
   | "NOT_FOUND"
   | "VALIDATION_ERROR"
   | "INTERNAL_ERROR";
