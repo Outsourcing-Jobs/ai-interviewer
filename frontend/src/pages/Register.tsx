@@ -32,12 +32,12 @@ const Register = () => {
 
     useEffect(() => {
         if (isError) {
-            toast.error(message || "An error occurred");
+            toast.error(message || "Đã xảy ra lỗi khi đăng ký");
             dispatch(reset());
         }
 
         if (isSuccess) {
-            toast.success("Registration successful");
+            toast.success("Đăng ký tài khoản thành công!");
             navigate("/");
             dispatch(reset())
         }

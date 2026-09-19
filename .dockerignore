@@ -1,0 +1,9 @@
+.git
+.github
+node_modules
+dist
+__pycache__
+.venv
+uploads/resumes/*
+!uploads/resumes/.gitkeep
+*.log

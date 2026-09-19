@@ -56,9 +56,9 @@ export const JobMatchTab = ({ resumeData }: JobMatchTabProps) => {
         }
       }
 
-      toast.success("Cover letter generated!");
+      toast.success("Đã tạo thư xin việc (Cover Letter) thành công!");
     } catch (error) {
-      toast.error("Error generating cover letter");
+      toast.error("Lỗi khi tạo thư xin việc. Vui lòng thử lại sau.");
       console.error(error);
     } finally {
       setIsGeneratingCL(false);
@@ -68,7 +68,7 @@ export const JobMatchTab = ({ resumeData }: JobMatchTabProps) => {
   const copyToClipboard = () => {
     if (coverLetter) {
       navigator.clipboard.writeText(coverLetter);
-      toast.success("Copied to clipboard!");
+      toast.success("Đã sao chép vào bộ nhớ tạm!");
     }
   };
 
@@ -77,17 +77,17 @@ export const JobMatchTab = ({ resumeData }: JobMatchTabProps) => {
       setLoadingKeyword(keyword);
       // Dispatch createSession dynamically tailoring the role to the weakness
       const action = await dispatch(createSession({
-        role: `Focus: ${keyword}`.substring(0, 50),
+        role: `Luyện tập: ${keyword}`.substring(0, 50),
         level: "Intermediate",
         interviewType: "oral-only", // Oral only for quick targeted practice
         count: 3 // Short quick-fire session
       })).unwrap();
 
-      toast.success(`Spinning up interview for ${keyword}...`);
+      toast.success(`Đang khởi tạo buổi phỏng vấn cho chuyên môn ${keyword}...`);
       const sessionAction = action as { sessionId?: string; _id?: string };
       navigate(`/interview/${sessionAction.sessionId || sessionAction._id}`);
     } catch (error) {
-      toast.error(`Failed to start session: ${error}`);
+      toast.error(`Khởi tạo phỏng vấn thất bại: ${error}`);
       setLoadingKeyword(null);
     }
   };

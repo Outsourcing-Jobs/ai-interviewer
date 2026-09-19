@@ -25,7 +25,7 @@ const WhiteboardModal: React.FC<WhiteboardModalProps> = ({ onClose, onSubmit, in
 
     const elements = excalidrawAPI.getSceneElements();
     if (!elements || !elements.length) {
-      toast.warning("Please draw something before submitting.");
+      toast.warning("Vui lòng vẽ sơ đồ hệ thống trước khi xác nhận lưu.");
       return;
     }
 
@@ -45,7 +45,7 @@ const WhiteboardModal: React.FC<WhiteboardModalProps> = ({ onClose, onSubmit, in
       });
 
       if (blob && blob.size > 10 * 1024 * 1024) {
-        toast.error("Diagram image is too large. Max size is 10MB.");
+        toast.error("Hình ảnh sơ đồ quá lớn. Kích thước tối đa cho phép là 10MB.");
         setIsExporting(false);
         return;
       }
@@ -53,7 +53,7 @@ const WhiteboardModal: React.FC<WhiteboardModalProps> = ({ onClose, onSubmit, in
       onSubmit(blob, elements);
     } catch (err) {
       console.error("Error exporting whiteboard:", err);
-      toast.error("Failed to export whiteboard diagram.");
+      toast.error("Không thể xuất sơ đồ bảng vẽ. Vui lòng thử lại.");
     } finally {
       setIsExporting(false);
     }

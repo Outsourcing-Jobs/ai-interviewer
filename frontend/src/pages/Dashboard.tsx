@@ -76,7 +76,7 @@ const Dashboard = () => {
         } else if (session.status === 'in-progress') {
             navigate(`/interview/${session._id}`)
         } else {
-            toast.info("Session not ready yet")
+            toast.info("Buổi phỏng vấn chưa sẵn sàng, vui lòng chờ trong giây lát...")
         }
     }
 
@@ -91,7 +91,7 @@ const Dashboard = () => {
     const confirmDelete = () => {
         if (modalConfig.sessionId) {
             dispatch(deleteSession(modalConfig.sessionId));
-            toast.success("Session deleted successfully");
+            toast.success("Đã xóa buổi phỏng vấn thành công!");
             setModalConfig({ isOpen: false, sessionId: '' });
         }
     }

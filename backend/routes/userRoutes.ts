@@ -10,6 +10,7 @@ import {
     getAllUsers,
     updateUserRole,
     getAdminStats,
+    getUserDetailsForAdmin,
 } from "../controllers/userController.js";
 import { protect, admin } from "../middleware/auth.js";
 import rateLimit from "express-rate-limit";
@@ -35,6 +36,7 @@ router.route("/profile")
 // --- Admin Protected Routes ---
 router.get("/admin/stats", protect, admin, getAdminStats);
 router.get("/admin/users", protect, admin, getAllUsers);
+router.get("/admin/users/:id", protect, admin, getUserDetailsForAdmin);
 router.patch("/admin/users/:id/role", protect, admin, updateUserRole);
 
 export default router;

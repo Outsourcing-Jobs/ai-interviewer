@@ -14,7 +14,11 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix"
+    "lint:fix": "eslint . --ext .ts --fix",
+    "db:seed": "tsx scripts/seed/index.ts",
+    "db:seed:large": "tsx scripts/seed/index.ts --large",
+    "db:clean": "tsx scripts/seed/index.ts --clean",
+    "db:reset": "tsx scripts/seed/index.ts"
   },
   "dependencies": {
     "@types/uuid": "^10.0.0",

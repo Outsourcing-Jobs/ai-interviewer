@@ -45,24 +45,24 @@ export const useResumeUpload = ({
       if (["pdf", "docx", "txt"].includes(ext || "")) {
         setFile(f);
       } else {
-        toast.error("Unsupported format. Use PDF, DOCX, or TXT.");
+        toast.error("Định dạng không được hỗ trợ. Vui lòng chọn file PDF, DOCX hoặc TXT.");
       }
     }
   };
 
   const handleUpload = async () => {
-    if (!file) return toast.error("Please select a file first");
+    if (!file) return toast.error("Vui lòng chọn tệp CV trước khi tải lên");
     
     onUploadStart();
     
     try {
       await uploadResume(file, jdText);
-      toast.info("Resume uploaded. AI is starting analysis...");
+      toast.info("Đã tải CV lên thành công. AI đang bắt đầu phân tích...");
       onUploadSuccess();
     } catch (error: unknown) {
       const message = axios.isAxiosError(error)
         ? error.response?.data?.message || error.message
-        : "Upload failed";
+        : "Tải lên CV thất bại";
       toast.error(message);
       onUploadError();
     }

@@ -9,16 +9,34 @@ from fastapi import HTTPException
 # ============================================================================
 # Global Rate Limiter
 # ============================================================================
-# Gemini free-tier limits: 15 RPM for gemini-3.1-flash-lite.
-# One resume analysis fires 5-7 calls in quick succession, easily exceeding
-# the limit. This enforcer serialises calls and adds a configurable gap.
-# ============================================================================
-
 _rate_lock = threading.Lock()
 _last_call_time: float = 0.0
-# Minimum seconds between consecutive Gemini API calls.
-# 15 RPM ≈ 1 call every 4 seconds; use 4s as the default floor.
-MIN_CALL_INTERVAL = float(os.getenv("GEMINI_MIN_CALL_INTERVAL", "5"))
+MIN_CALL_INTERVAL = float(os.getenv("GEMINI_MIN_CALL_INTERVAL", "3"))
+
+# List of priority models for automatic failover / fallback
+DEFAULT_FALLBACK_MODELS = [
+    "gemini-3.5-flash-lite",
+    "gemini-3.5-flash",
+    "gemini-3-flash-preview",
+    "gemini-3.7-flash",
+    "gemini-2.5-flash",
+    "gemini-3.1-flash-lite",
+    "gemini-flash-latest",
+]
+
+
+def get_candidate_models(primary_model: str = None) -> list[str]:
+    """Builds a fallback chain starting with the configured model (if any), otherwise uses DEFAULT_FALLBACK_MODELS."""
+    env_model = os.getenv("MODEL_NAME")
+    primary = primary_model or (env_model.strip() if env_model else None)
+
+    if primary:
+        models = [primary]
+        for m in DEFAULT_FALLBACK_MODELS:
+            if m not in models:
+                models.append(m)
+        return models
+    return list(DEFAULT_FALLBACK_MODELS)
 
 
 def _wait_for_rate_limit() -> None:
@@ -44,16 +62,10 @@ def call_gemini(
     image_base64: str = None,
     api_key: str = None,
 ) -> str:
-    """Shared helper to call the Gemini API. Supports text, audio, and images."""
-    model_name = os.getenv("MODEL_NAME")
-    # Use override key if provided, otherwise fallback to default env var
+    """Shared helper to call the Gemini API with automatic multi-model fallback."""
     actual_api_key = api_key or os.getenv("GEMINI_API_KEY")
-
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent"
-    headers = {
-        "Content-Type": "application/json",
-        "x-goog-api-key": actual_api_key,
-    }
+    timeout = int(os.getenv("REQUEST_TIMEOUT", "60"))
+    candidate_models = get_candidate_models()
 
     # Build parts list
     parts = [{"text": user_prompt}]
@@ -61,7 +73,7 @@ def call_gemini(
         parts.append(
             {
                 "inline_data": {
-                    "mime_type": "audio/webm",  # Most browsers record in webm
+                    "mime_type": "audio/webm",
                     "data": audio_base64,
                 }
             }
@@ -85,105 +97,83 @@ def call_gemini(
         },
     }
 
-    timeout = int(os.getenv("REQUEST_TIMEOUT", "60"))
+    last_error_msg = ""
+    last_status_code = 500
 
-    # Retry logic for Rate Limiting (429) and Server Errors (500, 503, 504)
-    max_retries = 5
-    retry_delay = 15  # Start with a 15s delay for rate limits
+    for model_index, model_name in enumerate(candidate_models):
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent"
+        headers = {
+            "Content-Type": "application/json",
+            "x-goog-api-key": actual_api_key,
+        }
 
-    resp = None  # ensure resp is defined for the post-loop code
+        max_model_retries = 2
+        retry_delay = 5
 
-    for attempt in range(max_retries + 1):
-        # Enforce global rate limit before every attempt
-        _wait_for_rate_limit()
+        for attempt in range(max_model_retries + 1):
+            _wait_for_rate_limit()
 
-        try:
-            resp = requests.post(url, json=body, headers=headers, timeout=timeout)
-
-            if resp.status_code == 429 and attempt < max_retries:
-                # Parse Retry-After header if available
-                retry_after = resp.headers.get("Retry-After")
-                wait_time = (
-                    int(retry_after)
-                    if retry_after and retry_after.isdigit()
-                    else retry_delay
-                )
-                print(
-                    f"[RATE LIMIT] 429 received. Waiting {wait_time}s before retry... (Attempt {attempt+1}/{max_retries})"
-                )
-                time.sleep(wait_time)
-                retry_delay = int(retry_delay * 1.5)  # Exponential backoff
-                continue
-
-            if resp.status_code in [500, 503, 504] and attempt < max_retries:
-                print(
-                    f"[UPSTREAM ERROR] {resp.status_code} received. Retrying in {retry_delay}s... (Attempt {attempt+1}/{max_retries})"
-                )
-                time.sleep(retry_delay)
-                retry_delay = int(retry_delay * 1.5)
-                continue
-        except requests.exceptions.RequestException as e:
-            if attempt < max_retries:
-                print(f"[RETRY] Network error: {str(e)}. Retrying in 5s...")
-                time.sleep(5)
-                continue
-            raise HTTPException(status_code=504, detail=f"AI Service Timeout: {str(e)}")
-
-        if not resp.ok:
             try:
-                error_data = resp.json()
-                if "error" in error_data:
-                    err_info = error_data["error"]
-                    error_msg = f"{err_info.get('status', 'ERROR')}: {err_info.get('message', 'No message')}"
-                else:
-                    error_msg = resp.text
-            except Exception as e:
-                logging.warning(f"Failed to parse error response JSON: {e}")
-                error_msg = resp.text
+                resp = requests.post(url, json=body, headers=headers, timeout=timeout)
 
-            print(f"!!! [CRITICAL] Gemini API Failure {resp.status_code} !!!")
-            print(f"!!! Error Message: {error_msg} !!!")
+                if resp.status_code == 200:
+                    data = resp.json()
+                    candidate = data.get("candidates", [{}])[0]
+                    finish_reason = candidate.get("finishReason", "UNKNOWN")
+                    if finish_reason not in ("STOP", "SUCCESS"):
+                        print(
+                            f"[WARNING] Gemini ({model_name}) finished with reason: {finish_reason}."
+                        )
 
-            detail = "The AI Evaluation Service encountered an upstream error. Please try again later."
-            if resp.status_code == 429:
-                detail = "AI Service rate limit exceeded. Please wait a moment and try again."
-            elif resp.status_code == 503:
-                detail = "AI Service is currently overloaded or undergoing maintenance. Please try a smaller question count or wait a minute."
+                    text_output = "".join(
+                        part.get("text", "")
+                        for c in data.get("candidates", [])
+                        for part in c.get("content", {}).get("parts", [])
+                    )
 
-            raise HTTPException(
-                status_code=resp.status_code if resp.status_code != 500 else 500,
-                detail=detail,
-            )
-        break
+                    if model_name != candidate_models[0]:
+                        print(f"✅ [FALLBACK SUCCESS] Successfully completed using fallback model: '{model_name}'")
 
-    if resp is None:
-        raise HTTPException(
-            status_code=500, detail="No response received from AI service after retries"
-        )
+                    return text_output
 
-    data = resp.json()
+                last_status_code = resp.status_code
+                try:
+                    error_data = resp.json()
+                    err_info = error_data.get("error", {})
+                    last_error_msg = f"{err_info.get('status', resp.status_code)}: {err_info.get('message', resp.text)}"
+                except Exception:
+                    last_error_msg = resp.text
 
-    # Check for truncated responses
-    candidate = data.get("candidates", [{}])[0]
-    finish_reason = candidate.get("finishReason", "UNKNOWN")
-    if finish_reason != "STOP" and finish_reason != "SUCCESS":
-        print(
-            f"!!! [WARNING] Gemini finished with reason: {finish_reason}. Response may be truncated !!!"
-        )
+                # If 404 (Not Found) or 429 (Quota Exceeded / Rate Limit) or 503 (Overloaded), fall back to next model
+                if resp.status_code in (404, 429, 503, 500, 504):
+                    next_model = (
+                        candidate_models[model_index + 1]
+                        if model_index + 1 < len(candidate_models)
+                        else "None"
+                    )
+                    print(
+                        f"⚠️ [MODEL FALLBACK] Model '{model_name}' failed ({resp.status_code}). Switching to: '{next_model}'..."
+                    )
+                    break  # Break inner retry loop to switch to next candidate model
 
-    text_output = "".join(
-        part.get("text", "")
-        for candidate in data.get("candidates", [])
-        for part in candidate.get("content", {}).get("parts", [])
+            except requests.exceptions.RequestException as e:
+                last_error_msg = str(e)
+                if attempt < max_model_retries:
+                    time.sleep(retry_delay)
+                    continue
+                break
+
+    # If all candidate models were exhausted
+    print(f"❌ [CRITICAL] All Gemini models in fallback chain failed! Last error: {last_error_msg}")
+    raise HTTPException(
+        status_code=last_status_code if last_status_code != 500 else 500,
+        detail=f"AI Service Error: {last_error_msg}",
     )
-
-    return text_output
 
 
 def parse_response(text_output: str):
     """Clean and parse JSON response from the model."""
     try:
-        # First, try to strip common markdown code block markers
         cleaned = text_output.strip()
         if cleaned.startswith("```json"):
             cleaned = cleaned[7:]
@@ -197,9 +187,7 @@ def parse_response(text_output: str):
         logging.warning(
             f"Initial JSON parsing attempt failed: {e}. Falling back to brace matching."
         )
-        pass
 
-    # Fallback: attempt to extract a valid JSON object by single-pass brace counting
     try:
         start = text_output.find("{")
         if start != -1:
@@ -213,8 +201,6 @@ def parse_response(text_output: str):
                         try:
                             return json.loads(text_output[start : i + 1])
                         except ValueError:
-                            # if it fails, we keep looking for the next balanced block?
-                            # Usually the first balanced block is the JSON.
                             pass
     except Exception as e:
         print(f"Failed to parse JSON: {str(e)}")
@@ -223,15 +209,9 @@ def parse_response(text_output: str):
 
 
 def stream_gemini(system_prompt: str, user_prompt: str, api_key: str = None):
-    """Shared helper to call the Gemini API with streaming."""
-    model_name = os.getenv("MODEL_NAME")
+    """Shared helper to call the Gemini API with streaming and automatic model fallback."""
     actual_api_key = api_key or os.getenv("GEMINI_API_KEY")
-
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:streamGenerateContent?alt=sse"
-    headers = {
-        "Content-Type": "application/json",
-        "x-goog-api-key": actual_api_key,
-    }
+    candidate_models = get_candidate_models()
 
     body = {
         "system_instruction": {"parts": [{"text": system_prompt}]},
@@ -241,33 +221,48 @@ def stream_gemini(system_prompt: str, user_prompt: str, api_key: str = None):
         },
     }
 
-    _wait_for_rate_limit()
+    for model_name in candidate_models:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:streamGenerateContent?alt=sse"
+        headers = {
+            "Content-Type": "application/json",
+            "x-goog-api-key": actual_api_key,
+        }
 
-    try:
-        resp = requests.post(url, json=body, headers=headers, stream=True)
-        resp.raise_for_status()
+        _wait_for_rate_limit()
 
-        for line in resp.iter_lines():
-            if line:
-                decoded_line = line.decode("utf-8")
-                if decoded_line.startswith("data:"):
-                    data_str = decoded_line[5:].strip()
-                    if data_str == "[DONE]":
-                        break
-                    try:
-                        data_json = json.loads(data_str)
-                        candidates = data_json.get("candidates", [])
-                        if candidates:
-                            parts = candidates[0].get("content", {}).get("parts", [])
-                            for part in parts:
-                                text = part.get("text", "")
-                                if text:
-                                    yield text
-                    except json.JSONDecodeError:
-                        continue
-    except Exception as e:
-        print(f"!!! [CRITICAL] Gemini Streaming API Failure: {str(e)} !!!")
-        yield f"Error generating stream: {str(e)}"
+        try:
+            resp = requests.post(url, json=body, headers=headers, stream=True, timeout=60)
+            if resp.status_code == 200:
+                has_yielded = False
+                for line in resp.iter_lines():
+                    if line:
+                        decoded_line = line.decode("utf-8")
+                        if decoded_line.startswith("data:"):
+                            data_str = decoded_line[5:].strip()
+                            if data_str == "[DONE]":
+                                break
+                            try:
+                                data_json = json.loads(data_str)
+                                candidates = data_json.get("candidates", [])
+                                if candidates:
+                                    parts = candidates[0].get("content", {}).get("parts", [])
+                                    for part in parts:
+                                        text = part.get("text", "")
+                                        if text:
+                                            has_yielded = True
+                                            yield text
+                            except json.JSONDecodeError:
+                                continue
+                if has_yielded:
+                    return
+            else:
+                print(
+                    f"⚠️ [STREAM FALLBACK] Model '{model_name}' returned HTTP {resp.status_code}. Trying next model..."
+                )
+        except Exception as e:
+            print(f"⚠️ [STREAM ERROR] Model '{model_name}' error: {e}. Trying next model...")
+
+    yield "Error: All AI model endpoints in fallback chain failed to stream response."
 
 
 def to_float(val, default: float = 0.0) -> float:

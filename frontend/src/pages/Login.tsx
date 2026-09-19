@@ -28,12 +28,12 @@ const Login = () => {
 
     useEffect(() => {
         if (isError) {
-            toast.error(message || "Invalid email or password");
+            toast.error(message || "Email hoặc mật khẩu không chính xác");
             dispatch(reset());
         }
 
         if (isSuccess && user) {
-            toast.success("Login successful");
+            toast.success("Đăng nhập thành công!");
             navigate("/");
             dispatch(reset());
         }
@@ -52,6 +52,10 @@ const Login = () => {
     };
 
     const handleGoogleSignIn = async () => {
+        if (!auth || !googleProvider) {
+            toast.info("Tính năng đăng nhập Google chưa được cấu hình Firebase API Key. Vui lòng đăng nhập bằng Email / Mật khẩu.");
+            return;
+        }
         try {
             const result = await signInWithPopup(auth, googleProvider);
             const firebaseIdToken = await result.user.getIdToken();
@@ -60,7 +64,7 @@ const Login = () => {
             const msg = err instanceof Error ? err.message : "Google Sign-In failed";
             // Ignore popup-closed-by-user errors silently
             if (!msg.includes("popup-closed-by-user") && !msg.includes("cancelled-popup-request")) {
-                toast.error("Google Sign-In failed. Please try again.");
+                toast.error("Đăng nhập Google thất bại. Vui lòng thử lại.");
             }
         }
     };
