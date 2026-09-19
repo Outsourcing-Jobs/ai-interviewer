@@ -33,7 +33,7 @@ const NewInterviewForm: React.FC<NewInterviewFormProps> = ({
                         return;
                     }
                 }
-                toast.error("Failed to load your resumes. Please try again later.");
+                toast.error("Không thể tải danh sách CV của bạn. Vui lòng thử lại sau.");
             }
         };
         fetchResumes();

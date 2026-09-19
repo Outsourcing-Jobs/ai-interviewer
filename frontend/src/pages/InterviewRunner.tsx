@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import { useAudioRecorder } from "../hooks/useAudioRecorder";
 import { useInterviewSession } from "../hooks/useInterviewSession";
+import { useSpeechSynthesis } from "../hooks/useSpeechSynthesis";
 
 import ConfirmModal from "../components/ConfirmModal";
 import InterviewHeader from "../components/InterviewHeader";
+import AIInterviewerStage from "../components/AIInterviewerStage";
 import QuestionSection from "../components/QuestionSection";
 import VerbalRecorder from "../components/VerbalRecorder";
 import CodeEditorSection from "../components/CodeEditorSection";
@@ -20,11 +23,14 @@ const InterviewRunner = () => {
     const {
         isRecording,
         recordingTime,
+        audioLevel,
+        recordedAudioUrl,
+        liveTranscript,
         startRecording,
         stopRecording,
+        clearRecording,
         setRecordingTime
     } = useAudioRecorder();
-
 
     const {
         activeSession,
@@ -48,20 +54,75 @@ const InterviewRunner = () => {
         confirmFinishInterview
     } = useInterviewSession(stopRecording, setRecordingTime);
 
+    const language = activeSession?.language || "vi";
 
+    const {
+        isSpeaking,
+        isPaused,
+        rate,
+        autoSpeak,
+        speak,
+        stop: stopSpeech,
+        pause: pauseSpeech,
+        resume: resumeSpeech,
+        setRate,
+        toggleAutoSpeak
+    } = useSpeechSynthesis({ defaultLang: language });
+
+    // Auto-read question on question index change
+    useEffect(() => {
+        if (!currentQuestion?.questionText) return;
+
+        if (autoSpeak) {
+            // Small delay so UI renders smoothly first
+            const timer = setTimeout(() => {
+                speak(currentQuestion.questionText, language);
+            }, 300);
+            return () => clearTimeout(timer);
+        } else {
+            stopSpeech();
+        }
+    }, [currentQuestionIndex, currentQuestion?.questionText, autoSpeak, language]);
+
+    // Cleanup speech on unmount
+    useEffect(() => {
+        return () => {
+            stopSpeech();
+        };
+    }, []);
 
     const handleConfirmFinish = async () => {
         if (isFinishing) return;
+        stopSpeech();
         setIsFinishing(true);
         setIsFinishModalOpen(false);
         try {
-
             await confirmFinishInterview();
         } catch (error) {
             console.error("Failed to finish interview:", error);
             setIsFinishing(false);
-            alert("Failed to finalize session. Please try again or refresh.");
+            toast.error("Không thể hoàn tất buổi phỏng vấn. Vui lòng thử lại hoặc tải lại trang.");
         }
+    };
+
+    const handleStartRecording = () => {
+        // Stop AI speaking if active
+        stopSpeech();
+        startRecording(
+            (blob) => updateDraftAudio(blob),
+            (text) => updateDraftText(text),
+            language
+        );
+    };
+
+    const handleDeleteAudio = () => {
+        clearRecording();
+        deleteDraftAudio();
+    };
+
+    const handleNavigateQuestion = (index: number) => {
+        stopSpeech();
+        handleNavigation(index);
     };
 
     if (!activeSession || !activeSession.questions || activeSession.questions.length === 0 || isFinishing) {
@@ -81,16 +142,42 @@ const InterviewRunner = () => {
                 questions={activeSession.questions}
                 currentQuestionIndex={currentQuestionIndex}
                 submittedLocal={submittedLocal}
-                handleNavigation={handleNavigation}
-                handleFinishInterview={() => setIsFinishModalOpen(true)}
+                handleNavigation={handleNavigateQuestion}
+                handleFinishInterview={() => {
+                    stopSpeech();
+                    setIsFinishModalOpen(true);
+                }}
                 isLoading={isLoading}
                 questionsCount={activeSession.questions.length}
                 company={activeSession.company}
             />
 
+            {/* AI Interviewer Persona & Voice Stage */}
+            <AIInterviewerStage
+                role={activeSession.role}
+                company={activeSession.company}
+                isSpeaking={isSpeaking}
+                isPaused={isPaused}
+                autoSpeak={autoSpeak}
+                rate={rate}
+                isCandidateRecording={isRecording}
+                onPlay={() => speak(currentQuestion?.questionText || "", language)}
+                onPause={pauseSpeech}
+                onResume={resumeSpeech}
+                onStop={stopSpeech}
+                onReplay={() => speak(currentQuestion?.questionText || "", language)}
+                onToggleAutoSpeak={toggleAutoSpeak}
+                onChangeRate={setRate}
+            />
+
             <QuestionSection
                 index={currentQuestionIndex}
                 text={currentQuestion?.questionText || ""}
+                isSpeaking={isSpeaking}
+                onToggleSpeak={() => {
+                    if (isSpeaking) stopSpeech();
+                    else speak(currentQuestion?.questionText || "", language);
+                }}
             />
 
             {isCodingQuestion ? (
@@ -113,10 +200,13 @@ const InterviewRunner = () => {
                         isRecording={isRecording}
                         recordingTime={recordingTime}
                         hasAudio={!!currentDraft.audio}
+                        audioLevel={audioLevel}
+                        recordedAudioUrl={recordedAudioUrl}
+                        liveTranscript={liveTranscript}
                         isQuestionLocked={isQuestionLocked}
-                        startRecording={() => startRecording(updateDraftAudio)}
+                        startRecording={handleStartRecording}
                         stopRecording={stopRecording}
-                        deleteDraftAudio={deleteDraftAudio}
+                        deleteDraftAudio={handleDeleteAudio}
                         textAnswer={currentDraft.textAnswer || ""}
                         updateTextAnswer={updateDraftText}
                         voiceMode={activeSession.voiceMode || "voice"}

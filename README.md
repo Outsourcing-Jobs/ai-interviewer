@@ -67,6 +67,15 @@ For detailed setup instructions for each service, please refer to their respecti
 - [/frontend](./frontend/README.md)
 
 ### 3. Running Locally
+
+#### 🐳 Option A: Using Docker Compose (Recommended)
+You can run the entire stack with a single command:
+```bash
+docker compose up --build
+```
+> For step-by-step Docker instructions and troubleshooting, see the [Docker Guide](./DOCKER_GUIDE.md).
+
+#### 💻 Option B: Native Setup
 We've provided a helper script for Windows users:
 ```bash
 ./start-all.bat
@@ -79,11 +88,13 @@ Alternatively, start each service manually as described in the [Deployment Guide
 
 ```text
 AI-Interviewer/
-├── ai-service/     # Python microservice for AI & Audio processing
-├── backend/        # Node.js Express server & API
-├── frontend/       # React application (Vite/TS)
-├── start-all.bat   # Windows start script
-└── DEPLOYMENT_GUIDE.md # Detailed deployment instructions
+├── ai-service/         # Python microservice for AI & Audio processing
+├── backend/            # Node.js Express server & API
+├── frontend/           # React application (Vite/TS)
+├── docker-compose.yml  # Local Docker Compose orchestrator
+├── DOCKER_GUIDE.md     # Step-by-step Docker setup guide
+├── start-all.bat       # Windows native start script
+└── DEPLOYMENT_GUIDE.md # Cloud deployment guide
 ```
 
 ---

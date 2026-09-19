@@ -3,6 +3,7 @@ import asyncHandler from "express-async-handler";
 import { User } from "../models/User.js";
 import Session from "../models/Session.js";
 import { Resume } from "../models/Resume.js";
+import { Gamification } from "../models/Gamification.js";
 import { verifyFirebaseToken } from "../config/firebase.js";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
@@ -28,38 +29,39 @@ const generateTokenInCookie = async (res: Response, id: string) => {
     const refreshTokenString = crypto.randomBytes(40).toString("hex");
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
 
+    // Save refresh token in database
     await RefreshToken.create({
         userId: id,
         token: refreshTokenString,
         expiresAt,
     });
 
+    const isProduction = process.env.NODE_ENV === "production";
+
+    // Set Access Token in HttpOnly Cookie
     res.cookie("jwt", accessToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV !== "development",
-        sameSite: process.env.NODE_ENV !== "development" ? "none" : "lax",
-        maxAge: 15 * 60 * 1000, // 15 mins
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax",
+        maxAge: 15 * 60 * 1000, // 15 minutes
     });
 
-    res.cookie("refresh_jwt", refreshTokenString, {
+    // Set Refresh Token in HttpOnly Cookie
+    res.cookie("refreshToken", refreshTokenString, {
         httpOnly: true,
-        secure: process.env.NODE_ENV !== "development",
-        sameSite: process.env.NODE_ENV !== "development" ? "none" : "lax",
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 };
 
 /**
- * @desc Register a new user with name, email, and password.
+ * @desc Register a new user
  * @route POST /api/user/register
  * @access Public
  */
 const registerUser = asyncHandler(async (req: Request, res: Response) => {
     const { name, email, password } = req.body;
-    if (!name || !email || !password) {
-        res.status(400);
-        throw new Error("Please provide all fields");
-    }
 
     const userExists = await User.findOne({ email });
 
@@ -75,13 +77,13 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
     });
 
     if (user) {
-        await generateTokenInCookie(res, (user._id as any).toString());
+        await generateTokenInCookie(res, user._id.toString());
         res.status(201).json({
             _id: user._id,
             name: user.name,
             email: user.email,
-            preferredRole: user.preferredRole,
             role: user.role,
+            preferredRole: user.preferredRole,
         });
     } else {
         res.status(400);
@@ -90,27 +92,23 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
 });
 
 /**
- * @desc Authenticate user and get token.
+ * @desc Authenticate a user & get token
  * @route POST /api/user/login
  * @access Public
  */
 const loginUser = asyncHandler(async (req: Request, res: Response) => {
     const { email, password } = req.body;
-    if (!email || !password) {
-        res.status(400);
-        throw new Error("Please provide all fields");
-    }
 
     const user = await User.findOne({ email });
 
     if (user && (await user.matchPassword(password))) {
-        await generateTokenInCookie(res, (user._id as any).toString());
-        res.json({
+        await generateTokenInCookie(res, user._id.toString());
+        res.status(200).json({
             _id: user._id,
             name: user.name,
             email: user.email,
-            preferredRole: user.preferredRole,
             role: user.role,
+            preferredRole: user.preferredRole,
         });
     } else {
         res.status(401);
@@ -119,206 +117,167 @@ const loginUser = asyncHandler(async (req: Request, res: Response) => {
 });
 
 /**
- * @desc Google Login / Registration via Firebase Auth.
- * Receives a Firebase ID Token from the frontend (after the user signs in
- * with Google through Firebase Auth), verifies it with Firebase Admin SDK,
- * then finds or creates the user in MongoDB and issues our own JWT session.
+ * @desc Authenticate with Google
  * @route POST /api/user/google
  * @access Public
  */
 const googleLogin = asyncHandler(async (req: Request, res: Response) => {
     const { token } = req.body;
-    if (!token) {
+
+    const payload = await verifyFirebaseToken(token);
+
+    if (!payload || !payload.email) {
         res.status(400);
-        throw new Error("Please provide Firebase ID token");
+        throw new Error("Invalid Google token");
     }
 
-    // Verify the Firebase ID token
-    let decodedToken;
-    try {
-        decodedToken = await verifyFirebaseToken(token);
-    } catch (err) {
-        res.status(401);
-        throw new Error("Invalid or expired Firebase token");
-    }
+    const { email, name, uid } = payload;
 
-    const { uid: firebaseUid, email, name, email_verified } = decodedToken;
+    let user = await User.findOne({ email });
 
-    if (!email_verified || !email) {
-        res.status(400);
-        throw new Error("Email not verified");
-    }
-
-    let user: any = await User.findOne({ email });
-
-    if (user) {
-        // Update firebaseUid if not set yet (e.g. user previously registered by email)
-        if (!user.googleId) {
-            user.googleId = firebaseUid;
-            await user.save();
-        }
-        await generateTokenInCookie(res, (user._id as any).toString());
-        res.json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            preferredRole: user.preferredRole,
-            role: user.role,
-        });
-    } else {
-        // New user — create account from Firebase profile
+    if (!user) {
         user = await User.create({
-            name: name ?? email.split("@")[0],
+            name: name || "Google User",
             email,
-            googleId: firebaseUid,
+            googleId: uid,
         });
-
-        if (user) {
-            await generateTokenInCookie(res, (user._id as any).toString());
-            res.status(201).json({
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                preferredRole: user.preferredRole,
-                role: user.role,
-            });
-        } else {
-            res.status(400);
-            throw new Error("Failed to create user");
-        }
+    } else if (!user.googleId) {
+        user.googleId = uid;
+        await user.save();
     }
+
+    await generateTokenInCookie(res, user._id.toString());
+
+    res.status(200).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        preferredRole: user.preferredRole,
+    });
 });
 
 /**
- * @desc Get user profile data.
+ * @desc Get user profile
  * @route GET /api/user/profile
  * @access Private
  */
-const getUserProfile = asyncHandler(async (req: Request, res: Response) => {
-    const authReq = req as AuthenticatedRequest;
-    if (authReq.user) {
-        res.status(200).json({
-            _id: authReq.user._id || authReq.user.id,
-            name: authReq.user.name,
-            email: authReq.user.email,
-            preferredRole: authReq.user.preferredRole,
-            role: authReq.user.role,
-        });
-    } else {
-        res.status(401);
-        throw new Error("User not found");
-    }
-});
+const getUserProfile = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+    const user = await User.findById(req.user?._id);
 
-/**
- * @desc Update user profile data.
- * @route PUT /api/user/profile
- * @access Private
- */
-const updateUserProfile = asyncHandler(async (req: Request, res: Response) => {
-    const authReq = req as AuthenticatedRequest;
-    if (authReq.user) {
-        const user = await User.findById(authReq.user._id || authReq.user.id);
-        if (!user) {
-            res.status(401);
-            throw new Error("User not found");
-        }
-
-        if (req.body?.email && req.body.email !== user.email) {
-            const emailTaken = await User.findOne({ email: req.body.email });
-            if (emailTaken) {
-                res.status(400);
-                throw new Error("Email is already in use");
-            }
-            user.email = req.body.email;
-        }
-
-        user.name = req.body?.name || user.name;
-        user.preferredRole = req.body?.preferredRole || user.preferredRole;
-
-        if (req.body?.password) {
-            user.password = req.body.password;
-        }
-
-        await user.save();
+    if (user) {
         res.status(200).json({
             _id: user._id,
             name: user.name,
             email: user.email,
-            preferredRole: user.preferredRole,
             role: user.role,
+            preferredRole: user.preferredRole,
+            xp: user.xp,
+            currentLevel: user.currentLevel,
+            streakDays: user.streakDays,
+            createdAt: user.createdAt,
         });
     } else {
-        res.status(401);
+        res.status(404);
         throw new Error("User not found");
     }
 });
 
 /**
- * @desc Refresh access token using refresh token.
+ * @desc Update user profile
+ * @route PUT /api/user/profile
+ * @access Private
+ */
+const updateUserProfile = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+    const user = await User.findById(req.user?._id);
+
+    if (user) {
+        user.name = req.body.name || user.name;
+        user.preferredRole = req.body.preferredRole || user.preferredRole;
+
+        if (req.body.password) {
+            user.password = req.body.password;
+        }
+
+        const updatedUser = await user.save();
+
+        res.status(200).json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            role: updatedUser.role,
+            preferredRole: updatedUser.preferredRole,
+        });
+    } else {
+        res.status(404);
+        throw new Error("User not found");
+    }
+});
+
+/**
+ * @desc Refresh access token using refresh token cookie
  * @route POST /api/user/refresh
  * @access Public
  */
 const refreshUserToken = asyncHandler(async (req: Request, res: Response) => {
-    const incomingRefreshToken = req.cookies.refresh_jwt;
+    const refreshTokenString = req.cookies.refreshToken;
 
-    if (!incomingRefreshToken) {
+    if (!refreshTokenString) {
         res.status(401);
-        throw new Error("Refresh token not found");
+        throw new Error("No refresh token provided");
     }
 
-    // Validate refresh token in DB
-    const storedToken = await RefreshToken.findOne({ token: incomingRefreshToken });
+    const savedToken = await RefreshToken.findOne({ token: refreshTokenString });
 
-    if (!storedToken) {
-        // Token was not found. For security, we just clear the cookies.
-        res.cookie("jwt", "", { maxAge: 0 });
-        res.cookie("refresh_jwt", "", { maxAge: 0 });
-        res.status(401);
-        throw new Error("Invalid refresh token");
+    if (!savedToken || savedToken.expiresAt < new Date()) {
+        res.status(403);
+        throw new Error("Refresh token expired or invalid");
     }
 
-    // Token exists, is it expired?
-    if (new Date() > storedToken.expiresAt) {
-        await RefreshToken.deleteOne({ _id: storedToken._id });
-        res.cookie("jwt", "", { maxAge: 0 });
-        res.cookie("refresh_jwt", "", { maxAge: 0 });
-        res.status(401);
-        throw new Error("Refresh token expired");
+    const user = await User.findById(savedToken.userId);
+
+    if (!user) {
+        res.status(404);
+        throw new Error("User not found");
     }
 
-    // Valid. Delete the old refresh token (rotation) and issue a new pair
-    await RefreshToken.deleteOne({ _id: storedToken._id });
+    // Generate new Access Token
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) throw new Error("JWT_SECRET is not defined");
 
-    // Generate new pair
-    await generateTokenInCookie(res, storedToken.userId.toString());
+    const newAccessToken = jwt.sign({ id: user._id }, jwtSecret, { expiresIn: "15m" });
+
+    const isProduction = process.env.NODE_ENV === "production";
+
+    res.cookie("jwt", newAccessToken, {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: isProduction ? "none" : "lax",
+        maxAge: 15 * 60 * 1000, // 15 minutes
+    });
 
     res.status(200).json({ message: "Token refreshed successfully" });
 });
 
 /**
- * @desc Logout user by clearing HTTP-only JWT cookie.
+ * @desc Logout user and clear cookies
  * @route POST /api/user/logout
  * @access Private
  */
 const logoutUser = asyncHandler(async (req: Request, res: Response) => {
-    const incomingRefreshToken = req.cookies.refresh_jwt;
-    if (incomingRefreshToken) {
-        // Remove token from database to prevent reuse
-        await RefreshToken.deleteOne({ token: incomingRefreshToken });
+    const refreshTokenString = req.cookies.refreshToken;
+
+    if (refreshTokenString) {
+        await RefreshToken.deleteOne({ token: refreshTokenString });
     }
 
     res.cookie("jwt", "", {
         httpOnly: true,
-        secure: process.env.NODE_ENV !== "development",
-        sameSite: process.env.NODE_ENV !== "development" ? "none" : "lax",
         expires: new Date(0),
     });
 
-    res.cookie("refresh_jwt", "", {
+    res.cookie("refreshToken", "", {
         httpOnly: true,
-        secure: process.env.NODE_ENV !== "development",
-        sameSite: process.env.NODE_ENV !== "development" ? "none" : "lax",
         expires: new Date(0),
     });
 
@@ -380,10 +339,18 @@ const getAdminStats = asyncHandler(async (req: Request, res: Response) => {
         status: { $in: ["completed", "reviewed"] }
     });
 
-    const recentSessions = await Session.find({})
+    const rawRecentSessions = await Session.find({})
         .sort({ createdAt: -1 })
         .limit(10)
-        .populate("userId", "name email");
+        .populate("user", "name email");
+
+    const recentSessions = rawRecentSessions.map((session) => {
+        const obj = session.toObject();
+        return {
+            ...obj,
+            userId: obj.user,
+        };
+    });
 
     res.status(200).json({
         totalUsers,
@@ -391,6 +358,40 @@ const getAdminStats = asyncHandler(async (req: Request, res: Response) => {
         totalResumes,
         completedSessions,
         recentSessions,
+    });
+});
+
+/**
+ * @desc Get single user detailed profile and stats (Admin only).
+ * @route GET /api/user/admin/users/:id
+ * @access Private/Admin
+ */
+const getUserDetailsForAdmin = asyncHandler(async (req: Request, res: Response) => {
+    const user = await User.findById(req.params.id).select("-password");
+    if (!user) {
+        res.status(404);
+        throw new Error("User not found");
+    }
+
+    const [gamification, totalSessions, completedSessions, recentSessions, totalResumes, recentResumes] = await Promise.all([
+        Gamification.findOne({ user: user._id }),
+        Session.countDocuments({ user: user._id }),
+        Session.countDocuments({ user: user._id, status: { $in: ["completed", "reviewed"] } }),
+        Session.find({ user: user._id }).sort({ createdAt: -1 }).limit(5),
+        Resume.countDocuments({ user: user._id }),
+        Resume.find({ user: user._id }).sort({ createdAt: -1 }).limit(5),
+    ]);
+
+    res.status(200).json({
+        user,
+        gamification,
+        stats: {
+            totalSessions,
+            completedSessions,
+            totalResumes,
+        },
+        recentSessions,
+        recentResumes,
     });
 });
 
@@ -405,4 +406,5 @@ export {
     getAllUsers,
     updateUserRole,
     getAdminStats,
+    getUserDetailsForAdmin,
 };

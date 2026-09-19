@@ -93,7 +93,7 @@ export const EntityExtractionTab = ({
       }
 
     } catch (error) {
-      toast.error("Error rewriting bullet point");
+      toast.error("Lỗi khi viết lại mô tả kinh nghiệm");
       console.error(error);
       setRewritingBullet(null);
     }
@@ -112,14 +112,14 @@ export const EntityExtractionTab = ({
       return { ...prev, experience: newExp };
     });
 
-    toast.success("Applied to experience section!");
+    toast.success("Đã áp dụng vào phần kinh nghiệm làm việc!");
     setRewritingBullet(null);
     setVariations(null);
   };
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    toast.success("Copied to clipboard!");
+    toast.success("Đã sao chép vào bộ nhớ tạm!");
   };
 
   const analysisData = resumeData.analysisReport?._v2?.analysis;

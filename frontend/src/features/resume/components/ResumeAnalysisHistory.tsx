@@ -288,7 +288,7 @@ export const ResumeAnalysisHistory = () => {
       setPage(pageNum);
     } catch (error) {
       console.error("Failed to fetch resume history:", error);
-      toast.error("Failed to load resume history");
+      toast.error("Không thể tải lịch sử phân tích CV");
     } finally {
       setIsLoading(false);
       setIsLoadingMore(false);
@@ -305,10 +305,10 @@ export const ResumeAnalysisHistory = () => {
       await deleteResume(id);
       setResumes(prev => prev.filter(r => r._id !== id));
       setTotal(prev => prev - 1);
-      toast.success("Resume deleted successfully");
+      toast.success("Đã xóa CV thành công!");
     } catch (error) {
       console.error("Failed to delete resume:", error);
-      toast.error("Failed to delete resume");
+      toast.error("Không thể xóa CV. Vui lòng thử lại.");
     } finally {
       setDeletingId(null);
     }

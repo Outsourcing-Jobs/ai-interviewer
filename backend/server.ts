@@ -31,6 +31,7 @@ import codeRoutes from "./routes/codeRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import analyticsRoutes from "./routes/analyticsRoutes.js";
 import diagramRoutes from "./routes/diagramRoutes.js";
+import speechRoutes from "./routes/speechRoutes.js";
 
 import gamificationRoutes from "./routes/gamificationRoutes.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
@@ -97,7 +98,11 @@ const io = new SocketIOServer(server, {
 });
 
 // --- Middlewares & Configuration ---
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+  })
+);
 
 app.use(
   cors({
@@ -152,6 +157,7 @@ app.use("/api/code", codeRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/diagrams", diagramRoutes);
+app.use("/api/speech", speechRoutes);
 
 app.use("/api/gamification", gamificationRoutes);
 

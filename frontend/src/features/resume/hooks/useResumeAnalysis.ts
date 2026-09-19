@@ -33,7 +33,7 @@ export const useResumeAnalysis = ({ userId }: UseResumeAnalysisProps) => {
       setStatus(null);
     } catch (error) {
       console.error("Fetch error:", error);
-      toast.error("Failed to fetch analysis results");
+      toast.error("Không thể lấy kết quả phân tích CV");
       setIsUploading(false);
     }
   }, []);
@@ -60,7 +60,7 @@ export const useResumeAnalysis = ({ userId }: UseResumeAnalysisProps) => {
         if (data.status === "completed") {
           fetchResumeDetails(data.resumeId);
         } else if (data.status === "failed") {
-          toast.error(`Analysis failed: ${data.error || "Unknown error"}`);
+          toast.error(`Phân tích CV thất bại: ${data.error || "Lỗi không xác định"}`);
           setIsUploading(false);
           setStatus(null);
         } else if (data.status === "invalid_document") {

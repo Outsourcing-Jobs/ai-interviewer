@@ -139,8 +139,9 @@ export const sessionService = {
     };
   },
 
-  async getSessionDetails(sessionId: string, userId: string | any) {
-    const session = await Session.findOne({ _id: sessionId, user: userId });
+  async getSessionDetails(sessionId: string, userId: string | any, isAdmin: boolean = false) {
+    const query = isAdmin ? { _id: sessionId } : { _id: sessionId, user: userId };
+    const session = await Session.findOne(query).populate("user", "name email");
     if (!session) {
       throw new Error("Session not found");
     }
@@ -226,7 +227,7 @@ export const sessionService = {
           pushSocketUpdate(io, userId, sessionId, "AI_TRANSCRIBING", `Analyzing speech patterns...`);
           const audioBuffer = await fs.promises.readFile(audioFilePath);
 
-          const analysisResult = await aiService.analyzeSpeech(audioBuffer);
+          const analysisResult = await aiService.analyzeSpeech(audioBuffer, textAnswer || undefined);
           transcription = analysisResult.transcript || "";
           speechMetrics = analysisResult.metrics || null;
         } catch (error: any) {

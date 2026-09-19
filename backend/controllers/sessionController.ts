@@ -73,13 +73,14 @@ export const getSession = asyncHandler(async (req: AuthenticatedRequest, res: Re
 export const getSessionById = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
   const sessionId = req.params.sessionId as string;
   const userId = req.user?.id || req.user?._id;
+  const isAdmin = req.user?.role === "admin";
   if (!userId) {
     res.status(401);
     throw new Error("Unauthorized");
   }
 
   try {
-    const session = await sessionService.getSessionDetails(sessionId, userId);
+    const session = await sessionService.getSessionDetails(sessionId, userId, isAdmin);
     res.status(200).json({ message: "Session found", session });
   } catch (error: any) {
     res.status(404).json({ message: error.message });

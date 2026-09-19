@@ -153,7 +153,7 @@ export const useInterviewSession = (stopRecording: () => void, setRecordingTime:
         const textAnswer = draft.textAnswer || "";
 
         if (!code && !audio && !diagram && !textAnswer.trim()) {
-            toast.error("Please provide an answer (audio or text) before submitting.");
+            toast.error("Vui lòng ghi âm câu trả lời hoặc nhập văn bản trước khi nộp.");
             return;
         }
 
@@ -176,7 +176,7 @@ export const useInterviewSession = (stopRecording: () => void, setRecordingTime:
                 }
             } catch (err) {
                 console.error("Failed to upload diagram", err);
-                toast.warning("Failed to upload whiteboard diagram. Submitting without it.");
+                toast.warning("Không thể tải lên sơ đồ bảng vẽ. Đang nộp bài không kèm sơ đồ.");
             }
         }
 
@@ -192,7 +192,7 @@ export const useInterviewSession = (stopRecording: () => void, setRecordingTime:
             setSubmittedLocal(prev => ({
                 ...prev, [currentQuestionIndex]: false
             }));
-            toast.error("Failed to submit answer. Please try again.");
+            toast.error("Nộp câu trả lời thất bại. Vui lòng thử lại!");
         });
     };
 
@@ -202,9 +202,9 @@ export const useInterviewSession = (stopRecording: () => void, setRecordingTime:
             localStorage.removeItem(`draft_code_${sessionId}`);
             deleteDrafts(sessionId);
             navigate(`/review/${sessionId}`);
-            toast.success("Interview ended successfully.");
+            toast.success("Đã hoàn thành bài phỏng vấn thành công!");
         }).catch(() => {
-            toast.error("Failed to end interview. Please try again.");
+            toast.error("Không thể kết thúc bài phỏng vấn. Vui lòng thử lại.");
         });
     };
 
