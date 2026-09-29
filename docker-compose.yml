@@ -30,11 +30,11 @@ services:
     ports:
       - "8000:8000"
     env_file:
-      - ./ai-service/.env
+      - ./ai-service/.env.prod
     environment:
       - PORT=8000
       - INTERNAL_API_KEY=internal-secret-key-ai-interviewer-2026
-      - ALLOWED_ORIGINS=http://localhost:5173,http://localhost:5000,http://localhost:80,http://localhost
+      - ALLOWED_ORIGINS=http://localhost:5173,http://localhost:5000,http://localhost:80,http://localhost,*
     networks:
       - ai_network
 
@@ -50,14 +50,17 @@ services:
     ports:
       - "5000:5000"
     env_file:
-      - ./backend/.env
+      - ./backend/.env.prod
     environment:
       - PORT=5000
       - NODE_ENV=production
       - AI_SERVICE_URL=http://ai-service:8000
       - REDIS_URL=redis://redis:6379
-      - FRONTEND_URL=http://localhost:5173
+      - FRONTEND_URL=http://localhost:5173,https://ai-interviewer-web-app-silk.vercel.app
+      - BACKEND_URL=http://backend:5000
       - INTERNAL_API_KEY=internal-secret-key-ai-interviewer-2026
+    volumes:
+      - backend_uploads:/app/uploads
     depends_on:
       redis:
         condition: service_healthy
@@ -75,6 +78,9 @@ services:
       dockerfile: Dockerfile
       args:
         - VITE_API_URL=http://localhost:5000/api
+        - VITE_FIREBASE_API_KEY=AIzaSyDDP5DQcDLpIlJbnODUxVCssWhUhVeI6Uw
+        - VITE_FIREBASE_AUTH_DOMAIN=mygallery-2026-v1.firebaseapp.com
+        - VITE_FIREBASE_PROJECT_ID=mygallery-2026-v1
     container_name: ai_interviewer_frontend
     restart: unless-stopped
     ports:
@@ -89,6 +95,8 @@ services:
 # =========================================================================
 volumes:
   redis_data:
+    driver: local
+  backend_uploads:
     driver: local
 
 networks:

@@ -47,33 +47,13 @@ Khi chạy `docker compose`, hệ thống sẽ tự động khởi tạo 4 dịc
 
 ---
 
-## Bước 1: Chuẩn bị file cấu hình môi trường (.env)
+## Bước 1: Cấu hình môi trường (.env.prod)
 
-Đảm bảo các file `.env` đã có sẵn tại các thư mục con:
+Docker Compose được cấu hình sử dụng trực tiếp các file `.env.prod` đã có sẵn trong dự án:
+- `backend/.env.prod` (Chứa cấu hình MongoDB Atlas, Cloudinary, Firebase Admin, JDoodle,...)
+- `ai-service/.env.prod` (Chứa cấu hình Gemini API Key, Model Name,...)
 
-### 1. File `ai-service/.env`
-Tạo hoặc kiểm tra file `ai-service/.env`:
-```env
-PORT=8000
-GEMINI_API_KEY=your_gemini_api_key_here
-INTERNAL_API_KEY=internal-secret-key-ai-interviewer-2026
-ALLOWED_ORIGINS=http://localhost:5173,http://localhost:5000,http://localhost:80,http://localhost
-REQUEST_TIMEOUT=60
-```
-> *(Lưu ý: Không bắt buộc set `MODEL_NAME`, hệ thống sẽ tự động fallback chuỗi model thông minh).*
-
-### 2. File `backend/.env`
-Tạo hoặc kiểm tra file `backend/.env`:
-```env
-PORT=5000
-NODE_ENV=production
-MONGO_URI=mongodb+srv://haiddcontactjob_db_user:haiddcontactjob_db_user@myjobs.c2owprb.mongodb.net/ai-interviewer?appName=MyJobs
-JWT_SECRET=ai-interviewer-super-secret-jwt-key-2026
-FRONTEND_URL=http://localhost:5173
-AI_SERVICE_URL=http://ai-service:8000
-REDIS_URL=redis://redis:6379
-INTERNAL_API_KEY=internal-secret-key-ai-interviewer-2026
-```
+> 💡 Các credentials production (MongoDB Atlas, Cloudinary upload ảnh, Firebase Admin, Gemini AI) sẽ được tự động load từ các file `.env.prod`. Hệ thống nội bộ Docker (giao tiếp Redis, Backend <-> AI Service, Volume Uploads) được Docker Compose tự động tối ưu hóa qua các biến môi trường nội bộ container.
 
 ---
 
@@ -105,12 +85,12 @@ Sau khi cụm container đã khởi động thành công, bạn có thể chạy
 
 ```powershell
 # Nạp dữ liệu mẫu tiêu chuẩn (Tự động xóa sạch dữ liệu cũ và seed mới)
-docker compose exec backend npm run db:seed
+docker compose exec backend npm run db:seed:prod
 ```
 
 > Hoặc nạp tập dữ liệu lớn (stress test):
 > ```powershell
-> docker compose exec backend npm run db:seed:large
+> docker compose exec backend npm run db:seed:prod:large
 > ```
 
 ### 🔑 Tài khoản đăng nhập sẵn sau khi seed:

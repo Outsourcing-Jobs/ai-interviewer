@@ -16,7 +16,9 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "db:seed": "tsx scripts/seed/index.ts",
+    "db:seed:prod": "node dist/scripts/seed/index.js",
     "db:seed:large": "tsx scripts/seed/index.ts --large",
+    "db:seed:prod:large": "node dist/scripts/seed/index.js --large",
     "db:clean": "tsx scripts/seed/index.ts --clean",
     "db:reset": "tsx scripts/seed/index.ts"
   },
