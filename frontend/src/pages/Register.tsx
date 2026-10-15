@@ -6,7 +6,8 @@ import { googleLogin, register, reset } from "../features/auth/authSlice";
 import type { AppDispatch, RootState } from "../app/store";
 import { toast } from "react-toastify";
 import type { User } from "../types/user";
-import { GoogleLogin, type CredentialResponse } from "@react-oauth/google";
+import { signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "../config/firebase";
 import PasswordInput from "../components/PasswordInput";
 
 const Register = () => {
@@ -70,11 +71,20 @@ const Register = () => {
         }
     };
 
-    const handleGoogleSuccess = (credentialResponse: CredentialResponse) => {
-        if (credentialResponse.credential) {
-            dispatch(googleLogin(credentialResponse.credential));
-        } else {
-            toast.error("Đăng nhập Google thất bại");
+    const handleGoogleSignIn = async () => {
+        if (!auth || !googleProvider) {
+            toast.info("Tính năng đăng nhập Google chưa được cấu hình Firebase API Key. Vui lòng đăng nhập bằng Email / Mật khẩu.");
+            return;
+        }
+        try {
+            const result = await signInWithPopup(auth, googleProvider);
+            const firebaseIdToken = await result.user.getIdToken();
+            dispatch(googleLogin(firebaseIdToken));
+        } catch (err: unknown) {
+            const msg = err instanceof Error ? err.message : "Google Sign-In failed";
+            if (!msg.includes("popup-closed-by-user") && !msg.includes("cancelled-popup-request")) {
+                toast.error("Đăng nhập Google thất bại. Vui lòng thử lại.");
+            }
         }
     };
 
@@ -165,17 +175,20 @@ const Register = () => {
                     </div>
 
                     <div className="w-full flex items-center justify-center relative z-10">
-                        <GoogleLogin
-                            onSuccess={handleGoogleSuccess}
-                            onError={() => {
-                                toast.error("Đăng nhập Google thất bại");
-                            }}
-                            theme="outline"
-                            shape="pill"
-                            size="large"
-                            text="continue_with"
-                            width="100%"
-                        />
+                        <button
+                            type="button"
+                            onClick={handleGoogleSignIn}
+                            className="w-full flex items-center justify-center gap-3 px-6 py-3 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-sm font-semibold tracking-wide shadow-xs transition-all duration-200 hover:border-slate-300 active:scale-[0.98] cursor-pointer"
+                        >
+                            {/* Google logo SVG */}
+                            <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
+                                <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z" fill="#34A853"/>
+                                <path d="M4.025 10.742a5.408 5.408 0 0 1 0-3.484V4.926H.957a9.006 9.006 0 0 0 0 8.148l3.068-2.332z" fill="#FBBC05"/>
+                                <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.926l3.068 2.332C4.733 5.164 6.717 3.58 9 3.58z" fill="#EA4335"/>
+                            </svg>
+                            Tiếp tục với Google
+                        </button>
                     </div>
 
                     <div className="mt-8 text-center relative z-10">
