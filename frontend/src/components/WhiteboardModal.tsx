@@ -73,7 +73,7 @@ const WhiteboardModal: React.FC<WhiteboardModalProps> = ({ onClose, onSubmit, in
         className="relative w-full max-w-6xl h-[85vh] flex flex-col bg-surface-900 border border-white/10 rounded-2xl overflow-hidden shadow-2xl"
       >
         <div className="flex justify-between items-center p-4 border-b border-white/5 bg-surface-800">
-          <h2 className="text-lg font-black uppercase tracking-widest text-white">System Design Whiteboard</h2>
+          <h2 className="text-lg font-black uppercase tracking-widest text-white">Bảng vẽ Thiết kế Hệ thống (System Design)</h2>
           <button
             onClick={onClose}
             className="p-2 rounded-full hover:bg-white/10 text-surface-400 hover:text-white transition-colors"
@@ -100,22 +100,22 @@ const WhiteboardModal: React.FC<WhiteboardModalProps> = ({ onClose, onSubmit, in
         <div className="p-4 border-t border-white/5 bg-surface-800 flex justify-end gap-3">
           <button
             onClick={onClose}
-            className="px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest text-surface-300 hover:text-white bg-white/5 hover:bg-white/10 transition-colors"
+            className="px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest text-surface-300 hover:text-white bg-white/5 hover:bg-white/10 transition-colors cursor-pointer"
             disabled={isExporting}
           >
-            Cancel
+            Hủy
           </button>
           <button
             onClick={handleSubmit}
             disabled={isExporting}
-            className="px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest text-white bg-primary-600 hover:bg-primary-500 transition-colors flex items-center gap-2"
+            className="px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest text-white bg-primary-600 hover:bg-primary-500 transition-colors flex items-center gap-2 cursor-pointer"
           >
             {isExporting ? (
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
             ) : (
               <Check size={16} />
             )}
-            {isExporting ? 'Saving...' : 'Save Diagram'}
+            {isExporting ? 'Đang lưu...' : 'Lưu sơ đồ'}
           </button>
         </div>
       </motion.div>

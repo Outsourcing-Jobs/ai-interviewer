@@ -126,7 +126,7 @@ const InterviewRunner = () => {
     };
 
     if (!activeSession || !activeSession.questions || activeSession.questions.length === 0 || isFinishing) {
-        return <InterviewLoading sessionMessage={isFinishing ? "Finalizing Interview..." : sessionMessage} />;
+        return <InterviewLoading sessionMessage={isFinishing ? "Đang hoàn tất buổi phỏng vấn..." : sessionMessage} />;
     }
 
     const currentDraft = drafts[currentQuestionIndex] || {};

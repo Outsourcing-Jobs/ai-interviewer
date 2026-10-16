@@ -32,8 +32,8 @@ const AIFeedbackSection: React.FC<AIFeedbackSectionProps> = ({ isEvaluated, feed
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                     <div>
-                        <h4 className="font-black text-sm uppercase tracking-widest text-teal-900">Follow-up Generated</h4>
-                        <p className="text-xs mt-1 text-teal-700">The interviewer has a dynamic follow-up question based on your answer. Click Next to continue.</p>
+                        <h4 className="font-black text-sm uppercase tracking-widest text-teal-900">Đã tạo câu hỏi đào sâu</h4>
+                        <p className="text-xs mt-1 text-teal-700">Người phỏng vấn có một câu hỏi bổ sung linh hoạt dựa trên câu trả lời của bạn. Bấm Câu tiếp để tiếp tục.</p>
                     </div>
                 </div>
             )}
@@ -44,14 +44,14 @@ const AIFeedbackSection: React.FC<AIFeedbackSectionProps> = ({ isEvaluated, feed
                         onClick={() => setActiveTab('feedback')}
                         className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-colors cursor-pointer ${activeTab === 'feedback' ? 'bg-teal-50 text-teal-700 border border-teal-200 font-extrabold' : 'text-slate-500 hover:text-slate-900'}`}
                     >
-                        AI Feedback
+                        Nhận xét từ AI
                     </button>
                     {speechMetrics && (
                         <button
                             onClick={() => setActiveTab('speech')}
                             className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-colors cursor-pointer ${activeTab === 'speech' ? 'bg-teal-50 text-teal-700 border border-teal-200 font-extrabold' : 'text-slate-500 hover:text-slate-900'}`}
                         >
-                            Speech Analysis
+                            Phân tích giọng nói
                         </button>
                     )}
                 </div>
@@ -59,7 +59,7 @@ const AIFeedbackSection: React.FC<AIFeedbackSectionProps> = ({ isEvaluated, feed
                 <div className="px-4 py-1.5 rounded-full bg-slate-50 border border-slate-200 flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-2xs"></span>
                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-600">
-                        Score: <span className="text-slate-900 font-extrabold">{score}</span>/100
+                        Điểm số: <span className="text-slate-900 font-extrabold">{score}</span>/100
                     </span>
                 </div>
             </div>

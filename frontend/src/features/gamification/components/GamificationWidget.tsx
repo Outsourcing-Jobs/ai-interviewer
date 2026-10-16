@@ -4,18 +4,19 @@ import { fetchGamificationProfile, fetchLeaderboard } from "../gamificationSlice
 import { motion } from "framer-motion";
 import type { AppDispatch, RootState } from "../../../app/store";
 import { BadgeIcon } from "./BadgeIcon";
+import { ACHIEVEMENTS } from "../../../config/achievements";
 
 const LEVEL_THRESHOLDS = [
-  { level: 1, xpRequired: 0, title: "Novice" },
-  { level: 2, xpRequired: 200, title: "Apprentice" },
-  { level: 3, xpRequired: 500, title: "Practitioner" },
-  { level: 4, xpRequired: 1000, title: "Intermediate" },
-  { level: 5, xpRequired: 2000, title: "Advanced" },
-  { level: 6, xpRequired: 3500, title: "Expert" },
-  { level: 7, xpRequired: 5000, title: "Master" },
-  { level: 8, xpRequired: 7500, title: "Grandmaster" },
-  { level: 9, xpRequired: 10000, title: "Legend" },
-  { level: 10, xpRequired: 15000, title: "Titan" },
+  { level: 1, xpRequired: 0, title: "Tập sự" },
+  { level: 2, xpRequired: 200, title: "Học việc" },
+  { level: 3, xpRequired: 500, title: "Thực hành" },
+  { level: 4, xpRequired: 1000, title: "Trung cấp" },
+  { level: 5, xpRequired: 2000, title: "Nâng cao" },
+  { level: 6, xpRequired: 3500, title: "Chuyên gia" },
+  { level: 7, xpRequired: 5000, title: "Bậc thầy" },
+  { level: 8, xpRequired: 7500, title: "Đại sư" },
+  { level: 9, xpRequired: 10000, title: "Huyền thoại" },
+  { level: 10, xpRequired: 15000, title: "Bất khả chiến bại" },
 ];
 
 export const GamificationWidget = () => {
@@ -33,7 +34,7 @@ export const GamificationWidget = () => {
   }
 
   if (isError) {
-    return <div className="p-6 text-rose-400 bg-rose-500/10 rounded-3xl border border-rose-500/20 mb-8">Gamification Error: {message}</div>;
+    return <div className="p-6 text-rose-400 bg-rose-500/10 rounded-3xl border border-rose-500/20 mb-8">Lỗi Gamification: {message}</div>;
   }
 
   if (!profile) return null;
@@ -62,7 +63,7 @@ export const GamificationWidget = () => {
               <div className="text-teal-600 text-sm font-black">{profile.title}</div>
             </div>
             <div className="text-right">
-              <div className="text-slate-900 font-black text-xl font-display">Level {profile.level}</div>
+              <div className="text-slate-900 font-black text-xl font-display">Cấp {profile.level}</div>
             </div>
           </div>
 
@@ -77,7 +78,7 @@ export const GamificationWidget = () => {
 
           <div className="flex justify-between items-center text-sm">
             <span className="text-slate-500 text-[10px] font-bold">Tiến độ cấp tiếp theo</span>
-            <span className="text-slate-700 text-[11px] font-black tracking-wide">{profile.xp} / {nextLevelXp || "MAX"} XP</span>
+            <span className="text-slate-700 text-[11px] font-black tracking-wide">{profile.xp} / {nextLevelXp || "TỐI ĐA"} XP</span>
           </div>
         </div>
       </motion.div>
@@ -89,7 +90,7 @@ export const GamificationWidget = () => {
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 flex-1">
           <div className="flex-1">
             <div className="flex justify-between text-[10px] font-black text-slate-400 mb-2 px-1 w-full md:max-w-[260px]">
-              <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+              <span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span><span>CN</span>
             </div>
             <div className="grid grid-cols-7 gap-2 w-full md:max-w-[260px]">
               {Array.from({ length: 21 }).map((_, i) => {
@@ -112,7 +113,7 @@ export const GamificationWidget = () => {
               </svg>
             </div>
             <div>
-              <div className="text-2xl font-black text-teal-700 tracking-tight font-display">{profile.currentStreak} Days</div>
+              <div className="text-2xl font-black text-teal-700 tracking-tight font-display">{profile.currentStreak} Ngày</div>
               <div className="text-[9px] text-slate-500 font-black uppercase tracking-widest mt-0.5">Chuỗi phỏng vấn</div>
             </div>
           </div>
@@ -126,17 +127,21 @@ export const GamificationWidget = () => {
           <span className="text-teal-600 text-xs font-black">{profile?.badges?.length || 0} thành tích</span>
         </div>
         <div className="flex flex-wrap gap-x-3 gap-y-4 justify-center items-start px-1 pb-2">
-          {profile?.badges && profile.badges.length > 0 ? profile.badges.slice(0, 8).map((badge, idx) => (
-            <div key={idx} className="flex flex-col items-center min-w-[55px] max-w-[65px]">
-              <BadgeIcon badgeId={badge.badgeId} className="w-12 h-12 mb-2 shrink-0" />
-              <span
-                className="text-[9px] text-slate-600 font-bold whitespace-nowrap overflow-hidden text-ellipsis w-full text-center"
-                title={badge.badgeId.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
-              >
-                {badge.badgeId.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
-              </span>
-            </div>
-          )) : (
+          {profile?.badges && profile.badges.length > 0 ? profile.badges.slice(0, 8).map((badge, idx) => {
+            const achievement = ACHIEVEMENTS.find(a => a.id === badge.badgeId);
+            const badgeTitle = achievement?.name || badge.badgeId.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+            return (
+              <div key={idx} className="flex flex-col items-center min-w-[55px] max-w-[65px]">
+                <BadgeIcon badgeId={badge.badgeId} className="w-12 h-12 mb-2 shrink-0" />
+                <span
+                  className="text-[9px] text-slate-600 font-bold whitespace-nowrap overflow-hidden text-ellipsis w-full text-center"
+                  title={badgeTitle}
+                >
+                  {badgeTitle}
+                </span>
+              </div>
+            );
+          }) : (
             <div className="w-full text-center text-slate-400 text-xs py-4 font-medium">Chưa có thành tích</div>
           )}
         </div>
@@ -152,7 +157,7 @@ export const GamificationWidget = () => {
           </div>
           <div className="min-w-0 flex-1">
             <h3 className="text-slate-900 font-extrabold text-lg whitespace-nowrap font-display">Bảng xếp hạng</h3>
-            <p className="text-slate-500 text-xs font-medium truncate">Vị trí của bạn: {profile?.leaderboardOptIn ? leaderboard?.find(l => l.userId ? (l.userId === user?._id || l.userId === user?.id) : (l.name === user?.name))?.rank || '-' : 'Opted Out'}</p>
+            <p className="text-slate-500 text-xs font-medium truncate">Vị trí của bạn: {profile?.leaderboardOptIn ? leaderboard?.find(l => l.userId ? (l.userId === user?._id || l.userId === user?.id) : (l.name === user?.name))?.rank || '-' : 'Đã ẩn'}</p>
           </div>
         </div>
 
@@ -166,8 +171,8 @@ export const GamificationWidget = () => {
                   {isCurrentUser ? (idx + 1) : <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" /></svg>}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className={`${isCurrentUser ? 'text-slate-900 font-extrabold' : 'text-slate-700'} text-xs font-bold truncate`}>{isCurrentUser ? "You" : entry.name}</div>
-                  <div className={`text-[9px] truncate ${isCurrentUser ? 'text-teal-600 font-bold' : 'text-slate-400'}`}>Level {entry.level} • {entry.xp} XP</div>
+                  <div className={`${isCurrentUser ? 'text-slate-900 font-extrabold' : 'text-slate-700'} text-xs font-bold truncate`}>{isCurrentUser ? "Bạn" : entry.name}</div>
+                  <div className={`text-[9px] truncate ${isCurrentUser ? 'text-teal-600 font-bold' : 'text-slate-400'}`}>Cấp {entry.level} • {entry.xp} XP</div>
                 </div>
                 {isCurrentUser && (
                   <svg className="w-4 h-4 text-amber-500 shrink-0" fill="currentColor" viewBox="0 0 20 20">

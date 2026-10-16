@@ -54,7 +54,7 @@ export const ResumeHistoryWidget = () => {
       <div className="bg-surface-800/40 border border-surface-600/30 rounded-3xl p-8 min-h-[300px] flex items-center justify-center animate-pulse shadow-2xl shadow-black/40 backdrop-blur-md">
         <div className="flex flex-col items-center">
           <div className="w-12 h-12 rounded-full border-4 border-primary-500/20 border-t-primary-500 animate-spin mb-4" />
-          <span className="text-surface-500 text-sm font-bold uppercase tracking-widest">Loading History...</span>
+          <span className="text-surface-500 text-sm font-bold uppercase tracking-widest">Đang tải lịch sử...</span>
         </div>
       </div>
     );
@@ -72,14 +72,14 @@ export const ResumeHistoryWidget = () => {
 
   const labels = resumes.map(r => {
     const d = new Date(r.createdAt || "");
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    return d.toLocaleDateString('vi-VN', { month: 'numeric', day: 'numeric' });
   });
 
   const data = {
     labels,
     datasets: [
       {
-        label: "ATS Score",
+        label: "Điểm ATS",
         data: chartData,
         fill: true,
         backgroundColor: "rgba(13, 148, 136, 0.08)",
@@ -112,7 +112,7 @@ export const ResumeHistoryWidget = () => {
         displayColors: false,
         callbacks: {
           label: function (context: TooltipItem<"line">) {
-            return `ATS Score: ${context.parsed.y}`;
+            return `Điểm ATS: ${context.parsed.y}`;
           },
         },
       },

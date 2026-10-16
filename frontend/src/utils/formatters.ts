@@ -21,7 +21,7 @@ export const sanitizeQuestionText = (text: string | undefined) => {
 
 export const formatIdealAnswer = (text: string | undefined) => {
     try {
-        if (!text) return 'Pending Evaluation';
+        if (!text) return 'Đang chờ đánh giá';
 
         let cleanText = text.trim();
 

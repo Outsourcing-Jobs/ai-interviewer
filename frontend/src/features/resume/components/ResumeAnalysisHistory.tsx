@@ -17,17 +17,17 @@ const FILE_TYPE_CONFIG: Record<string, { label: string; color: string; bg: strin
 };
 
 const STATUS_CONFIG: Record<string, { label: string; color: string; bg: string; border: string }> = {
-  completed: { label: "Analyzed", color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
-  failed: { label: "Failed", color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20" },
-  processing: { label: "Processing", color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" },
-  analyzing: { label: "Analyzing", color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" },
-  pending: { label: "Pending", color: "text-surface-400", bg: "bg-surface-500/10", border: "border-surface-500/20" },
-  parsed: { label: "Parsed", color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20" },
-  matching: { label: "Matching", color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20" },
+  completed: { label: "Đã phân tích", color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20" },
+  failed: { label: "Thất bại", color: "text-rose-400", bg: "bg-rose-500/10", border: "border-rose-500/20" },
+  processing: { label: "Đang xử lý", color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" },
+  analyzing: { label: "Đang phân tích", color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" },
+  pending: { label: "Chờ xử lý", color: "text-surface-400", bg: "bg-surface-500/10", border: "border-surface-500/20" },
+  parsed: { label: "Đã trích xuất", color: "text-blue-400", bg: "bg-blue-500/10", border: "border-blue-500/20" },
+  matching: { label: "Đang đối chiếu", color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20" },
 };
 
 const getRelativeTime = (dateStr?: string) => {
-  if (!dateStr) return "Unknown";
+  if (!dateStr) return "Không rõ";
   const now = new Date();
   const date = new Date(dateStr);
   const diffMs = now.getTime() - date.getTime();
@@ -35,11 +35,11 @@ const getRelativeTime = (dateStr?: string) => {
   const diffHours = Math.floor(diffMs / 3600000);
   const diffDays = Math.floor(diffMs / 86400000);
 
-  if (diffMins < 1) return "Just now";
-  if (diffMins < 60) return `${diffMins}m ago`;
-  if (diffHours < 24) return `${diffHours}h ago`;
-  if (diffDays < 7) return `${diffDays}d ago`;
-  return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  if (diffMins < 1) return "Vừa xong";
+  if (diffMins < 60) return `${diffMins} phút trước`;
+  if (diffHours < 24) return `${diffHours} giờ trước`;
+  if (diffDays < 7) return `${diffDays} ngày trước`;
+  return date.toLocaleDateString("vi-VN", { month: "short", day: "numeric", year: "numeric" });
 };
 
 const getAtsScore = (r: ResumeData) =>
@@ -191,7 +191,7 @@ const ResumeCard = ({ resume, index, onDelete, isDeleting }: ResumeCardProps) =>
         <div className="flex items-center gap-4 mb-4 relative z-10">
           <div className="flex-1">
             <div className="flex justify-between text-[10px] font-bold text-slate-500 mb-1.5 uppercase tracking-wider">
-              <span>Overall</span>
+              <span>Tổng quan</span>
               <span className="text-slate-700 font-black">{overallScore}/100</span>
             </div>
             <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
@@ -253,7 +253,7 @@ const ResumeCard = ({ resume, index, onDelete, isDeleting }: ResumeCardProps) =>
           <button
             onClick={() => setShowConfirm(true)}
             className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-1.5 rounded-lg hover:bg-rose-50 text-slate-400 hover:text-rose-600 cursor-pointer"
-            title="Delete resume"
+            title="Xóa CV"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M3 6h18" /><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" /><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
@@ -394,14 +394,14 @@ export const ResumeAnalysisHistory = () => {
             {isLoadingMore ? (
               <>
                 <span className="w-4 h-4 border-2 border-surface-500 border-t-primary-500 rounded-full animate-spin" />
-                Loading...
+                Đang tải...
               </>
             ) : (
               <>
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
-                Load More Resumes
+                Tải thêm CV
               </>
             )}
           </button>

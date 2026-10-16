@@ -14,7 +14,7 @@ const InterviewLoading: React.FC<InterviewLoadingProps> = ({ sessionMessage }) =
                 </svg>
             </div>
             <div className="text-center">
-                <p className="text-slate-800 font-black text-xl italic tracking-tight">Preparing your interview questions...</p>
+                <p className="text-slate-800 font-black text-xl italic tracking-tight">Đang chuẩn bị các câu hỏi phỏng vấn cho bạn...</p>
                 {sessionMessage && (
                     <div className="mt-4 px-4 py-2 bg-blue-50 border border-blue-100 rounded-2xl text-blue-600 text-xs font-mono animate-pulse inline-block">
                         {sessionMessage}...

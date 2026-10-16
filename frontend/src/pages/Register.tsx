@@ -200,7 +200,7 @@ const Register = () => {
                 </div>
 
                 <p className="mt-8 text-center text-slate-400 text-[10px] font-bold uppercase tracking-widest">
-                    &copy; 2024 Prepify AI. The smart way to interview.
+                    &copy; 2024 AI Interviewer. Giải pháp luyện phỏng vấn thông minh.
                 </p>
             </div>
         </div>

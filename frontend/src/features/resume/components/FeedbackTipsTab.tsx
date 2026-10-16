@@ -62,8 +62,8 @@ export const FeedbackTipsTab = ({ issues = [], strengths = [], streamingText = "
                 <AlertCircle className="w-5 h-5 text-rose-600" />
               </div>
               <h3 className="text-2xl font-black text-slate-900 flex items-center gap-3 tracking-tight font-display">
-                Điểm cần cải thiện (Issues Found)
-                {isStreaming && !strengthsText && <span className="text-[10px] font-black px-2 py-1 rounded-lg bg-rose-50 text-rose-700 uppercase tracking-widest ml-2 animate-pulse border border-rose-200">Live</span>}
+                Điểm cần cải thiện
+                {isStreaming && !strengthsText && <span className="text-[10px] font-black px-2 py-1 rounded-lg bg-rose-50 text-rose-700 uppercase tracking-widest ml-2 animate-pulse border border-rose-200">Trực tiếp</span>}
               </h3>
             </div>
             <div className="max-w-none relative z-10">
@@ -81,8 +81,8 @@ export const FeedbackTipsTab = ({ issues = [], strengths = [], streamingText = "
                   <Star className="w-5 h-5 text-teal-600" />
                 </div>
                 <h3 className="text-2xl font-black text-slate-900 flex items-center gap-3 tracking-tight font-display">
-                  Điểm mạnh (Strengths)
-                  {isStreaming && strengthsText && <span className="text-[10px] font-black px-2 py-1 rounded-lg bg-teal-50 text-teal-700 uppercase tracking-widest ml-2 animate-pulse border border-teal-200">Live</span>}
+                  Điểm mạnh
+                  {isStreaming && strengthsText && <span className="text-[10px] font-black px-2 py-1 rounded-lg bg-teal-50 text-teal-700 uppercase tracking-widest ml-2 animate-pulse border border-teal-200">Trực tiếp</span>}
                 </h3>
               </div>
               <div className="max-w-none relative z-10">

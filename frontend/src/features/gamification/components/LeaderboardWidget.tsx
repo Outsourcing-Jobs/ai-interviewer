@@ -18,7 +18,7 @@ export const LeaderboardWidget = () => {
   if (isLoading) {
     return (
       <div className="p-6 text-surface-400 bg-surface-800/30 rounded-3xl animate-pulse h-64 border border-white/5 mb-8">
-        Loading leaderboard...
+        Đang tải bảng xếp hạng...
       </div>
     );
   }
@@ -26,7 +26,7 @@ export const LeaderboardWidget = () => {
   if (isError) {
     return (
       <div className="p-6 text-rose-400 bg-rose-500/10 rounded-3xl border border-rose-500/20 mb-8">
-        Leaderboard Error: {message}
+        Lỗi bảng xếp hạng: {message}
       </div>
     );
   }
@@ -47,8 +47,8 @@ export const LeaderboardWidget = () => {
           <Trophy className="w-5 h-5 text-amber-400" />
         </div>
         <div>
-          <h2 className="text-xl font-bold text-white">Top Performers</h2>
-          <p className="text-sm text-surface-400">Global Leaderboard</p>
+          <h2 className="text-xl font-bold text-white">Bảng vinh danh</h2>
+          <p className="text-sm text-surface-400">Bảng xếp hạng toàn hệ thống</p>
         </div>
       </div>
 
@@ -81,7 +81,7 @@ export const LeaderboardWidget = () => {
               <div>
                 <p className="font-semibold text-white">{user.name}</p>
                 <div className="flex items-center gap-2 text-xs font-medium mt-1">
-                  <span className="text-indigo-400">Level {user.level}</span>
+                  <span className="text-indigo-400">Cấp {user.level}</span>
                   <span className="w-1 h-1 rounded-full bg-surface-600"></span>
                   <span className="text-surface-400">{user.xp} XP</span>
                 </div>

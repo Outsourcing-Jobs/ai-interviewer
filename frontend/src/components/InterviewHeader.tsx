@@ -71,7 +71,7 @@ const InterviewHeader: React.FC<InterviewHeaderProps> = ({
                         <div key={i}
                             onClick={() => handleNavigation(i)}
                             className={`w-3.5 h-3.5 rounded-full cursor-pointer transition-all duration-300 shrink-0 ${i === currentQuestionIndex ? 'bg-teal-600 scale-125 shadow-sm' : q.isEvaluated ? 'bg-emerald-500 shadow-2xs' : (q.isSubmitted || submittedLocal[i]) ? 'bg-indigo-500 animate-pulse' : 'bg-slate-200'}`}
-                            title={`Question ${i + 1}`}
+                            title={`Câu hỏi ${i + 1}`}
                         />
                     ))}
                 </div>

@@ -101,7 +101,7 @@ export const ROLES = [
 
 export const LEVELS = ["Junior", "Mid-level", "Senior", "Architect", "Manager"];
 
-export const TYPES = [{ label: "Oral only", value: "oral-only" }, { label: "Coding mix", value: "coding-mix" }];
+export const TYPES = [{ label: "Chỉ vấn đáp", value: "oral-only" }, { label: "Kết hợp lập trình", value: "coding-mix" }];
 
 export const COUNTS = [5, 10, 15, 20];
 

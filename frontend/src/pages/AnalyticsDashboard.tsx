@@ -105,7 +105,7 @@ const AnalyticsDashboard: React.FC = () => {
     labels: progressLabels,
     datasets: [
       {
-        label: "Technical Score",
+        label: "Điểm kỹ thuật",
         data: technicalScores,
         borderColor: "rgba(13, 148, 136, 1)",
         backgroundColor: "rgba(13, 148, 136, 0.15)",
@@ -114,7 +114,7 @@ const AnalyticsDashboard: React.FC = () => {
         hidden: hiddenDatasets[0],
       },
       {
-        label: "Confidence Score",
+        label: "Độ tự tin",
         data: confidenceScores,
         borderColor: "rgba(99, 102, 241, 1)",
         backgroundColor: "rgba(99, 102, 241, 0.15)",
@@ -189,7 +189,7 @@ const AnalyticsDashboard: React.FC = () => {
           <div className="mb-10 relative z-10">
             <div className="flex items-baseline gap-2">
               <span className="text-5xl font-black text-slate-900 font-display">Lvl. {gamification?.currentLevel || 0}</span>
-              <span className="text-slate-500 font-bold text-sm">{gamification?.currentTitle || 'Beginner'}</span>
+              <span className="text-slate-500 font-bold text-sm">{gamification?.currentTitle || 'Mới bắt đầu'}</span>
             </div>
           </div>
           <div className="relative z-10">
@@ -208,7 +208,7 @@ const AnalyticsDashboard: React.FC = () => {
 
         <div className="bg-white border border-slate-200/80 rounded-3xl p-8 flex flex-col justify-between shadow-xs relative overflow-hidden group">
           <div className="flex justify-between items-start mb-8 relative z-10">
-            <h3 className="text-[10px] font-black tracking-widest text-slate-400 uppercase">Tổng bài phỏng vấn</h3>
+            <h3 className="text-[10px] font-black tracking-widest text-slate-400 uppercase">Bài Phỏng vấn</h3>
             <div className="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center border border-indigo-200">
               <svg className="w-4 h-4 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />

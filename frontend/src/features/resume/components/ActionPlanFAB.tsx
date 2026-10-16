@@ -38,7 +38,7 @@ export const ActionPlanFAB = ({ issues }: ActionPlanFABProps) => {
           >
             <div className="bg-primary-500/10 px-4 py-3 border-b border-primary-500/20">
               <h4 className="text-sm font-black text-white flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-primary-400" /> Top Priority Fixes
+                <Sparkles className="w-4 h-4 text-primary-400" /> Các điểm cần sửa ưu tiên
               </h4>
             </div>
             <div className="p-4 space-y-3">
@@ -55,7 +55,7 @@ export const ActionPlanFAB = ({ issues }: ActionPlanFABProps) => {
               {issues.length > 3 && (
                 <div className="pt-2 border-t border-white/5 text-center">
                   <span className="text-[10px] text-surface-500 font-bold uppercase tracking-widest">
-                    + {issues.length - 3} more issues in Feedback tab
+                    + còn {issues.length - 3} gợi ý khác trong tab Nhận xét
                   </span>
                 </div>
               )}
@@ -86,7 +86,7 @@ export const ActionPlanFAB = ({ issues }: ActionPlanFABProps) => {
         {/* Tooltip */}
         {!isOpen && (
           <div className="absolute right-full mr-4 bg-surface-800 text-white text-xs font-bold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap border border-white/5">
-            View Action Plan
+            Xem kế hoạch cải thiện
           </div>
         )}
       </button>

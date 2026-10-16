@@ -97,26 +97,26 @@ export const JobMatchTab = ({ resumeData }: JobMatchTabProps) => {
   const missingKws = resumeData?.jdMatchReport?.missing_skills || [];
   const totalKws = matchedKws.length + missingKws.length;
   const coverage = totalKws > 0 ? Math.round((matchedKws.length / totalKws) * 100) : 0;
-  const explanation = resumeData?.jdMatchReport?.explanation || "Significant gaps between your resume and this role.";
+  const explanation = resumeData?.jdMatchReport?.explanation || "Còn khoảng cách khá lớn giữa CV và yêu cầu của vị trí này.";
 
   let colorClass = "text-rose-400";
   let borderClass = "border-rose-400/30";
   let bgClass = "bg-rose-400";
   let bgLightClass = "bg-rose-400/10";
-  let label = "LOW MATCH";
+  let label = "ĐỘ PHÙ HỢP THẤP";
 
   if (matchScore >= 80) {
     colorClass = "text-primary-400";
     borderClass = "border-primary-400/30";
     bgClass = "bg-primary-400";
     bgLightClass = "bg-primary-400/10";
-    label = "HIGH MATCH";
+    label = "ĐỘ PHÙ HỢP CAO";
   } else if (matchScore >= 50) {
     colorClass = "text-amber-400";
     borderClass = "border-amber-400/30";
     bgClass = "bg-amber-400";
     bgLightClass = "bg-amber-400/10";
-    label = "MODERATE MATCH";
+    label = "ĐỘ PHÙ HỢP TRUNG BÌNH";
   }
 
   const baseScore = matchScore;
@@ -227,7 +227,7 @@ export const JobMatchTab = ({ resumeData }: JobMatchTabProps) => {
                         title={`Luyện tập phỏng vấn về từ khóa ${kw}`}
                         className="opacity-0 group-hover:opacity-100 transition-opacity ml-1 bg-rose-200 text-rose-800 rounded px-2 py-0.5 text-[10px] font-black uppercase tracking-widest cursor-pointer disabled:opacity-50 flex items-center gap-1"
                       >
-                        {loadingKeyword === kw ? <Hourglass className="w-3 h-3 animate-spin" /> : <>Practice <Zap className="w-3 h-3 fill-current" /></>}
+                        {loadingKeyword === kw ? <Hourglass className="w-3 h-3 animate-spin" /> : <>Luyện tập <Zap className="w-3 h-3 fill-current" /></>}
                       </button>
                     </span>
                   ))}
@@ -283,12 +283,12 @@ export const JobMatchTab = ({ resumeData }: JobMatchTabProps) => {
                 {isGeneratingCL ? (
                   <>
                     <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 animate-pulse" />
-                    <span className="whitespace-nowrap">Generating Tailored Cover Letter...</span>
+                    <span className="whitespace-nowrap">Đang tạo Thư xin việc (Cover Letter)...</span>
                   </>
                 ) : (
                   <>
                     <FileText className="w-5 h-5 sm:w-6 sm:h-6" />
-                    <span className="whitespace-nowrap">Generate Tailored Cover Letter</span>
+                    <span className="whitespace-nowrap">Tạo Thư xin việc (Cover Letter) theo JD</span>
                   </>
                 )}
               </button>
@@ -300,14 +300,14 @@ export const JobMatchTab = ({ resumeData }: JobMatchTabProps) => {
               >
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-6">
                   <h3 className="text-lg font-bold text-primary-400 flex items-center gap-2 whitespace-nowrap">
-                    <Sparkles className="w-5 h-5" /> Tailored Cover Letter
+                    <Sparkles className="w-5 h-5" /> Thư xin việc theo JD
                   </h3>
                   <div className="flex gap-2 w-full sm:w-auto">
                     <button
                       onClick={copyToClipboard}
                       className="flex-1 sm:flex-none px-4 py-2 bg-primary-500/10 hover:bg-primary-500/20 text-primary-400 rounded-lg text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer text-center"
                     >
-                      Copy to Clipboard
+                      Sao chép vào bộ nhớ tạm
                     </button>
                     {coverLetter && resumeData?.parsedData?.parsedProfile && (
                       <PDFDownloadLink
@@ -317,7 +317,7 @@ export const JobMatchTab = ({ resumeData }: JobMatchTabProps) => {
                       >
                         {({ loading }) => (
                           <>
-                            <span>{loading ? "Generating..." : "Download PDF"}</span>
+                            <span>{loading ? "Đang tạo..." : "Tải file PDF"}</span>
                           </>
                         )}
                       </PDFDownloadLink>

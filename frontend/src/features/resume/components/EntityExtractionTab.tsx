@@ -290,7 +290,7 @@ export const EntityExtractionTab = ({
         {/* Links */}
         {isEditing ? (
           <div className="bg-surface-800/40 border border-surface-600/30 rounded-2xl p-6 mt-4 shadow-lg shadow-black/20 backdrop-blur-md">
-            <span className="text-[10px] font-black uppercase tracking-widest text-surface-500 mb-3 block">LINKS (COMMA SEPARATED)</span>
+            <span className="text-[10px] font-black uppercase tracking-widest text-surface-500 mb-3 block">ĐƯỜNG DẪN LIÊN HỆ (CÁCH NHAU BẰNG DẤU PHẨY)</span>
             <input
               className="w-full bg-surface-900/50 border border-surface-600/50 rounded-xl p-3 text-sm text-white"
               value={editedProfile.personal_info?.links?.join(", ") || ""}
@@ -504,7 +504,7 @@ export const EntityExtractionTab = ({
                                   onClick={() => handleRewrite(bullet.trim(), i, idx)}
                                   className="opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 rounded-lg px-3 py-1.5 text-[10px] font-black uppercase tracking-widest shrink-0 sm:ml-2 mt-2 sm:mt-0 cursor-pointer shadow-2xs"
                                 >
-                                  AI Rewrite
+                                  AI Viết lại
                                 </button>
                               </li>
                             ))}
@@ -623,25 +623,25 @@ export const EntityExtractionTab = ({
               </button>
 
               <h3 className="text-lg font-black text-white flex items-center gap-2 mb-2">
-                <Sparkles className="w-5 h-5 text-primary-400" /> AI STAR Rewriter
+                <Sparkles className="w-5 h-5 text-primary-400" /> AI Viết lại theo chuẩn STAR
               </h3>
               <p className="text-xs text-surface-400 mb-6 font-medium uppercase tracking-widest">
-                Situation • Task • Action • Result
+                Tình huống (Situation) • Nhiệm vụ (Task) • Hành động (Action) • Kết quả (Result)
               </p>
 
               <div className="mb-6 p-4 bg-surface-900/50 rounded-xl border border-white/5">
-                <span className="text-[10px] text-surface-500 font-bold uppercase tracking-widest block mb-2">Original</span>
+                <span className="text-[10px] text-surface-500 font-bold uppercase tracking-widest block mb-2">Nội dung gốc</span>
                 <p className="text-sm text-surface-300">{rewritingBullet.bullet}</p>
               </div>
 
               {!variations ? (
                 <div className="flex flex-col items-center justify-center py-12 text-primary-400">
                   <Sparkles className="w-8 h-8 mb-4 animate-pulse" />
-                  <p className="text-sm font-bold animate-pulse">Generating high-impact variations...</p>
+                  <p className="text-sm font-bold animate-pulse">Đang tạo các phương án diễn đạt tối ưu...</p>
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <span className="text-[10px] text-primary-400 font-bold uppercase tracking-widest block mb-2">Select a Variation</span>
+                  <span className="text-[10px] text-primary-400 font-bold uppercase tracking-widest block mb-2">Chọn một phương án</span>
                   {variations.map((v, i) => (
                     <div key={i} className="group relative p-4 bg-primary-500/5 hover:bg-primary-500/10 border border-primary-500/20 rounded-xl transition-colors">
                       <p className="text-sm text-surface-200 pr-32">{v}</p>
@@ -650,13 +650,13 @@ export const EntityExtractionTab = ({
                           onClick={() => copyToClipboard(v)}
                           className="bg-surface-600 hover:bg-surface-500 text-white px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer transition-colors"
                         >
-                          Copy
+                          Sao chép
                         </button>
                         <button
                           onClick={() => applyVariation(v)}
                           className="bg-primary-500 hover:bg-primary-400 text-white px-3 py-1.5 rounded-lg text-xs font-bold cursor-pointer transition-colors shadow-lg shadow-primary-500/20"
                         >
-                          Apply
+                          Áp dụng
                         </button>
                       </div>
                     </div>

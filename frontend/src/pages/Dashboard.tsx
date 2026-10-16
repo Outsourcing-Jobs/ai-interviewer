@@ -148,7 +148,7 @@ const Dashboard = () => {
 
                 <div className="flex flex-wrap lg:flex-nowrap items-center gap-4 w-full lg:w-auto">
                     <div className="bg-white border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow px-6 py-5 rounded-3xl flex flex-col gap-1 flex-1 min-w-[140px]">
-                        <p className="text-xs font-bold text-slate-500 uppercase tracking-wider whitespace-nowrap">Tổng bài phỏng vấn</p>
+                        <p className="text-xs font-bold text-slate-500 uppercase tracking-wider whitespace-nowrap">Bài Phỏng vấn</p>
                         <p className="text-3xl font-black text-slate-900 font-display">{totalSessions}</p>
                     </div>
                     <div className="bg-white border border-slate-200/80 border-l-4 border-l-emerald-500 shadow-sm hover:shadow-md transition-shadow px-6 py-5 rounded-3xl flex flex-col gap-1 flex-1 min-w-[140px]">

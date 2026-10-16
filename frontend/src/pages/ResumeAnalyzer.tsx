@@ -134,11 +134,11 @@ const ResumeAnalyzer = () => {
   const issues = resumeData?.analysisReport?._v2?.analysis?.weaknesses ||
     resumeData?.analysisReport?.evaluation?.weaknesses ||
     resumeData?.analysisReport?.evaluation?.improvement_suggestions ||
-    ["Add your LinkedIn URL - many ATS systems require it for screening.", "Add your GitHub or portfolio URL - essential for technical roles."];
+    ["Thêm đường dẫn LinkedIn - nhiều hệ thống ATS yêu cầu liên kết này để sàng lọc.", "Thêm đường dẫn GitHub hoặc Portfolio cá nhân - rất cần thiết cho các vị trí kỹ thuật."];
 
   const strengths = resumeData?.analysisReport?._v2?.analysis?.strengths ||
     resumeData?.analysisReport?.evaluation?.strengths ||
-    ["No excessive all-caps text.", "Bullet point lengths look good.", "All sections have content.", "Good resume length (400 words).", "Mostly active voice - good.", "Email address present.", "Phone number present.", "Line density looks ATS-friendly.", "Good section structure (5 headers found)."];
+    ["Không dùng chữ IN HOA quá mức.", "Độ dài các gạch đầu dòng hợp lý.", "Tất cả các mục đều có nội dung.", "Độ dài CV tối ưu (khoảng 400 từ).", "Đa số sử dụng câu chủ động - rất tốt.", "Có địa chỉ email liên hệ.", "Có số điện thoại liên hệ.", "Mật độ dòng chuẩn định dạng ATS.", "Bố cục các phần rõ ràng (tìm thấy 5 tiêu đề chính)."];
 
   // ═══════════════════════════════════════════════════════════════════════
   // Render
@@ -323,7 +323,7 @@ const ResumeAnalyzer = () => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0 mb-6">
             <div>
               <p className="text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wider">
-                FILE: {resumeData?.originalFilename || file?.name || "Processing..."}
+                TẬP TIN: {resumeData?.originalFilename || file?.name || "Đang xử lý..."}
               </p>
               <h2 className="text-2xl font-black text-slate-900 font-display">
                 {isUploading ? getStatusMessage() : "Hoàn thành phân tích"}

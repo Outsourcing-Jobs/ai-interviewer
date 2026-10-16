@@ -54,7 +54,7 @@ const CodeOutputPanel: React.FC<CodeOutputPanelProps> = ({ language, code }) => 
             <div className="flex justify-between items-center px-8 py-3 bg-slate-50 border-b border-slate-200">
                 <div className="flex items-center gap-3">
                     <Terminal size={14} className="text-teal-600" />
-                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Output</span>
+                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Kết quả (Output)</span>
                     {executionTime !== null && (
                         <span className="flex items-center gap-1 text-[9px] font-bold text-slate-600 bg-slate-200/60 px-2 py-0.5 rounded-full">
                             <Clock size={10} />
@@ -66,16 +66,16 @@ const CodeOutputPanel: React.FC<CodeOutputPanelProps> = ({ language, code }) => 
                     <button
                         onClick={() => setShowStdin(!showStdin)}
                         className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 transition-all cursor-pointer border border-slate-200"
-                        title="Toggle stdin input"
+                        title="Bật/tắt nhập dữ liệu stdin"
                     >
                         {showStdin ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-                        Input
+                        Đầu vào (Input)
                     </button>
                     {hasOutput && (
                         <button
                             onClick={handleClear}
                             className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 bg-slate-100 hover:bg-rose-50 transition-all cursor-pointer border border-slate-200"
-                            title="Clear output"
+                            title="Xóa kết quả"
                         >
                             <Trash2 size={12} />
                         </button>
@@ -94,12 +94,12 @@ const CodeOutputPanel: React.FC<CodeOutputPanelProps> = ({ language, code }) => 
                         {isRunning ? (
                             <>
                                 <Square size={12} className="animate-pulse" />
-                                Running
+                                Đang chạy
                             </>
                         ) : (
                             <>
                                 <Play size={12} />
-                                Run
+                                Chạy code
                             </>
                         )}
                     </button>
@@ -109,11 +109,11 @@ const CodeOutputPanel: React.FC<CodeOutputPanelProps> = ({ language, code }) => 
             {/* Stdin Input */}
             {showStdin && (
                 <div className="px-6 py-3 border-b border-slate-200 bg-slate-50/50">
-                    <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1.5 block ml-1">Standard Input (stdin)</label>
+                    <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-1.5 block ml-1">Dữ liệu đầu vào tiêu chuẩn (stdin)</label>
                     <textarea
                         value={stdin}
                         onChange={(e) => setStdin(e.target.value)}
-                        placeholder="Enter input for your program..."
+                        placeholder="Nhập dữ liệu đầu vào cho chương trình..."
                         className="w-full h-20 bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs font-mono text-slate-800 placeholder-slate-400 resize-none focus:outline-none focus:border-teal-500 transition-colors"
                     />
                 </div>
@@ -125,7 +125,7 @@ const CodeOutputPanel: React.FC<CodeOutputPanelProps> = ({ language, code }) => 
                     <div className="flex-1 flex flex-col items-center justify-center text-slate-500 gap-3">
                         <Terminal size={32} className="opacity-30" />
                         <p className="text-[10px] font-black uppercase tracking-widest">
-                            {canExecute ? "Click Run to execute your code" : "This language does not support execution"}
+                            {canExecute ? "Bấm Chạy code để thực thi chương trình của bạn" : "Ngôn ngữ này hiện không hỗ trợ thực thi trực tiếp"}
                         </p>
                     </div>
                 )}
@@ -136,7 +136,7 @@ const CodeOutputPanel: React.FC<CodeOutputPanelProps> = ({ language, code }) => 
                             <div className="w-10 h-10 rounded-full border-2 border-teal-500/30 border-t-teal-400 animate-spin"></div>
                         </div>
                         <p className="text-[10px] font-black uppercase tracking-widest text-teal-400 animate-pulse">
-                            Compiling & Executing...
+                            Đang biên dịch & thực thi...
                         </p>
                     </div>
                 )}
@@ -152,11 +152,11 @@ const CodeOutputPanel: React.FC<CodeOutputPanelProps> = ({ language, code }) => 
                                 : "bg-rose-500/20 text-rose-300"
                         }`}>
                             {result.timedOut ? (
-                                <><AlertTriangle size={12} /> Timed Out</>
+                                <><AlertTriangle size={12} /> Hết thời gian (Timed Out)</>
                             ) : isSuccess ? (
-                                <><Check size={12} className="inline mr-1" /> Exit Code: 0</>
+                                <><Check size={12} className="inline mr-1" /> Mã thoát: 0 (Thành công)</>
                             ) : (
-                                <><AlertTriangle size={12} /> Exit Code: {result.exitCode}</>
+                                <><AlertTriangle size={12} /> Mã thoát: {result.exitCode}</>
                             )}
                         </div>
 
@@ -172,7 +172,7 @@ const CodeOutputPanel: React.FC<CodeOutputPanelProps> = ({ language, code }) => 
                                 <span className="text-rose-400">{result.stderr}</span>
                             )}
                             {!result.stdout && !result.stderr && (
-                                <span className="text-slate-500 italic">No output produced.</span>
+                                <span className="text-slate-500 italic">Không có dữ liệu đầu ra.</span>
                             )}
                         </pre>
                     </div>

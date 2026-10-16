@@ -1,4 +1,5 @@
 import React from 'react';
+import { ACHIEVEMENTS } from '../../../config/achievements';
 
 interface BadgeIconProps {
   badgeId: string;
@@ -82,8 +83,11 @@ export const BadgeIcon: React.FC<BadgeIconProps> = ({ badgeId, className = "w-16
     }
   };
 
+  const achievement = ACHIEVEMENTS.find(a => a.id === badgeId);
+  const badgeTitle = achievement?.name || badgeId.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+
   return (
-    <div className={className} title={badgeId.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}>
+    <div className={className} title={badgeTitle}>
       {getBadgeContent()}
     </div>
   );
